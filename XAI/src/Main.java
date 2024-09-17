@@ -1,5 +1,5 @@
-import GUI.DesktopAppXAI;
 import app.DesktopApp;
+import app.PlayerCLI;
 
 public class Main {
     private static DesktopApp desktopApp = null;
@@ -9,13 +9,13 @@ public class Main {
         // The actual launching
         if (args.length == 0)
         {
-            desktopApp = new DesktopAppXAI();
+            desktopApp = new DesktopApp();
             desktopApp.createDesktopApp();
         }
-//        else
-//        {
-//            PlayerCLI.runCommand(args);
-//        }
+        else
+        {
+            PlayerCLI.runCommand(args);
+        }
     }
 
     // Used in case any agents need DesktopApp functions.

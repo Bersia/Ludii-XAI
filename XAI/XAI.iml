@@ -11,5 +11,6 @@
     <orderEntry type="module" module-name="Manager" />
     <orderEntry type="module" module-name="ViewController" />
     <orderEntry type="module" module-name="Common" />
+    <orderEntry type="module" module-name="Core" />
   </component>
 </module>
