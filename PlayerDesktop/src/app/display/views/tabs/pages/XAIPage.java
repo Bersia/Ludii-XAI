@@ -9,20 +9,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.text.html.HTMLDocument;
-import javax.swing.text.html.HTMLEditorKit;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import other.context.Context;
 
 /**
  * Tab for displaying a chat page.
- *
- * @author Matthew.Stephenson
  */
 public class XAIPage extends TabPage
 {
-    private JTextField inputField;
-    private JButton sendButton;
-    private HTMLEditorKit editorKit;
+    private JTextField inputField;       // Input field for user messages
+    private JButton sendButton;          // Button to send the message
+    private JEditorPane textArea;        // Area to display chat history
+    private JScrollPane scrollPane;      // Scroll pane to contain the chat area
+    private JPanel inputPanel;           // Panel to hold input components
+    private String chatHistory = "";     // Store chat history as HTML
 
     //-------------------------------------------------------------------------
 
@@ -30,43 +31,58 @@ public class XAIPage extends TabPage
     {
         super(app, rect, title, text, pageIndex, parent);
 
-        // Set the layout to null for absolute positioning
-        DesktopApp.view().setLayout(null);
-
-        // Initialize input field
-        inputField = new JTextField();
-        inputField.setBounds(placement.x, placement.y + placement.height - 40, placement.width - 90, 30); // Position it near the bottom
-        inputField.setFont(new Font("Arial", Font.PLAIN, 14));
-        inputField.setVisible(true);  // Ensure it's visible
-
-        // Initialize send button
-        sendButton = new JButton("Send");
-        sendButton.setBounds(placement.x + placement.width - 80, placement.y + placement.height - 40, 80, 30); // Position next to input field
-        sendButton.setFont(new Font("Arial", Font.PLAIN, 14));
-        sendButton.setBackground(Color.LIGHT_GRAY);  // Set background color
-        sendButton.setVisible(true);  // Ensure it's visible
-
-        // Ensure chat text area uses HTML formatting
-        editorKit = new HTMLEditorKit();
-        textArea.setEditorKit(editorKit);
-
-        // Set initial content in chat pane
+        // Set up the text area to display chat history
+        textArea = new JEditorPane();
         textArea.setContentType("text/html");
-        textArea.setText("<b>Welcome to the chat!</b><br>");
-        textArea.setEditable(false);  // Make sure the text area isn't editable
-        textArea.setVisible(true);    // Ensure the text area is visible
-        textArea.setBounds(placement.x, placement.y, placement.width, placement.height - 50); // Take the rest of the space above the input
+        textArea.setEditable(false);
+        textArea.setVisible(true);
+        textArea.setText("<b>Welcome to the chat!</b><br>"); // Initial message
 
-        // Add the input field, send button, and chat area to the view
-        DesktopApp.view().add(textArea);
-        DesktopApp.view().add(inputField);
-        DesktopApp.view().add(sendButton);
+        // Set up the scroll pane for the chat area
+        scrollPane = new JScrollPane(textArea);
+        scrollPane.setBorder(null);
 
-        // Add ActionListener to send button
+        // Set up the input field for the user to type messages
+        inputField = new JTextField();
+        inputField.setFont(new Font("Arial", Font.PLAIN, 14));
+        inputField.setVisible(true);
+
+        // Set up the send button
+        sendButton = new JButton("Send");
+        sendButton.setFont(new Font("Arial", Font.PLAIN, 14));
+        sendButton.setBackground(Color.LIGHT_GRAY);
+        sendButton.setVisible(true);
+
+        // Panel to hold the input field and send button
+        inputPanel = new JPanel();
+        inputPanel.setLayout(new BorderLayout());
+        inputPanel.add(inputField, BorderLayout.CENTER);
+        inputPanel.add(sendButton, BorderLayout.EAST);
+        inputPanel.setBounds(rect.x, rect.y+rect.height - 30, rect.width, 30); // Set bounds at the bottom of the screen
+
+        // Add the scroll pane and input panel to the desktop view
+//        DesktopApp.view().setLayout(null); // Use null layout to manually position components
+        DesktopApp.view().add(scrollPane);
+        DesktopApp.view().add(inputPanel);
+
+        // Adjust the bounds of scrollPane to fill the remaining space above the inputPanel
+        scrollPane.setBounds(rect.x, rect.y, rect.width, rect.height - 30);
+
+        // Set up the send button to append the user's input to the chat area
         sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 sendMessage();
+            }
+        });
+
+        // Add a KeyListener to the input field to send message when Enter is pressed
+        inputField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    sendMessage();
+                }
             }
         });
     }
@@ -74,41 +90,84 @@ public class XAIPage extends TabPage
     //-------------------------------------------------------------------------
 
     @Override
-    public void updatePage(final Context context) {
-        // Any updates that are required per context
+    public void updatePage(final Context context)
+    {
+        // Any updates related to the context (game state) should be handled here.
     }
 
     //-------------------------------------------------------------------------
 
     @Override
-    public void reset() {
+    public void reset()
+    {
+        // Clear the chat history when the page is reset.
         clear();
-        updatePage(app.contextSnapshot().getContext(app));
     }
 
     //-------------------------------------------------------------------------
 
     /**
-     * Handles sending messages in the chat.
+     * Handles sending a message in the chat.
      */
-    private void sendMessage() {
-        // Get text from input field
+    private void sendMessage()
+    {
         String message = inputField.getText();
 
-        if (message != null && !message.trim().isEmpty()) {
-            // Add the message to the chat area
-            try {
-                HTMLDocument doc = (HTMLDocument) textArea.getDocument();
-                editorKit.insertHTML(doc, doc.getLength(), "<b>You:</b> " + message + "<br>", 0, 0, null);
-            } catch (Exception e) {
+        if (message != null && !message.trim().isEmpty())
+        {
+            try
+            {
+                chatHistory += "<b>You:</b> " + message + "<br>"; // Append the new message to chat history
+                textArea.setText(chatHistory);  // Update the text area
+            }
+            catch (Exception e)
+            {
                 e.printStackTrace();
             }
 
-            // Scroll to the latest message
+            // Scroll to the bottom of the chat
             textArea.setCaretPosition(textArea.getDocument().getLength());
-
-            // Clear the input field
-            inputField.setText("");
+            inputField.setText("");  // Clear the input field
         }
     }
+
+    //-------------------------------------------------------------------------
+
+    /**
+     * Paint the page and its components.
+     */
+    @Override
+    public void paint(final Graphics2D g2d)
+    {
+        super.paint(g2d);  // Paint inherited components first
+
+        // Custom painting logic (if any) goes here. For chat, Swing handles most of the UI work.
+    }
+
+    //-------------------------------------------------------------------------
+
+    /**
+     * Clear the chat area.
+     */
+    @Override
+    public void clear()
+    {
+        chatHistory = "<b>Welcome to the chat!</b><br>";  // Reset chat history
+        textArea.setText(chatHistory);  // Clear the text area
+    }
+
+    //-------------------------------------------------------------------------
+
+    /**
+     * Shows or hides the XAIPage tab content.
+     */
+    @Override
+    public void show(final boolean show)
+    {
+        textArea.setVisible(show);
+        scrollPane.setVisible(show);
+        inputPanel.setVisible(show);
+    }
+
+    //-------------------------------------------------------------------------
 }
