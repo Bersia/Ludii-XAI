@@ -50,7 +50,7 @@ public class TabView extends View
 	private boolean titlesSet = false;
 	
 	/** Tab panels. */
-	private final List<TabPage> pages = new ArrayList<>();
+	protected final List<TabPage> pages = new ArrayList<>();
 	
 	//-------------------------------------------------------------------------
 

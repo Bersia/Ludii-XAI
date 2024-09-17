@@ -1,3 +1,4 @@
+import GUI.DesktopAppXAI;
 import app.DesktopApp;
 
 public class Main {
@@ -8,7 +9,7 @@ public class Main {
         // The actual launching
         if (args.length == 0)
         {
-            desktopApp = new DesktopApp();
+            desktopApp = new DesktopAppXAI();
             desktopApp.createDesktopApp();
         }
 //        else

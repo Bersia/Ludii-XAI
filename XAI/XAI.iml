@@ -10,5 +10,6 @@
     <orderEntry type="module" module-name="PlayerDesktop" />
     <orderEntry type="module" module-name="Manager" />
     <orderEntry type="module" module-name="ViewController" />
+    <orderEntry type="module" module-name="Common" />
   </component>
 </module>

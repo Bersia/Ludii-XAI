@@ -87,8 +87,8 @@ public class DesktopApp extends PlayerApp
 	private static GraphicsDevice currentGraphicsDevice = null;
 
 	/** Minimum resolution of the application. */
-	private static final int minimumViewWidth = 400;
-	private static final int minimumViewHeight = 400;
+	protected static final int minimumViewWidth = 400;
+	protected static final int minimumViewHeight = 400;
 
 	//-------------------------------------------------------------------------
 
@@ -351,7 +351,7 @@ public class DesktopApp extends PlayerApp
 	/**
 	 * Launch the frame.
 	 */
-	void createFrame() throws SQLException
+    protected void createFrame() throws SQLException
 	{
 		try
 		{
