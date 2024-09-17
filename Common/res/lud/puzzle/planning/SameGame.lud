@@ -192,6 +192,21 @@
 //------------------------------------------------------------------------------
 
 (metadata
+    (info
+        {
+        (description "SameGame is a tile-matching puzzle video game originally released under the name CHAIN SHOT in 1985 by Kuniaki \"Morisuke\" Moribe.")
+        (rules "SameGame is played on a rectangular field, typically initially filled with four or five kinds of blocks placed at random. By selecting a group of adjoining blocks of the same color, a player may remove them from the screen. Blocks that are no longer supported will fall down, and a column without any blocks will be trimmed away by other columns always sliding to one side (often the left). The goal of the game is to remove as many blocks from the playing field as possible.")
+        (id "1985")
+        (source "<a href=\"https://en.wikipedia.org/wiki/SameGame\" target=\"_blank\" class=\"style1\" style=\"color: #0000EE\" />Wikipedia</a>")
+        (version "0.0.1")
+        (classification "puzzle/planning")
+        (author "Kuniaki \"Morisuke\" Moribe")
+        (credit "Adrien Bersia - Britt Schmitz")
+        (date "17-09-2024")
+        }
+    )
+
+
     (graphics {
         (piece Colour state:1 fillColour:(colour Red))
         (piece Colour state:2 fillColour:(colour Yellow))
