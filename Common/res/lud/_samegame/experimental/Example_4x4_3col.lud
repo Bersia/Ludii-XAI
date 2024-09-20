@@ -1,0 +1,250 @@
+// Learning outcome:
+// Prioritize small score on initial move to maximize total score
+// Optimal move sequence with score 1052:
+// 1. (Select B3)
+// 2. (Select D2)
+// 3. (Select B2)
+
+
+(define "LineOfSightEmpty" (sites LineOfSight Farthest at:(site) #1))
+
+(define "ApplySlideDown"
+    (forEach Site (sites Row #1)
+        (if (is Occupied (site))
+            (if (!= 0 (count Sites in:("LineOfSightEmpty" S)))
+                    (fromTo (from (site)) (to ("LineOfSightEmpty" S)))
+            )
+        )
+    )
+)
+
+(define "Gravity"
+    (do (set Var "row" 0)
+        next:
+            (while
+                (!= (var "row") <Board:num>)
+                (do ("ApplySlideDown" (var "row"))
+                    next: (set Var "row" (+ (var "row") 1))
+                )
+            )
+    )
+)
+
+(define "ApplySlideLeft"
+    (if (is Empty (coord row:0 column:(#1)))
+        (seq {
+                (set Var "row" 0)
+                (while (!= (var "row") <Board:num>)
+                    (seq {
+                            (fromTo (from (coord row:(var "row") column:(+ 1 (#1)))) (to (coord row:(var "row") column:(#1))))
+                            (set Var "row" (+ (var "row") 1))
+                        }
+                    )
+                )
+                //(set Var "col" 0)//induces infinite loop
+            }
+        )
+
+    )
+)
+
+(define "SlideColumn"
+    (seq {
+            (set Var "countEmpty" (count Sites in:
+                                              (intersection
+                                                  (sites Empty)
+                                                  (sites Row 0)
+                                              )
+                                          ))
+            (while (!= (var "countEmpty") 0)
+                (seq {
+                        (set Var "col" 0)
+                        (while (!= (var "col") <Board:num>)
+                            (seq {
+                                    ("ApplySlideLeft" (var "col"))
+                                    (set Var "col" (+ (var "col") 1))
+                                }
+                            )
+                        )
+                        (set Var "countEmpty" (- (var "countEmpty") 1))
+                    }
+                )
+            )
+        }
+    )
+)
+
+(define "ComputeScore"
+    (^
+        (- #1 2)
+        2
+    )
+)
+
+(define "HasNeighbours"
+    (!= 0
+        (count Sites in:
+            (intersection
+                (sites Direction from:#1 Orthogonal distance:1)
+                (sites State (state at: #1))
+            )
+        )
+    )
+)
+
+(define "RemoveCluster"
+    (do (and
+        (set Var "state" (state at:#1))
+        (set Var "size" 0))
+        next:
+            (do
+                (forEach
+                    Site
+                    (sites Group at:(last To) Orthogonal if:(= (state at:(to)) (var "state")))
+                        (remove (site))
+                        (then (set Var "size" (+ 1 (var "size"))))
+                )
+                        next:(addScore Mover ("ComputeScore" (var "size")))
+                        (then (set Var "size" 0))
+            )
+    )
+)
+
+//------------------------------------------------------------------------------
+
+(game "SameGame"
+    (players 1)
+    (equipment {
+        (board
+            (square  <Board:num> diagonals:Implied))
+        (piece "Ball" Neutral maxState:<Colour:num>)
+    })
+
+    (rules
+        (start {
+            (place "Ball0" {"B1" "C1" "D1" "C2" "D2" "D3"} state:1)
+            (place "Ball0" {"A1" "B2" "C3" "D4" "A2"  "B4" "A4" "C4"} state:2)
+            (place "Ball0" {"A3" "B3"} state:3)
+//            (place "Ball0" {} state:4)
+//            (place "Ball0" {} state:5)
+//            (place "Ball0" {} state:6)
+//            (place "Ball0" {} state:7)
+//            (place "Ball0" {} state:8)
+//            (place "Ball0" {} state:9)
+//            (place "Ball0" {} state:10)
+
+            (forEach Site (sites Empty)
+                (place Random {"Ball0"} state:(value Random (range 1 <Colour:num>)))
+            )
+        })
+
+        (play
+            (forEach Site (sites Occupied by:Neutral)
+                (move Select
+                    (from (site)
+                        if: ("HasNeighbours" (site))
+                    )
+                    (then
+                        (seq {
+                                ("RemoveCluster" (last To))
+                                ("Gravity")
+                                ("SlideColumn")
+                                (if
+                                    (= 0 (count Sites in:(sites Occupied by:Neutral)))
+                                    (addScore Mover 1000)
+                                )
+                            }
+                        )
+                    )
+                )
+            )
+        )
+
+
+        (end
+            {
+                (if
+                    (= 0
+                        (count
+                            Sites in:(sites Occupied by:Neutral)
+                        )
+                    )
+                    (result Mover Win)
+                )
+                (if
+                    (no Moves Next)
+                    (result Mover Loss)
+                )
+            }
+        )
+    )
+)
+
+//------------------------------------------------------------------------------
+
+(option "Board size" <Board> args:{ <num>} {
+        (item "4" <4> "The game is played on a 4x4 board.")*
+        (item "5" <5> "The game is playing on a 5x5 board.")
+        (item "6" <6> "The game is playing on a 6x6 board.")
+        (item "7" <7> "The game is playing on a 7x7 board.")
+        (item "8" <8> "The game is playing on a 8x8 board.")
+        (item "9" <9> "The game is playing on a 9x9 board.")
+        (item "10" <10> "The game is playing on a 10x10 board.")
+        (item "11" <11> "The game is playing on a 11x11 board.")
+        (item "12" <12> "The game is playing on a 12x12 board.")
+        (item "13" <13> "The game is playing on a 13x13 board.")
+        (item "14" <14> "The game is playing on a 14x14 board.")
+        (item "15" <15> "The game is playing on a 15x15 board.")
+        })
+
+(option "Number of Colours" <Colour> args:{ <num>} {
+        (item "2" <2> "The game is played with 2 different ball colours.")
+        (item "3" <3> "The game is played with 3 different ball colours.")*
+        (item "4" <4> "The game is played with 4 different ball colours.")
+        (item "5" <5> "The game is played with 5 different ball colours.")
+        (item "6" <6> "The game is played with 6 different ball colours.")
+        (item "7" <7> "The game is played with 7 different ball colours.")
+        (item "8" <8> "The game is played with 8 different ball colours.")
+        (item "9" <9> "The game is played with 9 different ball colours.")
+        (item "10" <10> "The game is played with 10 different ball colours.")
+        })
+//------------------------------------------------------------------------------
+
+(metadata
+    (info
+        {
+        (description "SameGame is a tile-matching puzzle video game originally released under the name CHAIN SHOT in 1985 by Kuniaki \"Morisuke\" Moribe.")
+        (rules "SameGame is played on a rectangular field, typically initially filled with four or five kinds of blocks placed at random. By selecting a group of adjoining blocks of the same color, a player may remove them from the screen. Blocks that are no longer supported will fall down, and a column without any blocks will be trimmed away by other columns always sliding to one side (often the left). The goal of the game is to remove as many blocks from the playing field as possible.")
+        (id "1985")
+        (source "<a href=\"https://en.wikipedia.org/wiki/SameGame\" target=\"_blank\" class=\"style1\" style=\"color: #0000EE\" />Wikipedia</a>")
+        (version "0.0.1")
+        (classification "puzzle/planning")
+        (author "Kuniaki \"Morisuke\" Moribe")
+        (credit "Adrien Bersia - Britt Schmitz")
+        (date "17-09-2024")
+        }
+    )
+
+
+    (graphics {
+        (piece Colour state:1 fillColour:(colour Red))
+        (piece Colour state:2 fillColour:(colour Yellow))
+        (piece Colour state:3 fillColour:(colour Grey))
+        (piece Colour state:4 fillColour:(colour Blue))
+        (piece Colour state:5 fillColour:(colour Cyan))
+        (piece Colour state:6 fillColour:(colour Purple))
+        (piece Colour state:7 fillColour:(colour Pink))
+        (piece Colour state:8 fillColour:(colour Orange))
+        (piece Colour state:9 fillColour:(colour Green))
+        (piece Colour state:10 fillColour:(colour White))
+        (board Style Graph)
+        (show Edges Hidden)
+        (board Colour OuterVertices (colour Hidden))
+        (board Colour InnerVertices (colour Hidden))
+        (show Symbol "Disc" (sites Board) edgeColour:(colour Black) scale:0.9)
+        (board Background image:"square.svg" fillColour:(colour Black) edgeColour:(colour Black) scale:1.25)
+    })
+
+)
+
+
