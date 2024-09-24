@@ -52,6 +52,9 @@ public class XAIPage extends TabPage
         inputField.setFont(new Font("Arial", Font.PLAIN, 14));
         inputField.setVisible(true);
 
+        // Disable focus traversal keys (like space bar) when the input field is focused
+        inputField.setFocusTraversalKeysEnabled(false);
+
         // Set up the send button
         sendButton = new JButton("Send");
         sendButton.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -85,6 +88,11 @@ public class XAIPage extends TabPage
         inputField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
+                // If the space bar is pressed, consume the event to prevent triggering the shortcut
+                if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+                    e.consume(); // Prevent the event from propagating
+                }
+
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     sendMessage();
                 }

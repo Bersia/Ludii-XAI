@@ -39,7 +39,7 @@ class ChatModel:
     def generate(self, question: str, context: str = None, max_new_tokens: int = 250):
 
         if context == None or context == "":
-            prompt = f"""Give a detailed answer to the following question. Question: {question}. If you do not know the answer say you don't know."""
+            prompt = f"""Give a detailed answer to the question. If you do not know the answer say you don't know. Question: {question}."""
         else:
             prompt = f"""Using the information contained in the context, give a detailed answer to the question. If you do not know the answer say you don't know.
 Context: {context}.
