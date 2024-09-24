@@ -11,6 +11,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
+import llm.java.FlaskServerClient;
+import org.json.JSONObject;
 import other.context.Context;
 
 /**
@@ -26,6 +29,8 @@ public class XAIPage extends TabPage
     private String chatHistory = "";     // Store chat history as HTML
 
     //-------------------------------------------------------------------------
+
+    private static FlaskServerClient flaskServerClient; // Instance of the client
 
     public XAIPage(final PlayerApp app, final Rectangle rect, final String title, final String text, final int pageIndex, final TabView parent)
     {
@@ -85,6 +90,10 @@ public class XAIPage extends TabPage
                 }
             }
         });
+
+        // Initialize the Flask server client, which starts the server
+        flaskServerClient = new FlaskServerClient();
+
     }
 
     //-------------------------------------------------------------------------
@@ -109,6 +118,7 @@ public class XAIPage extends TabPage
     /**
      * Handles sending a message in the chat.
      */
+    //TODO: vulnerable to injection! take care of special characters here or on server side
     private void sendMessage()
     {
         String message = inputField.getText();
@@ -118,18 +128,47 @@ public class XAIPage extends TabPage
             try
             {
                 chatHistory += "<b>You:</b> " + message + "<br>"; // Append the new message to chat history
-                textArea.setText(chatHistory);  // Update the text area
+                inputField.setText("");  // Clear the input field
+                textArea.setText(chatHistory + "\n<i>Let me think...</i>");  // Update the text area with the 'thinking' message
+                textArea.setCaretPosition(textArea.getDocument().getLength()); // Scroll to the bottom of the chat
             }
             catch (Exception e)
             {
                 e.printStackTrace();
             }
 
-            // Scroll to the bottom of the chat
-            textArea.setCaretPosition(textArea.getDocument().getLength());
-            inputField.setText("");  // Clear the input field
+            // Run the server interaction in a background task
+            SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
+                @Override
+                protected String doInBackground() throws Exception {
+                    // This code will run on a background thread, so it doesn't block the GUI
+                    return flaskServerClient.sendPrompt(message, 3, 250); // Send prompt to Flask server
+                }
+
+                @Override
+                protected void done() {
+                    try {
+                        // When the background task is done, update the chat with the server response
+                        String jsonResponse = get(); // Get the result from doInBackground()
+                        JSONObject jsonObj = new JSONObject(jsonResponse);
+                        String response = jsonObj.getString("response");
+
+                        // Update the GUI with the server's response
+                        chatHistory += "<b>" + response + "</b> <br>"; // Append the server's response to chat history
+                        textArea.setText(chatHistory);  // Update the text area
+                        textArea.setCaretPosition(textArea.getDocument().getLength()); // Scroll to the bottom
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+
+            // Start the worker thread
+            worker.execute();
         }
     }
+
 
     //-------------------------------------------------------------------------
 
@@ -170,4 +209,5 @@ public class XAIPage extends TabPage
     }
 
     //-------------------------------------------------------------------------
+
 }

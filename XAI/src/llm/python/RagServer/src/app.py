@@ -5,8 +5,8 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 from sentence_transformers import SentenceTransformer
 import faiss
 
-from llm.python.RagServer.src.model import ChatModel
-from llm.python.RagServer.src import rag_util
+from model import ChatModel
+import rag_util
 
 import os
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
@@ -88,6 +88,12 @@ def generate_response():
     print(f"Bot: {response}")
     return jsonify({"response": response, "context": context})
 
+
+# Add a health check endpoint or homepage
+@app.route('/', methods=['GET'])
+@app.route('/health', methods=['GET'])
+def health_check():
+    return jsonify({"status": "Server is running"}), 200
 
 # Run the app
 if __name__ == '__main__':
