@@ -116,12 +116,26 @@ public class XAIPage extends TabPage
     //-------------------------------------------------------------------------
 
     /**
+     * Escapes special characters in a string to prevent HTML injection.
+     */
+    private String escapeHtml(String input) {
+        if (input == null) {
+            return null;
+        }
+        return input.replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;")
+                .replace("\"", "&quot;")
+                .replace("'", "&#39;");
+    }
+
+
+    /**
      * Handles sending a message in the chat.
      */
-    //TODO: vulnerable to injection! take care of special characters here or on server side
     private void sendMessage()
     {
-        String message = inputField.getText();
+        String message = escapeHtml(inputField.getText());
 
         if (message != null && !message.trim().isEmpty())
         {
@@ -152,9 +166,10 @@ public class XAIPage extends TabPage
                         String jsonResponse = get(); // Get the result from doInBackground()
                         JSONObject jsonObj = new JSONObject(jsonResponse);
                         String response = jsonObj.getString("response");
+                        String escapedResponse = escapeHtml(response);
 
                         // Update the GUI with the server's response
-                        chatHistory += "<b>" + response + "</b> <br>"; // Append the server's response to chat history
+                        chatHistory += "<b>" + escapedResponse + "</b> <br>"; // Append the server's response to chat history
                         textArea.setText(chatHistory);  // Update the text area
                         textArea.setCaretPosition(textArea.getDocument().getLength()); // Scroll to the bottom
                     }
