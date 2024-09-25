@@ -82,14 +82,45 @@
 )
 
 (define "HasNeighbours"
-    (!= 0
-        (count Sites in:
+    //to optimize player experience uncomment and comment AI
+    // (toBool
+    //        (count Sites in:
+    //            (intersection
+    //                (sites Direction from:#1 Orthogonal distance:1)
+    //                (sites State (state at: #1))
+    //            )
+    //        )
+    //    )
+
+    //to optimize AI uncomment and comment Player
+   (or
+        (toBool
+                (count Sites in:(difference
             (intersection
-                (sites Direction from:#1 Orthogonal distance:1)
+                //(sites Direction from:#1 Orthogonal distance:1)
+                (sites Direction from:#1 E distance:1)
                 (sites State (state at: #1))
             )
-        )
-    )
+            (intersection
+                //(sites Direction from:#1 Orthogonal distance:1)
+                (sites Direction from:#1 W distance:1)
+                (sites State (state at: #1))
+            )
+        )))
+        (toBool
+                (count Sites in:(difference
+            (intersection
+                //(sites Direction from:#1 Orthogonal distance:1)
+                (sites Direction from:#1 S distance:1)
+                (sites State (state at: #1))
+            )
+            (intersection
+                //(sites Direction from:#1 Orthogonal distance:1)
+                (sites Direction from:#1 N distance:1)
+                (sites State (state at: #1))
+            )
+        )))
+   )
 )
 
 (define "RemoveCluster"
