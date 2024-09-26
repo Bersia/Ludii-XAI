@@ -16,6 +16,7 @@ public class Node {
     private Node parent;
     private List<Node> children = new ArrayList<>();
     private int weight;
+    private Rectangle graphic;
 
     private Node(Node parent, int weight) {
         // root
@@ -29,6 +30,10 @@ public class Node {
             this.parent.addChild(this);
 
         }
+    }
+
+    public Rectangle getGraphic() {
+        return this.graphic;
     }
 
     public int findMaxDepth() {
@@ -54,8 +59,16 @@ public class Node {
         return this.depth;
     }
 
+    public Node getParent() {
+        return this.parent;
+    }
+
     public List<Node> getChildren() {
         return this.children;
+    }
+
+    public void setGraphic(Rectangle graphic) {
+        this.graphic = graphic;
     }
 
     private void setParent(Node parent) {
@@ -76,30 +89,41 @@ public class Node {
         this.addWeight(child.getWeight());
     }
 
-    public static List<Rectangle> getTreeMap(Node node, Rectangle box) {
-        List<Rectangle> treemap = new ArrayList<>();
+    public static void getTreeMap(Node node) {
+        Rectangle box; ;
+        if (node.getParent() != null) {
+            box = node.getGraphic();
+        } else {
+            box = new Rectangle(SIZE, SIZE, 0, 0);
+            node.setGraphic(box);
+        }
+       // List<Rectangle> treemap = new ArrayList<>();
         int y = box.getY();
         int x = box.getX();
 
         for (Node child : node.getChildren()) {
-            Rectangle childBox;
+            //Rectangle childBox;
             if (child.getDepth() % 2 == 0) {
                 int height = (int) Math.round(box.getHeight() * ((double) child.getWeight() / node.getWeight()));
-                childBox = new Rectangle(box.getWidth(), height, box.getX(), y);
+                //childBox = new Rectangle(box.getWidth(), height, box.getX(), y);
+                child.setGraphic(new Rectangle(box.getWidth(), height, box.getX(), y));
                 y += height;
             }
             else {
                 int width = (int) Math.round(box.getWidth() * ((double) child.getWeight() / node.getWeight()));
-                childBox = new Rectangle(width, box.getHeight(), x, box.getY());
+                //childBox = new Rectangle(width, box.getHeight(), x, box.getY());
+                child.setGraphic(new Rectangle(width, box.getHeight(), x, box.getY()));
                 x+= width;
             }
 
-            treemap.addAll(getTreeMap(child, childBox));
+            //treemap.addAll(getTreeMap(child, childBox));
+            getTreeMap(child);
         }
 
-        treemap.add(box);
+        //treemap.add(box);
 
-        return treemap;
+        //return treemap;
+
     }
 
     public static void drawTreeMap(List<Rectangle> treemap) {
@@ -120,6 +144,22 @@ public class Node {
         }
     }
 
+    public static BufferedImage drawTreeMap(Node node, BufferedImage image, int gradient) {
+        Graphics2D g = image.createGraphics();
+        g.setColor(new Color(gradient * node.getDepth(), gradient * node.getDepth(), gradient * node.getDepth()));
+        Rectangle r = node.getGraphic();
+        g.fillRect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
+        g.setColor(Color.black);
+        g.drawRect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
+
+        for (Node child : node.getChildren()) {
+            //g.setColor(new Color(child.getDepth() * gradient, child.getDepth() * gradient, child.getDepth() * gradient));
+            image = drawTreeMap(child, image, gradient);
+        }
+
+        return image;
+    }
+
     public static void main(String[] args) {
         Node a = new Node(null, 0);
 
@@ -138,10 +178,25 @@ public class Node {
 
 
         Rectangle box = new Rectangle(SIZE, SIZE, 0, 0);
-        List<Rectangle> treemap = Node.getTreeMap(a, box);
+        //List<Rectangle> treemap = Node.getTreeMap(a, box);
+        Node.getTreeMap(a);
 
-        Node.drawTreeMap(treemap);
+        BufferedImage image = new BufferedImage(SIZE, SIZE, BufferedImage.TYPE_INT_RGB);
+        int gradient = (int) (255 * (1.0 / a.findMaxDepth()));
 
-        System.out.println(treemap);
+        Graphics2D graphics = image.createGraphics();
+        graphics.setBackground(Color.white);
+        graphics.clearRect(0, 0, SIZE, SIZE);
+
+        image = drawTreeMap(a, image, gradient);
+        try {
+            ImageIO.write(image, "png", new File("outputs/treemaps/test_gradient.png"));
+        }catch (IOException exception) {
+            exception.printStackTrace();
+        }
+
+        //Node.drawTreeMap(treemap);
+
+        //System.out.println(treemap);
     }
 }
