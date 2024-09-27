@@ -750,6 +750,8 @@ public class MCTS extends ExpertPolicy
 					", value = " +
 					lastReturnedMoveValueEst +
 					").";
+			BaseNode child = this.rootNode;
+			analysisReport += displayTree(child, "",true);
 		}
 		else
 		{
@@ -836,6 +838,28 @@ public class MCTS extends ExpertPolicy
 		
 		//System.out.println(numIterations + " MCTS iterations");
 		return returnMove;
+	}
+
+	// Assuming BaseNode has methods getValue(), getName(), and getChildren()
+	public String displayTree(BaseNode node, String prefix, boolean isTail) {
+		StringBuilder report = new StringBuilder();
+
+		// Append current node information
+		report.append(prefix)
+				.append(isTail ? "└── " : "├── ") // Choose the line style based on whether it's the last child
+				//.append(node.getName()) // Assuming getName() returns the name of the node
+				.append(" (value = ")
+				.append(node.expectedScore(1)) // Assuming getValue() returns the value of the node
+				.append(")\n");
+
+		List<BaseNode> children = node.getChildren();
+		for (int i = 0; i < children.size(); i++) {
+			report.append(displayTree(children.get(i),
+					prefix + (isTail ? "    " : "│   "),
+					i == children.size() - 1)); // Determine if it's the last child
+		}
+
+		return report.toString();
 	}
 	
 	/**

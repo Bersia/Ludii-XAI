@@ -6,6 +6,10 @@ import other.context.Context;
 import other.move.Move;
 import search.mcts.MCTS;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Abstract class for nodes for any deterministic game.
  * 
@@ -93,6 +97,13 @@ public abstract class DeterministicNode extends BaseNode
     	
     	if (numUnvisitedChildren == 0 && MCTS.NULL_UNDO_DATA)
     		context.trial().nullUndoData();		// Clear a bunch of memory we no longer need
+    }
+
+    @Override
+    public List<BaseNode> getChildren() {
+        List<DeterministicNode> children = Arrays.asList(this.children);
+        return List.copyOf(children); // defensive copy of children;
+        //TODO: check if null children are allowed and if copyOf is needed
     }
     
     @Override

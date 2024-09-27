@@ -93,7 +93,13 @@ public final class OpenLoopNode extends BaseNode
     		updateLegalMoveDependencies(true);
     	}
     }
-	
+
+	@Override
+	public List<BaseNode> getChildren() {
+		return List.copyOf(children); // defensive copy of children;
+		//TODO: check if null children are allowed
+	}
+
 	@Override
     public OpenLoopNode childForNthLegalMove(final int n)
     {

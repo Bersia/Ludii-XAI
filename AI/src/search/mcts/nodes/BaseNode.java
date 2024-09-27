@@ -108,6 +108,13 @@ public abstract class BaseNode
 	 * @param moveIdx
 	 */
 	public abstract void addChild(final BaseNode child, final int moveIdx);
+
+	/**
+	 * Returns all children registered by the node
+	 *
+	 * @author Adrien Bersia
+	 */
+	public abstract List<BaseNode> getChildren();
 	
 	/**
 	 * @param n
