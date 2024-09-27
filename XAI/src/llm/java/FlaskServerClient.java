@@ -16,6 +16,8 @@ public class FlaskServerClient {
     // Constructor
     public FlaskServerClient() {
         startFlaskServer(); // Start the Flask server when the client is instantiated
+        // Add shutdown hook to stop the Flask server when the application is terminated
+        Runtime.getRuntime().addShutdownHook(new Thread(this::stopFlaskServer));
     }
 
     // Method to start the Flask server
