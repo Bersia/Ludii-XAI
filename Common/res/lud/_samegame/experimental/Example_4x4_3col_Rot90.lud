@@ -1,3 +1,9 @@
+// Learning outcome:
+// Same board rotated, behavior is different BUT GREY STILL HAS TO BE SELECTED BEFORE YELLOW!
+// Optimal move sequence with score :
+//
+
+
 (define "LineOfSightEmpty" (sites LineOfSight Farthest at:(site) #1))
 
 (define "ApplySlideDown"
@@ -74,7 +80,7 @@
 )
 
 (define "HasNeighbours"
-    // to optimize player experience uncomment and comment AI
+    //to optimize player experience uncomment and comment AI
      (toBool
             (count Sites in:
                 (intersection
@@ -145,6 +151,17 @@
 
     (rules
         (start {
+            (place "Ball0" {"B4" "C4" "D4" "C3" "D3" "D2"} state:1)
+            (place "Ball0" {"A1" "A2" "A3" "A4" "B3"  "C1" "C2" "D1"} state:2)
+            (place "Ball0" {"B1" "B2"} state:3)
+//            (place "Ball0" {} state:4)
+//            (place "Ball0" {} state:5)
+//            (place "Ball0" {} state:6)
+//            (place "Ball0" {} state:7)
+//            (place "Ball0" {} state:8)
+//            (place "Ball0" {} state:9)
+//            (place "Ball0" {} state:10)
+
             (forEach Site (sites Empty)
                 (place Random {"Ball0"} state:(value Random (range 1 <Colour:num>)))
             )
@@ -195,7 +212,7 @@
 //------------------------------------------------------------------------------
 
 (option "Board size" <Board> args:{ <num>} {
-        (item "4" <4> "The game is played on a 4x4 board.")
+        (item "4" <4> "The game is played on a 4x4 board.")*
         (item "5" <5> "The game is playing on a 5x5 board.")
         (item "6" <6> "The game is playing on a 6x6 board.")
         (item "7" <7> "The game is playing on a 7x7 board.")
@@ -206,14 +223,14 @@
         (item "12" <12> "The game is playing on a 12x12 board.")
         (item "13" <13> "The game is playing on a 13x13 board.")
         (item "14" <14> "The game is playing on a 14x14 board.")
-        (item "15" <15> "The game is playing on a 15x15 board.")*
+        (item "15" <15> "The game is playing on a 15x15 board.")
         })
 
 (option "Number of Colours" <Colour> args:{ <num>} {
         (item "2" <2> "The game is played with 2 different ball colours.")
-        (item "3" <3> "The game is played with 3 different ball colours.")
+        (item "3" <3> "The game is played with 3 different ball colours.")*
         (item "4" <4> "The game is played with 4 different ball colours.")
-        (item "5" <5> "The game is played with 5 different ball colours.")*
+        (item "5" <5> "The game is played with 5 different ball colours.")
         (item "6" <6> "The game is played with 6 different ball colours.")
         (item "7" <7> "The game is played with 7 different ball colours.")
         (item "8" <8> "The game is played with 8 different ball colours.")

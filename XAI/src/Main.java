@@ -22,8 +22,8 @@ public class Main {
         desktopApp.createDesktopApp();
 
         // Interact with the Flask server
-        String jsonResponse = flaskServerClient.sendPrompt("Hello, how are you?", 3, 250);
-        System.out.println("Response from Flask server: " + jsonResponse);
+//        String jsonResponse = flaskServerClient.sendPrompt("Hello, how are you?", 3, 250);
+//        System.out.println("Response from Flask server: " + jsonResponse);
 
         // Optionally upload files
 //        File[] filesToUpload = { new File("path/to/file1.pdf"), new File("path/to/file2.pdf") };
@@ -31,6 +31,6 @@ public class Main {
 //        System.out.println("Response from file upload: " + uploadResponse);
 
         // Stop the Flask server when done
-        flaskServerClient.stopFlaskServer();
+//        flaskServerClient.stopFlaskServer();
     }
 }
