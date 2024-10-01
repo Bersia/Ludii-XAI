@@ -1,5 +1,8 @@
 package feature_mining;
 
+import search.mcts.nodes.BaseNode;
+import search.mcts.nodes.DeterministicNode;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -15,10 +18,10 @@ public class Node {
     private int depth;
     private Node parent;
     private List<Node> children = new ArrayList<>();
-    private int weight;
+    private int weight = 0;
     private Rectangle graphic;
 
-    private Node(Node parent, int weight) {
+    public Node(Node parent, int weight) {
         // root
         if (parent == null) {
             this.depth = 0;
@@ -29,6 +32,28 @@ public class Node {
             this.parent = parent;
             this.parent.addChild(this);
 
+        }
+    }
+
+    public Node(BaseNode node) {
+        if (node.parent() == null) {
+            this.depth = 0;
+        }
+        else{
+            this.depth = parent.getDepth() + 1;
+            //this.weight = 0;
+            this.parent = new Node(node.parent());
+            //this.parent.addChild(this, false);
+        }
+
+        for (BaseNode child : node.getChildren()) {
+            this.children.add(new Node(child));
+        }
+
+        if (this.children.isEmpty()) {
+            this.weight = 1; // TODO retrieve score from mcts
+        } else {
+            this.children.forEach(child -> this.weight += child.getWeight());
         }
     }
 
