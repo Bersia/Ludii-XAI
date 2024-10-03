@@ -16,7 +16,7 @@ import java.util.List;
 
 public class Node {
 
-    public static final int SIZE = 750;
+    public static final int SIZE = 1500;
 
     private int depth;
     private Node parent;
@@ -60,7 +60,7 @@ public class Node {
 
         image = drawTreeMap(root, image, gradient);
         try {
-            ImageIO.write(image, "png", new File("outputs/treemaps/test.png"));
+            ImageIO.write(image, "png", new File("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\outputs\\treemaps\\mcts.png"));
         } catch (IOException exception) {
             exception.printStackTrace();
         }
