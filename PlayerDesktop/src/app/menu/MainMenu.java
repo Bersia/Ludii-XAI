@@ -404,6 +404,12 @@ public class MainMenu extends JMenuBar
 			menuItem = new JMenuItem("Estimate Game Tree Complexity (No State Repetition)");
 			menuItem.addActionListener(al);
 			menu.add(menuItem);
+
+			menu.addSeparator();
+
+			menuItem = new JMenuItem("Save Search Tree As Treemap");
+			menuItem.addActionListener(al);
+			menu.add(menuItem);
 			
 			menu.addSeparator();
 			

@@ -193,7 +193,7 @@ public class MCTS extends ExpertPolicy
 	 * If true, we preserve our root node after running search. Will increase memory usage,
 	 * but allows us to use it to access data afterwards (for instance for training algorithms)
 	 */
-	protected boolean preserveRootNode = false;
+	protected boolean preserveRootNode = true;
 	
 	//-------------------------------------------------------------------------
 	
@@ -534,7 +534,8 @@ public class MCTS extends ExpertPolicy
 			
 			// We're reusing a part of previous search tree
 			// Clean up unused parts of search tree from memory
-			rootNode.setParent(null);
+			//
+			// rootNode.setParent(null);
 					
 			// TODO in nondeterministic games + OpenLoop MCTS, we'll want to 
 			// decay statistics gathered in the entire subtree here

@@ -1,5 +1,9 @@
 package game;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -111,6 +115,13 @@ import other.topology.Topology;
 import other.topology.TopologyElement;
 import other.translation.LanguageUtils;
 import other.trial.Trial;
+
+import feature_mining.Node;
+import search.mcts.nodes.BaseNode;
+
+import javax.imageio.ImageIO;
+
+import static feature_mining.Node.SIZE;
 
 /**
  * Defines the main ludeme that describes the players, mode, equipment and rules of a game.
@@ -2818,6 +2829,7 @@ public class Game extends BaseLudeme implements API, Serializable
 			// Make sure our "real" context's RNG actually gets used and progresses
 			if (!context.trial().over() && context.game().isStochasticGame())
 				context.game().moves(context);
+			
 		}
 		finally
 		{
