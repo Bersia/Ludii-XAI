@@ -3,7 +3,7 @@ import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv("../../../../.env")
 
 
 CACHE_DIR = os.path.normpath(
