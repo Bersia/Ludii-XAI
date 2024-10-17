@@ -93,7 +93,7 @@ public class TabView extends View
 		final TabPage ludemePage   = new LudemePage(app, tabPagePlacement, " Ludeme  ",  "", PanelLudeme, this);
 		final TabPage rulesPage    = new RulesPage(app, tabPagePlacement, " Rules ",    "", PanelRules, this);
 		final TabPage infoPage     = new InfoPage(app, tabPagePlacement, " Info  ",    "", PanelInfo, this);
-		final TabPage xaiPage     = new XAIPage(app, tabPagePlacement, " XAI  ",    "", PanelXAI, this);
+		//final TabPage xaiPage     = new XAIPage(app, tabPagePlacement, " XAI  ",    "", PanelXAI, this);
 		pages.add(statusPage);
 		pages.add(movesPage);
 		pages.add(turnsPage);
@@ -101,7 +101,7 @@ public class TabView extends View
 		pages.add(ludemePage);
 		pages.add(rulesPage);
 		pages.add(infoPage);
-		pages.add(xaiPage);
+		//pages.add(xaiPage);
 		
 		resetTabs();
 		

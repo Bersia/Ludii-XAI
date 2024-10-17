@@ -13,5 +13,6 @@
     <orderEntry type="module" module-name="ViewController" />
     <orderEntry type="module" module-name="Common" />
     <orderEntry type="library" name="io.github.cdimascio.java.dotenv" level="project" />
+    <orderEntry type="module" module-name="AI" />
   </component>
 </module>
