@@ -60,7 +60,8 @@ public class Node {
 
         image = drawTreeMap(root, image, gradient);
         try {
-            ImageIO.write(image, "png", new File("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\outputs\\treemaps\\mcts.png"));
+            int number = new File("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps").list().length;
+            ImageIO.write(image, "png", new File(String.format("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\treemap_%d.png", number)));
         } catch (IOException exception) {
             exception.printStackTrace();
         }
