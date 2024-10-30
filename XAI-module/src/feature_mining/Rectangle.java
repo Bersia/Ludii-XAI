@@ -8,6 +8,9 @@ public class Rectangle {
     int height;
     int x;
     int y;
+    int depthGradient;
+    int scoreGradient;
+    int sampleGradient;
 
     public Rectangle(int width, int height, int x, int y) {
         this.width = width;
@@ -30,5 +33,29 @@ public class Rectangle {
 
     public int getY() {
         return this.y;
+    }
+
+    public void setDepthGradient(int depthGradient) {
+        this.depthGradient = depthGradient;
+    }
+
+    public void setScoreGradient(int scoreGradient) {
+        this.scoreGradient = scoreGradient;
+    }
+
+    public void setSampleGradient(int sampleGradient) {
+        this.sampleGradient = sampleGradient;
+    }
+
+    public int getDepthGradient() {
+        return this.depthGradient;
+    }
+
+    public int getScoreGradient() {
+        return this.scoreGradient;
+    }
+
+    public int getSampleGradient() {
+        return this.sampleGradient;
     }
 }
