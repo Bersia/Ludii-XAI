@@ -1,36 +1,94 @@
+import embeddings.Features;
 import app.DesktopApp;
-import llm.java.FlaskServerClient;
+import game.Game;
+import other.AI;
+import other.GameLoader;
+import other.context.Context;
+import other.model.Model;
+import other.trial.Trial;
+import utils.RandomAI;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 public class Main {
-    private static DesktopApp desktopApp = null;
-    private static FlaskServerClient flaskServerClient; // Instance of the client
+    private static final DesktopApp desktopApp = new DesktopApp();
+
+
+
 
     public static void main(final String[] args) {
-        // Initialize the Flask server client, which starts the server
-        flaskServerClient = new FlaskServerClient();
-
         // Initialize the Java desktop application
-        desktopApp = new DesktopApp();
-        desktopApp.createDesktopApp();
+//        desktopApp.createDesktopApp();
 
-        // Interact with the Flask server
-//        String jsonResponse = flaskServerClient.sendPrompt("Hello, how are you?", 3, 250);
-//        System.out.println("Response from Flask server: " + jsonResponse);
+        // Start game programmatically
+        final List<String> options = Arrays.asList("Board size/"+4, "Number of Colours/"+3);
+        //final List<String> options = Arrays.asList("Board size/"+15, "Number of Colours/"+4);
+        final Game game = GameLoader.loadGameFromName("SameGame.lud", options);
+//        final Game game = GameLoader.loadGameFromName("Example_4x4_3col.lud");
+        final Trial trial = new Trial(game);
+        final Context context = new Context(game, trial);
+        byte BOARD_SIZE = (byte)Math.sqrt(context.board().graph().faces().size());
 
-        // Optionally upload files
-//        File[] filesToUpload = { new File("path/to/file1.pdf"), new File("path/to/file2.pdf") };
-//        String uploadResponse = flaskServerClient.uploadFiles(filesToUpload);
-//        System.out.println("Response from file upload: " + uploadResponse);
+        final List<AI> ais = new ArrayList<AI>();
+        ais.add(null);
+        for (int p = 1; p <= game.players().count(); ++p)
+        {
+            //ais.add(MCTS.createUCT());
+            ais.add(new RandomAI());
+        }
 
-        // Stop the Flask server when done
-//        flaskServerClient.stopFlaskServer();
+        for (int i = 0; i < 1; ++i)
+        {
+            game.start(context);
+
+            for (int p = 1; p <= game.players().count(); ++p)
+            {
+                ais.get(p).initAI(game, p);
+            }
+
+            final Model model = context.model();
+
+            System.out.println("Initial board:");
+            printBoard(context);
+
+            Features f = new Features(null, context);
+
+            while (!trial.over())
+            {
+                System.out.println("Before:");
+                printBoard(context);
+                model.startNewStep(context, ais, 1.0);
+
+                System.out.println("After:");
+                printBoard(context);
+
+                f = new Features(f, context);
+
+            }
+
+
+            final double[] ranking = trial.ranking();
+//            final int[] scores =
+            for (int p = 1; p <= game.players().count(); ++p)
+            {
+                System.out.println("Agent " + context.state().playerToAgent(p) + " achieved rank: " + ranking[p]);
+            }
+        }
+//        System.exit(0);
     }
+
+    private static void printBoard(Context context) {
+        byte BOARD_SIZE = (byte)Math.sqrt(context.board().graph().faces().size());
+        byte[][] board = new byte[BOARD_SIZE][BOARD_SIZE];
+        for(int j=board.length-1;j>=0;j--){
+            for(int k=0;k<board.length;k++) {
+                byte piece = (byte)context.state().containerStates()[0].stateCell(board.length * j + k);
+                System.out.print(piece+" ");
+                board[board.length-1-j][k] = piece;
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
 }

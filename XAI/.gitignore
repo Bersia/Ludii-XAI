@@ -1,3 +1,4 @@
 .env
 src/llm/python/RagServer/files/.gitkeep
 src/llm/python/RagServer/models/*
+/src/embeddings/GroupCode/*

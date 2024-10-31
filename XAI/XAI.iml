@@ -14,5 +14,14 @@
     <orderEntry type="module" module-name="Common" />
     <orderEntry type="library" name="io.github.cdimascio.java.dotenv" level="project" />
     <orderEntry type="module" module-name="AI" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../Common/lib/json-20180813.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
