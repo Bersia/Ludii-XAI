@@ -68,10 +68,11 @@ public class Main {
 
 
             final double[] ranking = trial.ranking();
-//            final int[] scores =
+
             for (int p = 1; p <= game.players().count(); ++p)
             {
                 System.out.println("Agent " + context.state().playerToAgent(p) + " achieved rank: " + ranking[p]);
+                System.out.println("Agent " + context.state().playerToAgent(p) + " achieved score: " + context.score(p));
             }
         }
 //        System.exit(0);
