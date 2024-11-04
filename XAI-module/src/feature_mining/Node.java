@@ -51,8 +51,8 @@ public class Node {
         Node root = buildTree(mctsNode);
 
         int maxDepth = root.findMaxDepth();
-        double minScore = root.findMinScore();
-        double maxScore = root.findMaxScore();
+        double minScore = root.findMinLeafScore();
+        double maxScore = root.findMaxLeafScore();
         int maxSampled = root.findMaxSampled();
 
         // Create and save treemap
@@ -178,6 +178,38 @@ public class Node {
         return max_score;
     }
 
+    public double findMaxLeafScore() {
+        double max_score = - Double.MAX_VALUE;
+        for (Node child : this.children) {
+            double current_score;
+            if (!child.getChildren().isEmpty()) {
+                current_score = child.findMaxLeafScore();
+            } else {
+                current_score = child.getScore();
+            }
+
+            max_score = Math.max(max_score, current_score);
+        }
+
+        return max_score;
+    }
+
+    public double findMinLeafScore() {
+        double minScore = Double.MAX_VALUE;
+        for (Node child : this.children) {
+            double currentScore;
+            if (!child.getChildren().isEmpty()) {
+                currentScore = child.findMinLeafScore();
+            } else {
+                currentScore = child.getScore();
+            }
+
+            minScore = Math.min(minScore, currentScore);
+        }
+
+        return minScore;
+    }
+
     public double findMinScore() {
         double min_score = this.score;
         for (Node child : this.children) {
@@ -234,6 +266,10 @@ public class Node {
     public int computeScoreGradient(double minScore, double maxScore) {
         double score = this.score;
 
+        if (score > maxScore) {
+            score = maxScore;
+        }
+
         if (minScore < 0) {
             score += Math.abs(minScore);
             maxScore += Math.abs(minScore);
@@ -246,7 +282,7 @@ public class Node {
     }
 
     public int computeSampleGradient(int maxSampled) {
-        return (int) (255 * (this.sampled / (double) maxSampled));
+        return (int) (255 * (Math.log(this.sampled) / Math.log(maxSampled)));
     }
 
     public int computeDepthGradient(int maxDepth) {
