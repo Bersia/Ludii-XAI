@@ -23,7 +23,7 @@ load_dotenv()
 
 # Directory paths
 # FILES_DIR = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "files"))
-CACHE_DIR = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "models"))
+# CACHE_DIR = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "models"))
 # os.makedirs(FILES_DIR, exist_ok=True)
 
 

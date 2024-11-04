@@ -1,5 +1,7 @@
 package llm.java;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +15,14 @@ public class FlaskServerClient {
     private static final String BASE_URL = "http://127.0.0.1:5000"; // Base URL for the Flask server
     private Process flaskProcess; // To store the Flask server process
 
+    // Load the .env file
+    private static final Dotenv dotenv = Dotenv.configure()
+            .directory("XAI")  // Set the correct path to your .env file
+            .load();
+
+    // Retrieve the ACCESS_TOKEN
+    private static final String ABSOLUTE_PATH = dotenv.get("ABSOLUTE_PATH");
+
     // Constructor
     public FlaskServerClient() {
         startFlaskServer(); // Start the Flask server when the client is instantiated
@@ -24,14 +34,14 @@ public class FlaskServerClient {
     private void startFlaskServer() {
         try {
             // Command to start Flask server, update the script path as needed
-            String pythonInterpreter = "C:\\Users\\adrie\\Documents\\DACS\\Internship\\Code\\Ludii-XAI\\venv\\Scripts\\python.exe"; // Path to your Python interpreter
-            String scriptPath = "C:\\Users\\adrie\\Documents\\DACS\\Internship\\Code\\Ludii-XAI\\XAI\\src\\llm\\python\\RagServer\\src\\app.py"; // Path to your script
+            String pythonInterpreter = ABSOLUTE_PATH+"..\\venv\\Scripts\\python.exe"; // Path to your Python interpreter
+            String scriptPath = ABSOLUTE_PATH+"src\\llm\\python\\RagServer\\src\\app.py"; // Path to your script
 
             // Construct the command
             ProcessBuilder builder = new ProcessBuilder(pythonInterpreter, scriptPath);
 
             // Set the working directory (optional, if required by the script)
-            builder.directory(new File("C:\\Users\\adrie\\Documents\\DACS\\Internship\\Code\\Ludii-XAI\\XAI\\src\\llm\\python\\RagServer"));
+            builder.directory(new File(ABSOLUTE_PATH+"src\\llm\\python\\RagServer"));
 
             // Redirect error and output streams (optional, for debugging)
             builder.redirectErrorStream(true);

@@ -172,23 +172,25 @@
             )
         )
 
+        (end (if (no Moves Next) (byScore)))
 
-        (end
-            {
-                (if
-                    (= 0
-                        (count
-                            Sites in:(sites Occupied by:Neutral)
-                        )
-                    )
-                    (result Mover Win)
-                )
-                (if
-                    (no Moves Next)
-                    (result Mover Loss)
-                )
-            }
-        )
+
+//        (end
+//            {
+//                (if
+//                    (= 0
+//                        (count
+//                            Sites in:(sites Occupied by:Neutral)
+//                        )
+//                    )
+//                    (result Mover Win)
+//                )
+//                (if
+//                    (no Moves Next)
+//                    (result Mover Loss)
+//                )
+//            }
+//        )
     )
 )
 
