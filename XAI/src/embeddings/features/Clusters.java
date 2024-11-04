@@ -1,5 +1,7 @@
 package embeddings.features;
 
+import embeddings.distance.Jaccard;
+import embeddings.distance.utils.HungarianAlgorithm;
 import other.context.Context;
 
 import java.util.Arrays;
@@ -9,14 +11,24 @@ import java.util.ArrayList;
 public class Clusters extends Feature {
 
     private byte BOARD_SIZE;
+    private int NUM_COLORS;
 
-    private List<Cluster> clusters = new ArrayList<>();
+    private List<Cluster>[] clusters;
+    private List<Byte> colorValues;
+
     private int numCells = 0;
     private int score = 0;
 
-    public Clusters(Context context) {
+    public Clusters(Context context, Colors colors) {
 //        this.context = currentContext;
         BOARD_SIZE = (byte)Math.sqrt(context.board().graph().faces().size());
+        NUM_COLORS = colors.getNumColors();
+
+        clusters = new ArrayList[NUM_COLORS];
+        for(int i=0;i<NUM_COLORS;i++){
+            clusters[i] = new ArrayList<>();
+        }
+        colorValues = colors.getColorValues();
 
         //Initial board
         byte[] board = new byte[BOARD_SIZE*BOARD_SIZE];
@@ -52,14 +64,16 @@ public class Clusters extends Feature {
                 int height = mostHeight - leastHeight + 1;
                 byte color = (byte)context.state().containerStates()[0].stateCell(i);
                 if(!clusterShape.isEmpty()){
-                    clusters.add(new Cluster(color, clusterShape, height, width));
+                    clusters[colorValues.indexOf(color)].add(new Cluster(color, clusterShape, height, width));
                     numCells += clusterShape.size();
                     score += (int) Math.pow(clusterShape.size()-1,2);
                 }
             }
         }
 
-        clusters.sort((c1, c2) -> c2.numCells - c1.numCells);
+        for (List<Cluster> clusterList : clusters) {
+            clusterList.sort((c1, c2) -> c2.numCells - c1.numCells);
+        }
     }
 
     private ArrayList<Integer> findCluster(int location, byte value, byte[] board) {
@@ -110,14 +124,84 @@ public class Clusters extends Feature {
 
     @Override
     public double distance(Feature other) {
-        return 0;//TODO:
+        if (!(other instanceof Clusters)) throw new IllegalArgumentException("Features must be of type Clusters");
+
+        Clusters otherClusters = (Clusters) other;
+
+        List<Cluster>[] a = this.clusters.clone();
+        int a_size = this.BOARD_SIZE;
+        int b_size = otherClusters.BOARD_SIZE;
+        List<Cluster>[] b = otherClusters.clusters.clone();
+
+
+        if(this.BOARD_SIZE != otherClusters.BOARD_SIZE){// changes indexes to make the smallest board a big one mid-game
+            if(this.BOARD_SIZE > otherClusters.BOARD_SIZE){// make b the big one
+                List<Cluster>[] temp = a;
+                a = b;
+                b = temp;
+
+                a_size = otherClusters.BOARD_SIZE;
+                b_size = this.BOARD_SIZE;
+            }
+            for(int i=0;i<a.length;i++){
+                for(Cluster cluster : a[i]){
+                    ArrayList<Integer> newShape = new ArrayList<>();
+                    for(int cell : cluster.shape){
+                        newShape.add(b_size*cell/a_size+b_size+cell%a_size);
+                    }
+                    cluster.shape = newShape;
+                }
+            }
+        }
+
+        double[][] costMatrix = new double[a.length][b.length];
+        for(int i=0;i<a.length;i++){//for each color combination
+            for(int j=0;j<b.length;j++){
+                costMatrix[i][j] = getDistanceBetweenClusters(a[i], b[j]);
+            }
+        }
+
+        HungarianAlgorithm algorithm = new HungarianAlgorithm(costMatrix);
+        int [] opt = algorithm.execute();
+        double sum=0;
+        for (int i = 0; i < opt.length; i++) {
+            sum+=costMatrix[i][opt[i]];
+        }
+
+        return sum;//TODO: test
+    }
+
+    private double getDistanceBetweenClusters(List<Cluster> a, List<Cluster> b) {
+        if(a.size()>b.size()){
+            List<Cluster> temp = a;
+            a = b;
+            b = temp;
+        }
+        double[][] costMatrix = new double[a.size()][b.size()];
+
+        for(int i=0;i<a.size();i++){//for each color combination
+            for(int j=0;j<b.size();j++){
+                costMatrix[i][j] = Jaccard.distance(a.get(i).shape, b.get(j).shape);
+            }
+        }
+
+        HungarianAlgorithm algorithm = new HungarianAlgorithm(costMatrix);
+        int [] opt = algorithm.execute();
+
+        double sum=0;
+        for (int i = 0; i < opt.length; i++) {
+            sum+=costMatrix[i][opt[i]];
+        }
+        return sum;
     }
 
     @Override
     public String print() {
         StringBuilder print = new StringBuilder("Clusters:");
-        for(Cluster cluster : clusters){
-            print.append("\n").append(cluster);
+        for(List<Cluster> clusters : this.clusters){
+            for (Cluster cluster : clusters) {
+                print.append("\n").append(cluster);
+            }
         }
 
         return print.toString();
@@ -125,7 +209,7 @@ public class Clusters extends Feature {
 
     private class Cluster {
         private final byte color;
-        private final ArrayList<Integer> shape;
+        private ArrayList<Integer> shape;
         private final int numCells;
         private final int height;
         private final int width;
@@ -148,25 +232,26 @@ public class Clusters extends Feature {
                 avg_x += x;
                 avg_y += y;
             }
-            avg_x /= shape.size(); avg_y /= shape.size();
+            avg_x /= shape.size();
+            avg_y /= shape.size();
             return new double[]{avg_x, avg_y};
         }
 
         @Override
-        public String toString(){
-            StringBuilder print = new StringBuilder("Color: " + color + ", Size: " + numCells + ", Width: " + width + ", Height: " + height + ", Middle Point: (" + middleLocation[0] + "," + middleLocation[1] + ")\n");
-            for (int j=BOARD_SIZE-1;j>=0;j--){
-                for (int i=0;i<BOARD_SIZE;i++){
+        public String toString() {
+            StringBuilder print = new StringBuilder("Color: " + color + ", Size: " + numCells + ", Width: " + width + ", Height: " + height + ", Middle Point: (" + middleLocation[0] + "," + middleLocation[1] + "), Shape: " + shape + "\n");
+            for (int j = BOARD_SIZE - 1; j >= 0; j--) {
+                for (int i = 0; i < BOARD_SIZE; i++) {
                     String space = "_";
-                    for (int cell : shape){
-                        if (cell == i + j*BOARD_SIZE){
+                    for (int cell : shape) {
+                        if (cell == i + j * BOARD_SIZE) {
                             space = "X";
                             break;
                         }
                     }
                     print.append(space);
                 }
-                if(j!=0) print.append("\n");
+                if (j != 0) print.append("\n");
             }
             return print.toString();
         }
@@ -176,6 +261,11 @@ public class Clusters extends Feature {
             if (this == o) return true;
             if (!(o instanceof Cluster cluster)) return false;
             return color == cluster.color && numCells == cluster.numCells && height == cluster.height && width == cluster.width && Arrays.equals(middleLocation, cluster.middleLocation) && shape.equals(cluster.shape);
+        }
+
+        @Override
+        public Cluster clone() {
+            return new Cluster(this.color, (ArrayList<Integer>) this.shape.clone(), this.height, this.width);
         }
     }
 }

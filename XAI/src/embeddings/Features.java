@@ -23,9 +23,8 @@ public class Features {
         this.previous_features = previous_features;
         this.current_context = current_context;
 
-
-        features.put("Clusters", new Clusters(current_context));
         features.put("Colors", new Colors(current_context));
+        features.put("Clusters", new Clusters(current_context, (Colors) features.get("Colors")));
         features.put("EmptyColumns", new EmptyColumns(current_context));
         features.put("BoardDistribution", new BoardDistribution(current_context, (Colors) features.get("Colors")));
 
@@ -33,11 +32,26 @@ public class Features {
             features.put("RemovedCells", new RemovedCells(current_context, (Clusters) previous_features.features.get("Clusters"), (Clusters) features.get("Clusters")));
             features.put("ScoreOffset", new ScoreOffset(current_context, (Clusters) previous_features.features.get("Clusters"), (Clusters) features.get("Clusters"), (RemovedCells) features.get("RemovedCells")));
         }
+        //System.out.println(this);
+    }
 
+    @Override
+    public String toString() {
+        StringBuilder print = new StringBuilder();
+        for (Feature feature : features.values()) {
+            print.append(feature).append("\n");
+        }
+        return print.toString();
+    }
+
+    public String distance(Features other) {
+        StringBuilder print = new StringBuilder("Distance:\n");
         for(Map.Entry<String, Feature> entry : features.entrySet()) {
             String key = entry.getKey();
             Feature value = entry.getValue();
-            System.out.println(value);
+            if(other.features.containsKey(key))
+                print.append(key).append(": ").append(value.distance(other.features.get(key))).append("\n");
         }
+        return print.toString();
     }
 }
