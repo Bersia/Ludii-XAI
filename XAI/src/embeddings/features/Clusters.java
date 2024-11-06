@@ -1,7 +1,11 @@
 package embeddings.features;
 
+import embeddings.GroupCode.Cluster;
 import embeddings.distance.Jaccard;
 import embeddings.distance.utils.HungarianAlgorithm;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import other.context.Context;
 
 import java.util.Arrays;
@@ -207,6 +211,23 @@ public class Clusters extends Feature {
         return print.toString();
     }
 
+    @Override
+    public JSONObject toJSON() {
+        JSONObject json = new JSONObject();
+        JSONArray jsonClusters = new JSONArray();
+        try {
+            for(List<Cluster> clusters:clusters){
+                for(Cluster cluster:clusters){
+                    jsonClusters.put(cluster.toJSON());
+                }
+            }
+            json.put("clusters", jsonClusters);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        return json;
+    }
+
     private class Cluster {
         private final byte color;
         private ArrayList<Integer> shape;
@@ -254,6 +275,21 @@ public class Clusters extends Feature {
                 if (j != 0) print.append("\n");
             }
             return print.toString();
+        }
+
+        public JSONObject toJSON() {
+            JSONObject json = new JSONObject();
+            try {
+                json.put("color", this.color);
+                json.put("size", this.numCells);
+                json.put("width", this.width);
+                json.put("height", this.height);
+                json.put("middlePoint", this.middleLocation);
+                json.put("shape", this.shape);
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+            return json;
         }
 
         @Override

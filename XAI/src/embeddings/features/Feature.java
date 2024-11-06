@@ -1,5 +1,6 @@
 package embeddings.features;
 
+import org.json.JSONObject;
 import other.context.Context;
 
 public abstract class Feature {
@@ -12,6 +13,8 @@ public abstract class Feature {
     public abstract double distance(Feature other);
 
     public abstract String print();
+
+    public abstract JSONObject toJSON();
 
     @Override
     public String toString() {

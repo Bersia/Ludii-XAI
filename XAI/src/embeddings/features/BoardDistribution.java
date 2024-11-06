@@ -1,6 +1,9 @@
 package embeddings.features;
 
 import embeddings.distance.DTW;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import other.context.Context;
 
 import java.util.List;
@@ -73,5 +76,21 @@ public class BoardDistribution extends Feature {
             print.append("\n");
         }
         return print.toString();
+    }
+
+    @Override
+    public JSONObject toJSON() {
+        JSONObject json = new JSONObject();
+
+        JSONArray jsonArray = new JSONArray();
+        try {
+            for(int i=1;i<board.length;i++) {
+                jsonArray.put(board[i]);
+            }
+            json.put("boardDistribution", jsonArray);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        return json;
     }
 }

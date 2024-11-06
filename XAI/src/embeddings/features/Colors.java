@@ -1,6 +1,8 @@
 package embeddings.features;
 
 import embeddings.distance.Euclidean;
+import org.json.JSONException;
+import org.json.JSONObject;
 import other.context.Context;
 
 import java.util.*;
@@ -46,5 +48,16 @@ public class Colors extends Feature {
     @Override
     public String print() {
         return "Number of colors: "+numColors;
+    }
+
+    @Override
+    public JSONObject toJSON() {
+        JSONObject json = new JSONObject();
+        try {
+            json.put("colors", this.colors);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        return json;
     }
 }

@@ -21,8 +21,8 @@ public class Main {
 //        desktopApp.createDesktopApp();
 
         // Start game programmatically
-        //final List<String> options = Arrays.asList("Board size/"+4, "Number of Colours/"+3);
-        final List<String> options = Arrays.asList("Board size/"+15, "Number of Colours/"+4);
+        final List<String> options = Arrays.asList("Board size/"+4, "Number of Colours/"+3);
+        //final List<String> options = Arrays.asList("Board size/"+15, "Number of Colours/"+4);
         final Game game = GameLoader.loadGameFromName("SameGame.lud", options);
 //        final Game game = GameLoader.loadGameFromName("Example_4x4_3col.lud");
         final Trial trial = new Trial(game);

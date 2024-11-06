@@ -1,6 +1,8 @@
 package embeddings.features;
 
 import embeddings.distance.Euclidean;
+import org.json.JSONException;
+import org.json.JSONObject;
 import other.context.Context;
 
 public class EmptyColumns extends Feature {
@@ -29,5 +31,16 @@ public class EmptyColumns extends Feature {
     @Override
     public String print() {
         return "Number of empty columns: "+emptycolumns;
+    }
+
+    @Override
+    public JSONObject toJSON() {
+        JSONObject json = new JSONObject();
+        try {
+            json.put("emptyColumns", this.emptycolumns);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        return json;
     }
 }

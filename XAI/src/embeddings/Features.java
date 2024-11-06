@@ -1,6 +1,7 @@
 package embeddings;
 
 import embeddings.features.*;
+import org.json.JSONObject;
 import other.context.Context;
 
 import java.util.HashMap;
@@ -33,6 +34,8 @@ public class Features {
             features.put("ScoreOffset", new ScoreOffset(current_context, (Clusters) previous_features.features.get("Clusters"), (Clusters) features.get("Clusters"), (RemovedCells) features.get("RemovedCells")));
         }
         //System.out.println(this);
+        System.out.println("JSON:");
+        System.out.println(toJSON());
     }
 
     @Override
@@ -42,6 +45,19 @@ public class Features {
             print.append(feature).append("\n");
         }
         return print.toString();
+    }
+
+    public JSONObject toJSON() {
+        JSONObject json = new JSONObject();
+        for(Map.Entry<String, Feature> entry : features.entrySet()) {
+            String key = entry.getKey();
+            JSONObject value = entry.getValue().toJSON();
+            for(String k : JSONObject.getNames(value))
+            {
+                json.put(k, value.get(k));
+            }
+        }
+        return json;
     }
 
     public String distance(Features other) {

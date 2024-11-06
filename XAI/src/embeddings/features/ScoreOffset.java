@@ -1,6 +1,8 @@
 package embeddings.features;
 
 import embeddings.distance.Euclidean;
+import org.json.JSONException;
+import org.json.JSONObject;
 import other.context.Context;
 
 public class ScoreOffset extends Feature {
@@ -19,5 +21,16 @@ public class ScoreOffset extends Feature {
     @Override
     public String print() {
         return "Score offset: " + scoreOffset;
+    }
+
+    @Override
+    public JSONObject toJSON() {
+        JSONObject json = new JSONObject();
+        try {
+            json.put("scoreOffset", this.scoreOffset);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        return json;
     }
 }
