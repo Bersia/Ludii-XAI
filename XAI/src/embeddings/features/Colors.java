@@ -60,4 +60,9 @@ public class Colors extends Feature {
         }
         return json;
     }
+
+    @Override
+    public double[] vectorize() {
+        return new double[numColors];
+    }
 }

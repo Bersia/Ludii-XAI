@@ -37,4 +37,9 @@ public class RemovedCells extends Feature {
         }
         return json;
     }
+
+    @Override
+    public double[] vectorize() {
+        return new double[numRemovedCells];
+    }
 }

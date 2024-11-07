@@ -43,4 +43,9 @@ public class EmptyColumns extends Feature {
         }
         return json;
     }
+
+    @Override
+    public double[] vectorize() {
+        return new double[emptycolumns];
+    }
 }

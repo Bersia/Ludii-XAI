@@ -228,6 +228,12 @@ public class Clusters extends Feature {
         return json;
     }
 
+    @Override
+    public double[] vectorize() {
+        
+        return new double[0];//todo: implement
+    }
+
     private class Cluster {
         private final byte color;
         private ArrayList<Integer> shape;

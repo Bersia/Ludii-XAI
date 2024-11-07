@@ -33,4 +33,9 @@ public class ScoreOffset extends Feature {
         }
         return json;
     }
+
+    @Override
+    public double[] vectorize() {
+        return new double[scoreOffset];
+    }
 }

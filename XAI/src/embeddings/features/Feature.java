@@ -15,6 +15,8 @@ public abstract class Feature {
     public abstract String print();
 
     public abstract JSONObject toJSON();
+    
+    public abstract double[] vectorize();
 
     @Override
     public String toString() {

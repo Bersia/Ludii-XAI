@@ -93,4 +93,17 @@ public class BoardDistribution extends Feature {
         }
         return json;
     }
+
+    @Override
+    public double[] vectorize() {
+        double[] vector = new double[10*15*15];
+        for(int i=1;i<board.length;i++) {
+            for(int j=0;j<BOARD_SIZE;j++) {
+                for(int k=0;k<BOARD_SIZE;k++) {
+                    vector[(i-1)*15*15 + j*15 + k] = board[i][j][k];// so that smaller boards are considered as an empty big board
+                }
+            }
+        }
+        return vector;
+    }
 }
