@@ -282,7 +282,7 @@ public class Node {
     }
 
     public int computeSampleGradient(int maxSampled) {
-        return (int) (255 * (Math.log(this.sampled) / Math.log(maxSampled)));
+        return (int) (255 * (1 - (Math.log(this.sampled) / Math.log(maxSampled))));
     }
 
     public int computeDepthGradient(int maxDepth) {
