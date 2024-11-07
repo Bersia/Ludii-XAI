@@ -6,6 +6,7 @@ import other.GameLoader;
 import other.context.Context;
 import other.model.Model;
 import other.trial.Trial;
+import search.mcts.MCTS;
 import utils.RandomAI;
 
 import java.util.*;
@@ -33,8 +34,8 @@ public class Main {
         ais.add(null);
         for (int p = 1; p <= game.players().count(); ++p)
         {
-            //ais.add(MCTS.createUCT());
-            ais.add(new RandomAI());
+            ais.add(MCTS.createUCT());
+            //ais.add(new RandomAI());
         }
 
         for (int i = 0; i < 1; ++i)

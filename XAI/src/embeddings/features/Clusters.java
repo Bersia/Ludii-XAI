@@ -159,6 +159,9 @@ public class Clusters extends Feature {
         }
 
         double[][] costMatrix = new double[a.length][b.length];
+        if(a.length==0 || b.length==0){
+            return Double.POSITIVE_INFINITY;
+        }
         for(int i=0;i<a.length;i++){//for each color combination
             for(int j=0;j<b.length;j++){
                 costMatrix[i][j] = getDistanceBetweenClusters(a[i], b[j]);
