@@ -78,7 +78,7 @@ public class TokensTest
 					desc = FileHandling.loadTextContentsFromFile(fileName);				}
 				catch (final FileNotFoundException ex)
 				{
-					System.out.println("Unable to open file '" + fileName + "'");
+					System.out.println("1Unable to open file '" + fileName + "'");
 				}
 				catch (final IOException ex)
 				{
@@ -135,7 +135,7 @@ public class TokensTest
 				}
 				catch (final FileNotFoundException ex)
 				{
-					System.out.println("Unable to open file '" + fileName + "'");
+					System.out.println("2Unable to open file '" + fileName + "'");
 				}
 				catch (final IOException ex)
 				{

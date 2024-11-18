@@ -115,7 +115,7 @@ public class MancalaCountConsistency
 				}
 				catch (final FileNotFoundException ex)
 				{
-					System.out.println("Unable to open file '" + fileName + "'");
+					System.out.println("8Unable to open file '" + fileName + "'");
 				}
 				catch (final IOException ex)
 				{

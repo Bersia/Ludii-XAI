@@ -100,7 +100,7 @@ public class TestHeuristicStateValues
 				}
 				catch (final FileNotFoundException ex)
 				{
-					System.out.println("Unable to open file '" + fileName + "'");
+					System.out.println("6Unable to open file '" + fileName + "'");
 				}
 				catch (final IOException ex)
 				{

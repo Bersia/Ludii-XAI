@@ -103,7 +103,7 @@ public class TestDefaultAIs
 				}
 				catch (final FileNotFoundException ex)
 				{
-					System.out.println("Unable to open file '" + fileName + "'");
+					System.out.println("5Unable to open file '" + fileName + "'");
 				}
 				catch (final IOException ex)
 				{

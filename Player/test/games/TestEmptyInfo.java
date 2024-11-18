@@ -52,19 +52,19 @@ public class TestEmptyInfo
 				{
 					final String path = fileEntry.getPath().replaceAll(Pattern.quote("\\"), "/");
 
-					if (path.contains("lud/plex"))
+					if (path.contains("main/resources/lud/plex"))
 						continue;
 
-					if (path.contains("lud/wip"))
+					if (path.contains("main/resources/lud/wip"))
 						continue;
 
 					if (path.contains("wishlist"))
 						continue;
 
-					if (path.contains("lud/test"))
+					if (path.contains("main/resources/lud/test"))
 						continue;
 
-					if (path.contains("lud/bad"))
+					if (path.contains("main/resources/lud/bad"))
 					{
 						// We'll only find intentionally bad lud files here
 						for (final File fileEntryInter : fileEntry.listFiles())
@@ -112,7 +112,7 @@ public class TestEmptyInfo
 			catch (final FileNotFoundException ex)
 			{
 				failure = true;
-				System.err.println("Unable to open file '" + fileName + "'");
+				System.err.println("11Unable to open file '" + fileName + "'");
 			}
 			catch (final IOException ex)
 			{

@@ -101,7 +101,7 @@ public class TestTrialsIntegrityPuzzle
 				}
 				catch (final FileNotFoundException ex)
 				{
-					fail("Unable to open file '" + ludPath + "'");
+					fail("77Unable to open file '" + ludPath + "'");
 				}
 				catch (final IOException ex)
 				{
