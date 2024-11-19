@@ -52,19 +52,19 @@ public class TestEmptyInfo
 				{
 					final String path = fileEntry.getPath().replaceAll(Pattern.quote("\\"), "/");
 
-					if (path.contains("main/resources/lud/plex"))
+					if (path.contains("lud/plex"))
 						continue;
 
-					if (path.contains("main/resources/lud/wip"))
+					if (path.contains("lud/wip"))
 						continue;
 
 					if (path.contains("wishlist"))
 						continue;
 
-					if (path.contains("main/resources/lud/test"))
+					if (path.contains("lud/test"))
 						continue;
 
-					if (path.contains("main/resources/lud/bad"))
+					if (path.contains("lud/bad"))
 					{
 						// We'll only find intentionally bad lud files here
 						for (final File fileEntryInter : fileEntry.listFiles())

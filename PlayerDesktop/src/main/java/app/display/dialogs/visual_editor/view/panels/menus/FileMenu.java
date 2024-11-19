@@ -82,7 +82,7 @@ public class FileMenu extends JMenu
 
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Export as .lud");
-        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Ludii Game", "main/resources/lud"));
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Ludii Game", "lud"));
         int userSelection = fileChooser.showSaveDialog(Handler.visualEditorFrame);
         if(userSelection == JFileChooser.APPROVE_OPTION)
         {

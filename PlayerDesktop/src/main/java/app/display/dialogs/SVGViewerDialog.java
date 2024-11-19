@@ -86,7 +86,7 @@ public class SVGViewerDialog
 		// convert our list of svgs into a tree
 		final List<svgLoaderNode> leafNodes = new ArrayList<>();
 		final Map<String, svgLoaderNode> nodesMap = new HashMap<>();
-		final svgLoaderNode root = new svgLoaderNode("svgs", File.separator + "main/resources/img/svg" + File.separator);
+		final svgLoaderNode root = new svgLoaderNode("svgs", File.separator + "img/svg" + File.separator);
 
 		for (final String choice : choices)
 		{
@@ -95,10 +95,10 @@ public class SVGViewerDialog
 				str = str.substring(1);
 			final String[] parts = str.split("/");
 
-			if (!parts[0].equals("main/resources/img/svg"))
+			if (!parts[0].equals("img/svg"))
 				System.err.println("top level is not svg: " + parts[0]);
 
-			String runningFullName = File.separator + "main/resources/img/svg" + File.separator;
+			String runningFullName = File.separator + "img/svg" + File.separator;
 			svgLoaderNode internalNode = root;
 
 			for (int i = 1; i < parts.length - 1; ++i)

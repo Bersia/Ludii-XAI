@@ -49,7 +49,7 @@ public class MiscLoading
 		JFrame svgFrame = null;
 		SVGWindow svgView = null;
 		
-		final String fileName = FileLoading.selectFile(DesktopApp.frame(), true, "/../Common/img/svg/", "SVG files (*.svg)", view, "main/resources/img/svg");
+		final String fileName = FileLoading.selectFile(DesktopApp.frame(), true, "/../Common/img/svg/", "SVG files (*.svg)", view, "img/svg");
 		if (fileName == null)
 			return;
 

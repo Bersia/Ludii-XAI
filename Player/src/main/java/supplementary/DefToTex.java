@@ -95,7 +95,7 @@ public final class DefToTex
 			if (path.indexOf("/def/") != -1)
 			{
 				// Add this section header
-				final String name = path.substring(path.indexOf("main/resources/def/"));
+				final String name = path.substring(path.indexOf("def/"));
 				sb.append(texSection(name));
 			}
 			

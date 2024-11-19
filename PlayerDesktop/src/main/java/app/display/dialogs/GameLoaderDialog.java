@@ -97,7 +97,7 @@ public class GameLoaderDialog
 				str = str.substring(1);
 			final String[] parts = str.split("/");
 			
-			if (!parts[0].equals("main/resources/lud"))
+			if (!parts[0].equals("lud"))
 				System.err.println("top level is not lud: " + parts[0]);
 			
 			String runningFullName = "/lud/";

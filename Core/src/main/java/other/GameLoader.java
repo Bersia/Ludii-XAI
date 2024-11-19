@@ -352,8 +352,8 @@ public final class GameLoader
 	
 				if (givenName.startsWith("/lud/"))
 					givenName = givenName.substring("/lud/".length());
-				else if (givenName.startsWith("main/resources/lud/"))
-					givenName = givenName.substring("main/resources/lud/".length());
+				else if (givenName.startsWith("lud/"))
+					givenName = givenName.substring("lud/".length());
 				
 				for (final String gameName : allGameNames)
 				{

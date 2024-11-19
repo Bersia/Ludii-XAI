@@ -49,7 +49,7 @@ public class FileHandling
 		if (gamesList == null)
 		{
 			// Try loading from JAR file
-	        String[] choices = FileHandling.getResourceListing(FileHandling.class, "main/resources/lud/", ".lud");
+	        String[] choices = FileHandling.getResourceListing(FileHandling.class, "lud/", ".lud");
 
     		final List<String> names = new ArrayList<>();
 	        if (choices == null)
@@ -117,9 +117,9 @@ public class FileHandling
 	{
 		return 
 				(
-					lud.contains("main/resources/lud/bad/") ||
-					lud.contains("main/resources/lud/bad_playout/") ||
-					lud.contains("main/resources/lud/wishlist/")
+					lud.contains("lud/bad/") ||
+					lud.contains("lud/bad_playout/") ||
+					lud.contains("lud/wishlist/")
 				);
 	}
 	
@@ -235,7 +235,7 @@ public class FileHandling
 					if(path.contains("LudiiPrivate"))
 						names.add(file.getAbsolutePath().replaceAll(Pattern.quote("\\"), "/"));
 					else if (containsGame(path + File.separator + file.getName()))
-						names.add(path.substring(path.indexOf(File.separator + "main/resources/lud" + File.separator)) + name);
+						names.add(path.substring(path.indexOf(File.separator + "lud" + File.separator)) + name);
 				}
             }
         }

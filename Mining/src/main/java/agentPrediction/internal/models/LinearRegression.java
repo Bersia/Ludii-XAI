@@ -20,7 +20,7 @@ public class LinearRegression implements BaseModel
 	@Override
 	public String modelName() 
 	{
-		return "LinearRegression";
+		return "predictionModels/LinearRegression";
 	}
 
 	//-------------------------------------------------------------------------

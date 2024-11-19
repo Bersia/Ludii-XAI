@@ -173,7 +173,7 @@ public final class PlayoutsPerSec
 					break;
 				}
 
-				if (part.contains("main/resources/def"))
+				if (part.contains("def"))
 				{
 					exclude = true;
 					break;

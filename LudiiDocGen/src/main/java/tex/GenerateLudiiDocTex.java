@@ -86,25 +86,25 @@ public class GenerateLudiiDocTex
 	
 	private static final String[] CHAPTER_FILENAMES = new String[]
 			{
-					"main/resources/out/tex/Chapter2GameLudemes.tex",
-					"main/resources/out/tex/Chapter3Equipment.tex",
-					"main/resources/out/tex/Chapter4GraphFuncs.tex",
-					"main/resources/out/tex/Chapter5DimFuncs.tex",
-					"main/resources/out/tex/Chapter6FloatFuncs.tex",
-					"main/resources/out/tex/Chapter7Rules.tex",
-					"main/resources/out/tex/Chapter8Moves.tex",
-					"main/resources/out/tex/Chapter9BooleanFuncs.tex",
-					"main/resources/out/tex/Chapter10IntFuncs.tex",
-					"main/resources/out/tex/Chapter11IntArrayFuncs.tex",
-					"main/resources/out/tex/Chapter12RegionFuncs.tex",
-					"main/resources/out/tex/Chapter13DirectionFuncs.tex",
-					"main/resources/out/tex/Chapter14RangeFuncs.tex",
-					"main/resources/out/tex/Chapter15Utilities.tex",
-					"main/resources/out/tex/Chapter16Types.tex",
+					"out/tex/Chapter2GameLudemes.tex",
+					"out/tex/Chapter3Equipment.tex",
+					"out/tex/Chapter4GraphFuncs.tex",
+					"out/tex/Chapter5DimFuncs.tex",
+					"out/tex/Chapter6FloatFuncs.tex",
+					"out/tex/Chapter7Rules.tex",
+					"out/tex/Chapter8Moves.tex",
+					"out/tex/Chapter9BooleanFuncs.tex",
+					"out/tex/Chapter10IntFuncs.tex",
+					"out/tex/Chapter11IntArrayFuncs.tex",
+					"out/tex/Chapter12RegionFuncs.tex",
+					"out/tex/Chapter13DirectionFuncs.tex",
+					"out/tex/Chapter14RangeFuncs.tex",
+					"out/tex/Chapter15Utilities.tex",
+					"out/tex/Chapter16Types.tex",
 
-					"main/resources/out/tex/Chapter17InfoMetadata.tex",
-					"main/resources/out/tex/Chapter18GraphicsMetadata.tex",
-					"main/resources/out/tex/Chapter19AIMetadata.tex",
+					"out/tex/Chapter17InfoMetadata.tex",
+					"out/tex/Chapter18GraphicsMetadata.tex",
+					"out/tex/Chapter19AIMetadata.tex",
 
 				// No! Overwrites source files
 				//"out/tex/ChapterXDefines.tex",
@@ -293,7 +293,7 @@ public class GenerateLudiiDocTex
 	public static void generateTex() throws ParserConfigurationException, SAXException, IOException, ClassNotFoundException
 	{
 		// First we'll read the XML file we generated
-		final File inputFile = new File("main/resources/out/xml/jel.xml");
+		final File inputFile = new File("out/xml/jel.xml");
 		
 		final DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		final DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -1449,7 +1449,7 @@ public class GenerateLudiiDocTex
 	 */
 	private static void writeImageList()
 	{
-		final String imageAppendixFilepath = "main/resources/out/tex/AppendixAImageList.tex";
+		final String imageAppendixFilepath = "out/tex/AppendixAImageList.tex";
 		final StringBuilder sb = new StringBuilder();
 		
 		// Write introductory part
@@ -1514,7 +1514,7 @@ public class GenerateLudiiDocTex
 	
 	private static void writeKnownDefines()
 	{
-		final String definesAppendixFilepath = "main/resources/out/tex/AppendixBKnownDefines.tex";
+		final String definesAppendixFilepath = "out/tex/AppendixBKnownDefines.tex";
 		final StringBuilder sb = new StringBuilder();
 		
 		// Write introductory part
@@ -1547,7 +1547,7 @@ public class GenerateLudiiDocTex
 	
 	private static void writeGrammar()
 	{
-		final String grammarAppendixFilepath = "main/resources/out/tex/AppendixCLudiiGrammar.tex";
+		final String grammarAppendixFilepath = "out/tex/AppendixCLudiiGrammar.tex";
 		final StringBuilder sb = new StringBuilder();
 		
 		// Write introductory part
@@ -1664,7 +1664,7 @@ public class GenerateLudiiDocTex
 				if (path.indexOf("/def/") != -1)
 				{
 					// Add this section header
-					final String name = path.substring(path.indexOf("main/resources/def/"));
+					final String name = path.substring(path.indexOf("def/"));
 					sb.append(texSection(name));
 				}
 				

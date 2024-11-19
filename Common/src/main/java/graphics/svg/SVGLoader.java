@@ -66,7 +66,7 @@ public final class SVGLoader
 			{
 				String line;
 				while ((line = rdr.readLine()) != null)
-					if (line.contains("main/resources/img/svg"))
+					if (line.contains("img/svg"))
 						return true;
 			}
 			catch (final Exception e)
@@ -85,7 +85,7 @@ public final class SVGLoader
 		// Try loading from JAR file
         if (choices == null)
         {
-        	choices = FileHandling.getResourceListing(SVGLoader.class, "main/resources/img/svg/", ".svg");
+        	choices = FileHandling.getResourceListing(SVGLoader.class, "img/svg/", ".svg");
 	    	 if (choices == null)
 	         {
 	        	try 
@@ -134,7 +134,7 @@ public final class SVGLoader
 					final String name = new String(file.getName());
 
 					if (containsSVG(path + File.separator + file.getName()))
-						names.add(path.substring(path.indexOf(File.separator + "main/resources/img/svg" + File.separator)) + name);
+						names.add(path.substring(path.indexOf(File.separator + "img/svg" + File.separator)) + name);
 				}
             }
         }

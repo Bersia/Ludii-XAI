@@ -22,12 +22,6 @@
         </dependency>
         <dependency>
             <groupId>org.ludii</groupId>
-            <artifactId>Language</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.ludii</groupId>
             <artifactId>Core</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>

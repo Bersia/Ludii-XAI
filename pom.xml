@@ -16,7 +16,6 @@
         <module>Evaluation</module>
         <module>Features</module>
         <module>Generation</module>
-        <module>Language</module>
         <module>LudiiDocGen</module>
         <module>Manager</module>
         <module>Mining</module>
