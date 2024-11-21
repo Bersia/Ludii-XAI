@@ -332,11 +332,11 @@ public class BggData
 
 	public void run()
 	{
-		loadGames("../Mining/res/bgg/input/BGG_dataset.csv");		
-		loadUserData("../Mining/res/bgg/input/user_rating.csv");		
+		loadGames("/bgg/input/BGG_dataset.csv");		
+		loadUserData("/bgg/input/user_rating.csv");		
 		
-		final String dbGamesFilePath = "../Mining/res/bgg/input/Games.csv";
-		final String outputFilePath = "../Mining/res/bgg/output/Results.csv";
+		final String dbGamesFilePath = "/bgg/input/Games.csv";
+		final String outputFilePath = "/bgg/output/Results.csv";
 		
 		/** Uncomment this line to only include results for Ludii games. */
 		//Database.saveValidGameIds(dbGamesFilePath);

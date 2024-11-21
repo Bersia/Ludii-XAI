@@ -24,7 +24,7 @@ public class TestLudFilesOnlyASCII
 	@SuppressWarnings("static-method")
 	public void test() throws IOException
 	{
-		final File startFolder = new File("../Common/res/lud/");
+		final File startFolder = new File("/lud/");
 		final List<File> gameDirs = new ArrayList<>();
 		gameDirs.add(startFolder);
 

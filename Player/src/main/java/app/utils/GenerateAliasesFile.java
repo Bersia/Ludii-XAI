@@ -23,7 +23,7 @@ import main.StringRoutines;
 public class GenerateAliasesFile
 {
 	/** Filepath to which we'll write the file containing data on aliases */
-	private static final String ALIASES_FILEPATH = "../Common/res/help/Aliases.txt";
+	private static final String ALIASES_FILEPATH = "/help/Aliases.txt";
 	
 	//-------------------------------------------------------------------------
 	
@@ -44,7 +44,7 @@ public class GenerateAliasesFile
 	 */
 	public static void main(final String[] args) throws IOException
 	{
-		final File startFolder = new File("../Common/res/lud/");
+		final File startFolder = new File("/lud/");
 		final List<File> gameDirs = new ArrayList<>();
 		gameDirs.add(startFolder);
 
@@ -61,31 +61,31 @@ public class GenerateAliasesFile
 				{
 					final String path = fileEntry.getPath().replaceAll(Pattern.quote("\\"), "/");
 
-					if (path.equals("../Common/res/lud/plex"))
+					if (path.equals("/lud/plex"))
 						continue;
 
-					if (path.equals("../Common/res/lud/wishlist"))
+					if (path.equals("/lud/wishlist"))
 						continue;
 
-					if (path.equals("../Common/res/lud/WishlistDLP"))
+					if (path.equals("/lud/WishlistDLP"))
 						continue;
 
-					if (path.equals("../Common/res/lud/wip"))
+					if (path.equals("/lud/wip"))
 						continue;
 
-					if (path.equals("../Common/res/lud/test"))
+					if (path.equals("/lud/test"))
 						continue;
 
-					if (path.equals("../Common/res/lud/bad"))
+					if (path.equals("/lud/bad"))
 						continue;
 
-					if (path.equals("../Common/res/lud/bad_playout"))
+					if (path.equals("/lud/bad_playout"))
 						continue;
 					
-					if (path.equals("../Common/res/lud/subgame"))
+					if (path.equals("/lud/subgame"))
 						continue;
 					
-					if (path.equals("../Common/res/lud/reconstruction"))
+					if (path.equals("/lud/reconstruction"))
 						continue;
 
 					gameDirs.add(fileEntry);

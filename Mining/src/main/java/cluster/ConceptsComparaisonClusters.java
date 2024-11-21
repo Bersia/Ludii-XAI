@@ -30,7 +30,8 @@ import utils.RulesetNames;
  */
 public class ConceptsComparaisonClusters
 {
-	final static String pathFile = "./res/cluster/input/clusters/";
+//	final static String pathFile = "./res/cluster/input/clusters/";
+final static String pathFile = "/cluster/input/clusters/";
 	final static String csv          = ".csv";     
 	final static String outputConcept = "ConceptsForCluster.csv";
 	/**

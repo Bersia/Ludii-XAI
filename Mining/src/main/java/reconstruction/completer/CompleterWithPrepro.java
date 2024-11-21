@@ -919,7 +919,8 @@ public class CompleterWithPrepro
 		final String completionRaw
 	) 
 	{
-		final String savePath = (path != null) ? path : "../Common/res/out/recons/";
+//		final String savePath = (path != null) ? path : "../Common/res/out/recons/";
+		final String savePath = (path != null) ? path : "/out/recons/";
 		final String outFileName = savePath + name + ".lud";
 		
 		// Create the file if it is not existing.

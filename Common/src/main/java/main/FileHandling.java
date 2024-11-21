@@ -598,7 +598,8 @@ public class FileHandling
 	
 	public static void findEmptyRulesets()
 	{
-		final List<String> files = listFilesOfType("/Users/cambolbro/Ludii/dev/Common/res/lud", ".lud");
+//		final List<String> files = listFilesOfType("/Users/cambolbro/Ludii/dev/Common/res/lud", ".lud");
+		final List<String> files = listFilesOfType("/res/lud", ".lud");
 		System.out.println(files.size() + " .lud files found.");
 		
 		for (final String path : files)
@@ -718,8 +719,9 @@ public class FileHandling
 		final String name, final String content
 	) throws IOException
 	{
-		final String outFileName = "../Common/res/out/recons/" + name + ".lud";	
-		
+//		final String outFileName = "../Common/res/out/recons/" + name + ".lud";
+		final String outFileName = "/out/recons/" + name + ".lud";
+
 		// Prepare the output file
 		final File file = new File(outFileName);
 		if (!file.exists())
@@ -768,7 +770,7 @@ public class FileHandling
 					if (nonMatchLength < shortestNonMatchLength)
 					{
 						shortestNonMatchLength = nonMatchLength;
-						bestMatchFilepath = "..\\Common\\res\\" + gameName;
+						bestMatchFilepath = "/" + gameName;
 					}
 				}
 			}

@@ -30,7 +30,7 @@ public class EfficiencyTest
 	@SuppressWarnings("static-method")
 	public void test()
 	{
-		final File startFolder = new File("../Common/res/lud/");
+		final File startFolder = new File("/lud/");
 		final List<File> gameDirs = new ArrayList<File>();
 		gameDirs.add(startFolder);
 
@@ -48,25 +48,25 @@ public class EfficiencyTest
 				{
 					final String path = fileEntry.getPath().replaceAll(Pattern.quote("\\"), "/");
 
-					if (path.equals("../Common/res/lud/plex"))
+					if (path.equals("/lud/plex"))
 						continue;
 
-					if (path.equals("../Common/res/lud/wip"))
+					if (path.equals("/lud/wip"))
 						continue;
 
-					if (path.equals("../Common/res/lud/wishlist"))
+					if (path.equals("/lud/wishlist"))
 						continue;
 
-					if (path.equals("../Common/res/lud/WishlistDLP"))
+					if (path.equals("/lud/WishlistDLP"))
 						continue;
 
-					if (path.equals("../Common/res/lud/test"))
+					if (path.equals("/lud/test"))
 						continue;
 
-					if (path.equals("../Common/res/lud/puzzle/deduction"))
+					if (path.equals("/lud/puzzle/deduction"))
 						continue; // skip deduction puzzles for now
 
-					if (path.equals("../Common/res/lud/bad"))
+					if (path.equals("/lud/bad"))
 					{
 						// We'll only find intentionally bad lud files here
 						for (final File fileEntryInter : fileEntry.listFiles())
@@ -74,7 +74,7 @@ public class EfficiencyTest
 							badCompEntries.add(fileEntryInter);
 						}
 					}
-					else if (path.equals("../Common/res/lud/bad_playout"))
+					else if (path.equals("/lud/bad_playout"))
 					{
 						// We'll only find lud files here which should compile,
 						// but fail to run

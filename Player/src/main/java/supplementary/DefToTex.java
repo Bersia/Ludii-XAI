@@ -32,7 +32,7 @@ public final class DefToTex
 		String tex = "";
 		try
 		{
-			tex = convertAllDefToTex("../Common/res/def");
+			tex = convertAllDefToTex("/def");
 			System.out.println(tex);
 		}
 		catch (final IOException e)
@@ -95,7 +95,7 @@ public final class DefToTex
 			if (path.indexOf("/def/") != -1)
 			{
 				// Add this section header
-				final String name = path.substring(path.indexOf("def/"));
+				final String name = path.substring(path.indexOf("/def/"));
 				sb.append(texSection(name));
 			}
 			

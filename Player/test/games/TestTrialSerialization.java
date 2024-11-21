@@ -47,7 +47,7 @@ public class TestTrialSerialization
 	@SuppressWarnings("static-method")
 	public void test()
 	{
-		final File startFolder = new File("../Common/res/lud/");
+		final File startFolder = new File("/lud/");
 		final List<File> gameDirs = new ArrayList<File>();
 		gameDirs.add(startFolder);
 
@@ -63,34 +63,34 @@ public class TestTrialSerialization
 				{
 					final String path = fileEntry.getPath().replaceAll(Pattern.quote("\\"), "/");
 					
-					if (path.equals("../Common/res/lud/plex"))
+					if (path.equals("/lud/plex"))
 						continue;
 					
-					if (path.equals("../Common/res/lud/wip"))
+					if (path.equals("/lud/wip"))
 						continue;
 
-					if (path.equals("../Common/res/lud/wishlist"))
+					if (path.equals("/lud/wishlist"))
 						continue;
 					
-					if (path.equals("../Common/res/lud/WishlistDLP"))
+					if (path.equals("/lud/WishlistDLP"))
 						continue;
 
-					if (path.equals("../Common/res/lud/test"))
+					if (path.equals("/lud/test"))
 						continue;
 
-					if (path.equals("../Common/res/lud/puzzle/deduction"))
+					if (path.equals("/lud/puzzle/deduction"))
 						continue;	// skip puzzles for now
 					
-					if (path.equals("../Common/res/lud/bad"))
+					if (path.equals("/lud/bad"))
 						continue;
 					
-					if (path.equals("../Common/res/lud/bad_playout"))
+					if (path.equals("/lud/bad_playout"))
 						continue;
 					
-					if (path.equals("../Common/res/lud/reconstruction"))
+					if (path.equals("/lud/reconstruction"))
 						continue;
 					
-					if (path.equals("../Common/res/lud/simulation"))
+					if (path.equals("/lud/simulation"))
 						continue;
 
 					// We'll find files that we should be able to compile and run here

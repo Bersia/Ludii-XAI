@@ -25,10 +25,12 @@ import other.GameLoader;
 public class UpdateReconsGame
 {
 	// Load ruleset avg common true concepts from specific directory.
-	final static String gameRulesetsFilePath = "./res/recons/input/GameRulesets.csv";
+//	final static String gameRulesetsFilePath = "./res/recons/input/GameRulesets.csv";
+	final static String gameRulesetsFilePath = "/recons/input/GameRulesets.csv";
 	
 	// rulesets reconstructed.
-	final static String pathReconstructed    = "./res/recons/output/";
+//	final static String pathReconstructed    = "./res/recons/output/";
+	final static String pathReconstructed    = "/recons/output/";
 	
 	// game name.
 	final static String gameName             = "Lupo e Pecore";

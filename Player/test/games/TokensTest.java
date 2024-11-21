@@ -21,7 +21,7 @@ public class TokensTest
 	@Test
 	public void test()
 	{
-		final File startFolder = new File("../Common/res/lud/");
+		final File startFolder = new File("/lud/");
 		final List<File> gameDirs = new ArrayList<>();
 		gameDirs.add(startFolder);
 
@@ -36,16 +36,16 @@ public class TokensTest
 			{
 				if (fileEntry.isDirectory())
 				{
-					if (fileEntry.getPath().equals("..\\Common\\res\\lud\\plex"))
+					if (fileEntry.getPath().equals("\\lud\\plex"))
 						continue;
 
-					if (fileEntry.getPath().equals("..\\Common\\res\\lud\\wip"))
+					if (fileEntry.getPath().equals("\\lud\\wip"))
 						continue;
 
-					if (fileEntry.getPath().equals("..\\Common\\res\\lud\\test"))
+					if (fileEntry.getPath().equals("\\lud\\test"))
 						continue;
 
-					if (fileEntry.getPath().equals("..\\Common\\res\\lud\\bad"))
+					if (fileEntry.getPath().equals("\\lud\\bad"))
 						continue;
 					
 					// We'll find files that we should be able to compile here

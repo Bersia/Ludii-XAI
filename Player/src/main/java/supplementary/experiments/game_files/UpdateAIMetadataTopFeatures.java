@@ -324,14 +324,14 @@ public class UpdateAIMetadataTopFeatures
 				.help("Directory containing AI metadata .def files.")
 				.withNumVals(1)
 				.withType(OptionTypes.String)
-				.withDefault("../Common/res/def_ai"));
+				.withDefault("/def_ai"));
 		
 		argParse.addOption(new ArgOption()
 				.withNames("--luds-dir")
 				.help("Directory that contains the /lud/** directory.")
 				.withNumVals(1)
 				.withType(OptionTypes.String)
-				.withDefault("../Common/res"));
+				.withDefault("/"));
 		
 		// parse the args
 		if (!argParse.parseArguments(args))

@@ -34,7 +34,7 @@ public class RulesetNames
 	 * is very useful for editing the filepath when running on cluster (where LudiiPrivate
 	 * is not available).
 	 */
-	public static String FILEPATH = "../../Ludii/Mining/res/concepts/input/GameRulesets.csv";
+	public static String FILEPATH = "/concepts/input/GameRulesets.csv";
 
 	/** List of game names loaded from CSV */
 	private static List<String> gameNames = null;

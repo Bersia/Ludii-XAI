@@ -19,7 +19,7 @@ public class DBGameInfo
 {
 	
 	// SQL command to update this file located in the same directory
-	private static String rulesetIdsInputFilePath = "./res/concepts/input/GameRulesets.csv";
+	private static String rulesetIdsInputFilePath = "/concepts/input/GameRulesets.csv";
 	
 	// Cached version of ruleset-Id information.
 	private static Map<String, Integer> rulesetIds = null;

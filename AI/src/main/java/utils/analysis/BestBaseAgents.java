@@ -32,8 +32,9 @@ public class BestBaseAgents
 	public static BestBaseAgents loadData()
 	{
 		final Map<String, Entry> entries = new HashMap<String, Entry>();
-		final File file = new File("../AI/resources/Analysis/BestBaseAgents.csv");
-		
+//		final File file = new File("../AI/resources/Analysis/BestBaseAgents.csv");
+		final File file = new File("/Analysis/BestBaseAgents.csv");
+
 		try (final BufferedReader reader = new BufferedReader(new FileReader(file)))
 		{
 			reader.readLine();	// headers line, which we don't use

@@ -214,6 +214,7 @@ public class ParseItem
 
 	private boolean parseTerminal(final Symbol expected, final String tab)
 	{
+//		System.out.println(tab);
 		// Handle terminal
 		if (tab != null)
 			System.out.println(tab + "Handling terminal...");

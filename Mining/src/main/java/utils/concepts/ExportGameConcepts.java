@@ -120,7 +120,7 @@ public class ExportGameConcepts
 		}
 
 		final String fileNameNoHuman = "LudiiGameConcepts";
-		final String outputFilePathNoHuman = "./res/concepts/output/" + fileNameNoHuman + ".csv";
+		final String outputFilePathNoHuman = "/concepts/output/" + fileNameNoHuman + ".csv";
 		try (final PrintWriter writer = new UnixPrintWriter(new File(outputFilePathNoHuman), "UTF-8"))
 		{
 			for (final String toWrite : noHumanCSV)
@@ -132,7 +132,7 @@ public class ExportGameConcepts
 		}
 
 		final String fileNameHuman = "LudiiGameConceptsHUMAN";
-		final String outputFilePathHuman = "./res/concepts/output/" + fileNameHuman + ".csv";
+		final String outputFilePathHuman = "/concepts/output/" + fileNameHuman + ".csv";
 		try (final PrintWriter writer = new UnixPrintWriter(new File(outputFilePathHuman), "UTF-8"))
 		{
 			for (final String toWrite : humanCSV)
@@ -144,7 +144,7 @@ public class ExportGameConcepts
 		}
 
 		final String fileNameNoHumanDocumentedDLP = "LudiiGameConceptsDocumentedDLP";
-		final String outputFilePathNoHumanDocumentedDLP = "./res/concepts/output/" + fileNameNoHumanDocumentedDLP
+		final String outputFilePathNoHumanDocumentedDLP = "/concepts/output/" + fileNameNoHumanDocumentedDLP
 				+ ".csv";
 		try (final PrintWriter writer = new UnixPrintWriter(new File(outputFilePathNoHumanDocumentedDLP), "UTF-8"))
 		{
@@ -157,7 +157,7 @@ public class ExportGameConcepts
 		}
 
 		final String fileNameNoHumanDLP = "LudiiGameConceptsDLP";
-		final String outputFilePathNoHumanDLP = "./res/concepts/output/" + fileNameNoHumanDLP + ".csv";
+		final String outputFilePathNoHumanDLP = "/concepts/output/" + fileNameNoHumanDLP + ".csv";
 		try (final PrintWriter writer = new UnixPrintWriter(new File(outputFilePathNoHumanDLP), "UTF-8"))
 		{
 			for (final String toWrite : noHumanDLPCSV)
@@ -169,7 +169,7 @@ public class ExportGameConcepts
 		}
 
 		final String fileNameNoHumanNotDLP = "LudiiGameConceptsNonDLP";
-		final String outputFilePathNoHumanNotDLP = "./res/concepts/output/" + fileNameNoHumanNotDLP + ".csv";
+		final String outputFilePathNoHumanNotDLP = "/concepts/output/" + fileNameNoHumanNotDLP + ".csv";
 		try (final PrintWriter writer = new UnixPrintWriter(new File(outputFilePathNoHumanNotDLP), "UTF-8"))
 		{
 			for (final String toWrite : noHumanNotDLPCSV)

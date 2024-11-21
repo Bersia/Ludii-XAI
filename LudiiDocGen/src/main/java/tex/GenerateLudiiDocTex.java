@@ -1533,7 +1533,7 @@ public class GenerateLudiiDocTex
 		appendLine(sb, "\\vspace{-7mm}");
 		appendLine(sb, "");
 		
-		appendLine(sb, convertAllDefToTex("../Common/res/def"));
+		appendLine(sb, convertAllDefToTex("/def"));
 		
 		try (final PrintWriter writer = new PrintWriter(new File(definesAppendixFilepath), "UTF-8"))
 		{

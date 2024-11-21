@@ -145,7 +145,7 @@ public class TrialLoading
 				
 				app.manager().settingsManager().userSelections().setRuleset(Constants.UNDEFINED);
 				app.manager().settingsManager().userSelections().setSelectOptionStrings(gameOptions);
-				
+
 				GameLoading.loadGameFromName(app, loadedGamePath, gameOptions, debug);
 			}
 
@@ -179,7 +179,7 @@ public class TrialLoading
 		
 		try
 		{
-			final File file = new File("." + File.separator + "ludii.trl");
+			final File file = new File("." + File.separator + ".." + File.separator + "ludii.trl");
 			if (!file.exists())
 			{
 				try
@@ -199,7 +199,7 @@ public class TrialLoading
 		catch (final Exception e)
 		{
 			// try to delete trial
-			final File brokenPreferences = new File("." + File.separator + "ludii.trl");
+			final File brokenPreferences = new File("." + File.separator + ".." + File.separator + "ludii.trl");
 			brokenPreferences.delete();
 		}
 	}

@@ -195,7 +195,7 @@ public class GeneratePortfolioAgentScoresDatabaseCSV
 			}
 		}
 		
-		try (final PrintWriter writer = new PrintWriter(new File("../Mining/res/agents/RulesetPortfolioAgents.csv"), "UTF-8"))
+		try (final PrintWriter writer = new PrintWriter(new File("/agents/RulesetPortfolioAgents.csv"), "UTF-8"))
 		{
 			for (final ScoreData data : scoreDataList)
 			{

@@ -13,10 +13,14 @@ public class ContextualSimilarity
 	
 	//-------------------------------------------------------------------------
 	
-	public static final String rulesetIdsFilePath = "../Mining/res/concepts/input/GameRulesets.csv";
-	public static final String rulesetContextualiserFilePath = "../Mining/res/recons/input/contextualiser_1000/similarity_";
-	public static final String rulesetGeographicDistanceFilePath = "../Mining/res/recons/input/rulesetGeographicalDistances.csv";
-	public static final String rulesetYearDistanceFilePath = "../Mining/res/recons/input/rulesetYearDistances.csv";
+//	public static final String rulesetIdsFilePath = "../Mining/res/concepts/input/GameRulesets.csv";
+//	public static final String rulesetContextualiserFilePath = "../Mining/res/recons/input/contextualiser_1000/similarity_";
+//	public static final String rulesetGeographicDistanceFilePath = "../Mining/res/recons/input/rulesetGeographicalDistances.csv";
+//	public static final String rulesetYearDistanceFilePath = "../Mining/res/recons/input/rulesetYearDistances.csv";
+    public static final String rulesetIdsFilePath =                 "/concepts/input/GameRulesets.csv";
+	public static final String rulesetContextualiserFilePath =      "/recons/input/contextualiser_1000/similarity_";
+	public static final String rulesetGeographicDistanceFilePath =  "/recons/input/rulesetGeographicalDistances.csv";
+	public static final String rulesetYearDistanceFilePath =        "/recons/input/rulesetYearDistances.csv";
 	
 	//-------------------------------------------------------------------------
 

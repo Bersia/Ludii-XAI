@@ -22,7 +22,8 @@ import main.UnixPrintWriter;
  */
 public class TranslateToSwedish
 {
-	final static String defaultInputPath        = "./res/Games.csv";
+//	final static String defaultInputPath        = "./res/Games.csv";
+    final static String defaultInputPath        = "/Games.csv";
 	
 	public static void main(String[] args) throws IOException {
 		

@@ -776,7 +776,7 @@ public class Generator
 			{
 				// Game does not parse
 				if (doSave)
-					FileHandling.saveStringToFile(str, "../Common/res/lud/test/buggy/unparsable/", fileName);
+					FileHandling.saveStringToFile(str, "lud/test/buggy/unparsable/", fileName);
 				continue;
 			}			
 			//System.out.println("Parses...");
@@ -815,7 +815,7 @@ public class Generator
 			{
 				// Game does not compile
 				if (doSave)
-					FileHandling.saveStringToFile(str, "../Common/res/lud/test/buggy/uncompilable/", fileName);
+					FileHandling.saveStringToFile(str, "lud/test/buggy/uncompilable/", fileName);
 				continue;
 			}
 			//System.out.println("Compiles...");			
@@ -843,7 +843,7 @@ public class Generator
 				{
 					// Game is not functional
 					if (doSave)
-						FileHandling.saveStringToFile(str, "../Common/res/lud/test/buggy/nonfunctional/", fileName);
+						FileHandling.saveStringToFile(str, "lud/test/buggy/nonfunctional/", fileName);
 					continue;
 				}
 			}
@@ -861,14 +861,14 @@ public class Generator
 			{
 				// Game is not playable
 				if (doSave)
-					FileHandling.saveStringToFile(str, "../Common/res/lud/test/buggy/unplayable/", fileName);
+					FileHandling.saveStringToFile(str, "lud/test/buggy/unplayable/", fileName);
 				continue;
 			}
 			System.out.println("Is playable.");
 			numPlayable++;
 
 			//if (doSave)
-				FileHandling.saveStringToFile(str, "../Common/res/lud/test/playable/", fileName);
+				FileHandling.saveStringToFile(str, "lud/test/playable/", fileName);
 			
 			lastGeneratedGame = str;
 		}	
@@ -958,7 +958,7 @@ public class Generator
 			{
 				// Game does not parse
 				// FileHandling.saveStringToFile(str,
-				// "../Common/res/lud/test/buggy/unparsable/", fileName);
+				// "lud/test/buggy/unparsable/", fileName);
 
 				numTry++;
 				// System.out.println("Game unparsable for try " + numTry);
@@ -1027,7 +1027,7 @@ public class Generator
 			{
 				// Game is not functional
 				numTry++;
-				FileHandling.saveStringToFile(str, "../Common/res/lud/test/buggy/nonfunctional/", fileName);
+				FileHandling.saveStringToFile(str, "lud/test/buggy/nonfunctional/", fileName);
 				// System.out.println("Game non functional for
 				// try " + numTry);
 				continue;
@@ -1038,13 +1038,13 @@ public class Generator
 			{
 				// Game is not playable
 				numTry++;
-				FileHandling.saveStringToFile(str, "../Common/res/lud/test/buggy/unplayable/", fileName);
+				FileHandling.saveStringToFile(str, "lud/test/buggy/unplayable/", fileName);
 				// System.out.println("Game unplayable for try " + numTry);
 				continue;
 			}
 			else
 			{
-				FileHandling.saveStringToFile(str, "../Common/res/lud/test/buggy/toTest/", fileName);
+				FileHandling.saveStringToFile(str, "lud/test/buggy/toTest/", fileName);
 				System.out.println("GAME " + n + " GENERATED");
 				numTry++;
 				n++;

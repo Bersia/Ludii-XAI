@@ -14,7 +14,7 @@ import java.util.Scanner;
  */
 public class DocHandler {
     // TODO: refactor paths in similar way
-    public static final String DOC_LOCATION = "../Common/res/recs/documents.txt";
+    public static final String DOC_LOCATION = "/recs/documents.txt";
     public static final String GRAMMAR = "grammar_location";
     public static final String GAMES = "games_location";
     public static final String MODELS = "models_location";

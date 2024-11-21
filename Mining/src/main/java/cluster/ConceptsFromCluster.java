@@ -24,7 +24,8 @@ import utils.RulesetNames;
  */
 public class ConceptsFromCluster
 {
-	final static String listRulesets        = "./res/cluster/input/clusters/Cluster4.csv";
+//	final static String listRulesets        = "./res/cluster/input/clusters/Cluster4.csv";
+	final static String listRulesets        = "/cluster/input/clusters/Cluster4.csv";
 	final static String nameCluster         = "Cluster 4";
 	
 	/**

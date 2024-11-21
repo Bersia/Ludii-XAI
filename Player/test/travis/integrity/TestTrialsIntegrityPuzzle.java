@@ -46,7 +46,7 @@ public class TestTrialsIntegrityPuzzle
 				"\n=========================================\nIntegrity Deduction Puzzle Test\n=========================================\n");
 
 		final long startAt = System.nanoTime();
-		final File startFolder = new File("../Common/res/lud/puzzle/deduction");
+		final File startFolder = new File("/lud/puzzle/deduction");
 		final List<File> gameDirs = new ArrayList<File>();
 		gameDirs.add(startFolder);
 

@@ -237,7 +237,7 @@ public class GenerateBaseAgentScoresDatabaseCSVs
 			}
 		}
 		
-		try (final PrintWriter writer = new PrintWriter(new File("../Mining/res/agents/Agents.csv"), "UTF-8"))
+		try (final PrintWriter writer = new PrintWriter(new File("/agents/Agents.csv"), "UTF-8"))
 		{
 			for (final AgentData data : agentsList)
 			{
@@ -249,7 +249,7 @@ public class GenerateBaseAgentScoresDatabaseCSVs
 			e.printStackTrace();
 		}
 		
-		try (final PrintWriter writer = new PrintWriter(new File("../Mining/res/agents/RulesetAgents.csv"), "UTF-8"))
+		try (final PrintWriter writer = new PrintWriter(new File("/agents/RulesetAgents.csv"), "UTF-8"))
 		{
 			for (final ScoreData data : scoreDataList)
 			{

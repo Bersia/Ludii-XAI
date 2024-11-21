@@ -28,10 +28,12 @@ import main.grammar.Description;
 public class UpdateGameRulesetsTable
 {
 	// Load ruleset avg common true concepts from specific directory.
-	final static String gameRulesetsFilePath = "./res/recons/input/GameRulesets.csv";
-	
+//	final static String gameRulesetsFilePath = "./res/recons/input/GameRulesets.csv";
+	final static String gameRulesetsFilePath = "/recons/input/GameRulesets.csv";
+
 	// The rulesets reconstructed.
-	final static String pathReconstructed    = "./res/recons/output/";
+//	final static String pathReconstructed    = "./res/recons/output/";
+	final static String pathReconstructed    = "/recons/output/";
 	
 	// The game name.
 	final static String gameName        = "Lupo e Pecore";

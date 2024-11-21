@@ -42,13 +42,13 @@ public final class AutoIndenter
 	public static void indentFilesNicely()
 	{
 		// 1. Indent all .lud files nicely
-		indentFilesNicelyFrom("../Common/res/lud");
+		indentFilesNicelyFrom("/lud");
 		
 		// 2. Indent all .def files nicely
-		indentFilesNicelyFrom("../Common/res/def");
+		indentFilesNicelyFrom("/def");
 
 		// 3. Indent all AI metadata .def files nicely
-		indentFilesNicelyFrom("../Common/res/def_ai");
+		indentFilesNicelyFrom("/def_ai");
 	}
 
 	/**
@@ -292,7 +292,7 @@ public final class AutoIndenter
          }
         
         // Save define to new file in res/def_ai
-        final String outFilePath = "../Common/res/def_ai/" + gameName + "_ai.def";
+        final String outFilePath = "/def_ai/" + gameName + "_ai.def";
         try (final FileWriter writer = new FileWriter(outFilePath))
         {
         	for (final String result : define)

@@ -30,7 +30,7 @@ public class ExportGameType
 	 */
 	public static void main(final String[] args) throws IllegalArgumentException, IllegalAccessException
 	{
-		try (final PrintWriter writer = new UnixPrintWriter(new File("./res/concepts/output/LudiiGameFlags.csv"),
+		try (final PrintWriter writer = new UnixPrintWriter(new File("/concepts/output/LudiiGameFlags.csv"),
 				"UTF-8"))
 		{
 			final Field[] fields = GameType.class.getFields();

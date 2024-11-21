@@ -33,7 +33,8 @@ public class BestStartingHeuristics
 	public static BestStartingHeuristics loadData()
 	{
 		final Map<String, Entry> entries = new HashMap<String, Entry>();
-		final File file = new File("../AI/resources/Analysis/BestStartingHeuristics.csv");
+//		final File file = new File("../AI/resources/Analysis/BestStartingHeuristics.csv");
+		final File file = new File("/Analysis/BestStartingHeuristics.csv");
 		
 		try (final BufferedReader reader = new BufferedReader(new FileReader(file)))
 		{

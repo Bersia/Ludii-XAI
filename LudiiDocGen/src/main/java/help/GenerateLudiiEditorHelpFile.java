@@ -47,9 +47,9 @@ public class GenerateLudiiEditorHelpFile
 {
 	private static final Grammar grammar = Grammar.grammar();
 	
-	private static final String HELP_FILE_NAME = "../Common/res/help/EditorHelp.txt";
+	private static final String HELP_FILE_NAME = "/help/EditorHelp.txt";
 	
-	private static final String DEFS_DIR = "../Common/res/def";
+	private static final String DEFS_DIR = "/def";
 	
 	/** Map of pieces of text to replace in documentation */
 	private static final Map<String, String> TEXT_TO_REPLACE = new HashMap<String, String>();

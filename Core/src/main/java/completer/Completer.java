@@ -960,7 +960,7 @@ public class Completer
 	 */
 	public static Map<String, String> getAllLudContents()
 	{
-		return getAllDirectoryContents("../Common/res/lud/board/");
+		return getAllDirectoryContents("/lud/board/");
 	}
 	
 	/**
@@ -968,7 +968,7 @@ public class Completer
 	 */
 	public static Map<String, String> getAllDefContents()
 	{
-		return getAllDirectoryContents("../Common/res/def/");
+		return getAllDirectoryContents("/def/");
 	}
 	
 	/**
@@ -1040,7 +1040,7 @@ public class Completer
 		final String path, final String name, final Completion completion
 	) throws IOException
 	{
-		final String safePath = (path != null) ? path : "../Common/res/out/recons/";
+		final String safePath = (path != null) ? path : "/out/recons/";
 		
 		// **
 		// ** TODO: Need to check if this path exists! If not, then try to make it.

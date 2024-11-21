@@ -148,7 +148,8 @@ public class GenerateClusters
 	
 	// Coordinates of the 9 sub-clusters of Cluster 3
 
-	final static String coordinatesPath        = "./res/cluster/input/coordinatesCluster3.csv";
+//	final static String coordinatesPath        = "./res/cluster/input/coordinatesCluster3.csv";
+	final static String coordinatesPath        = "/cluster/input/coordinatesCluster3.csv";
 	final static int    numClusters = 12;
 	
 	// Cluster 3.1 area
@@ -238,7 +239,8 @@ public class GenerateClusters
 	final static double yMinCluster12 = -5.45;
 	final static double yMaxCluster12 = -0.9;
 	
-	final static String gamePath        	   = "./res/cluster/input/Games.csv";
+//	final static String gamePath        	   = "./res/cluster/input/Games.csv";
+	final static String gamePath        	   = "/cluster/input/Games.csv";
 	
 	/**
 	 * Main method to call the reconstruction with command lines.

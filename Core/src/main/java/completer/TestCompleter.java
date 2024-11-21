@@ -106,7 +106,7 @@ public class TestCompleter
 	static void testCompletion(final String outFilePath, final String fileName)
 	{
 		//final String fileName = "TestReconA.lud";
-		final String filePath = "../Common/res/lud/test/recon/" + fileName;
+		final String filePath = "/lud/test/recon/" + fileName;
 		
 		System.out.println("\n####################################################");
 		System.out.println("\nTesting completion of " + filePath);

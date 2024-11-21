@@ -25,7 +25,7 @@ public class GameFileNamesTest
 	@Test
 	public static void testGameFileNames() throws IOException
 	{
-		final File startFolder = new File("../Common/res/lud/");
+		final File startFolder = new File("/lud/");
 		final List<File> gameDirs = new ArrayList<>();
 		gameDirs.add(startFolder);
 
@@ -42,22 +42,22 @@ public class GameFileNamesTest
 				{
 					final String path = fileEntry.getPath().replaceAll(Pattern.quote("\\"), "/");
 
-					if (path.equals("../Common/res/lud/plex"))
+					if (path.equals("/lud/plex"))
 						continue;
 
-					if (path.equals("../Common/res/lud/wishlist"))
+					if (path.equals("/lud/wishlist"))
 						continue;
 
-					if (path.equals("../Common/res/lud/wip"))
+					if (path.equals("/lud/wip"))
 						continue;
 
-					if (path.equals("../Common/res/lud/test"))
+					if (path.equals("/lud/test"))
 						continue;
 
-					if (path.equals("../Common/res/lud/bad"))
+					if (path.equals("/lud/bad"))
 						continue;
 
-					if (path.equals("../Common/res/lud/bad_playout"))
+					if (path.equals("/lud/bad_playout"))
 						continue;
 
 					gameDirs.add(fileEntry);

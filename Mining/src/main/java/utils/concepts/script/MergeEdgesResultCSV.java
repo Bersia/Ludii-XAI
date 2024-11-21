@@ -19,7 +19,7 @@ import main.UnixPrintWriter;
 public class MergeEdgesResultCSV
 {
 	/** The path of the csv folder. */
-	private static final String FolderCSV = "C:\\Users\\eric.piette\\Ludii\\Ludii\\Mining\\res\\concepts\\input\\ToMerge";
+	private static final String FolderCSV = "\\concepts\\input\\ToMerge";
 	
 	/** The names of the board. */
 	private static final String boardOne = "Both Extension Joined Diagonal";

@@ -29,10 +29,12 @@ import other.concept.Concept;
 public class ComputeReconsClosestConceptualDLPGames {
 
 	// Load ruleset avg common true concepts from specific directory.
-	final static String conceptsFilePath = "./res/recons/input/RulesetConceptsUCT.csv";
-	
+//	final static String conceptsFilePath = "./res/recons/input/RulesetConceptsUCT.csv";
+	final static String conceptsFilePath = "/recons/input/RulesetConceptsUCT.csv";
+
 	// The rulesets reconstructed.
-	final static String pathReconstructed    = "./res/recons/output/";
+//	final static String pathReconstructed    = "./res/recons/output/";
+	final static String pathReconstructed    = "/recons/output/";
 	
 	// The precision of the double to use.
 	final static int DOUBLE_PRECISION = 5;

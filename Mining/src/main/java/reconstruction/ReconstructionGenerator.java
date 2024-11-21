@@ -38,11 +38,14 @@ import utils.RandomAI;
  */
 public class ReconstructionGenerator
 {
-	final static String defaultOutputPath        = "./res/recons/output/";
+//	final static String defaultOutputPath        = "./res/recons/output/";
+	final static String defaultOutputPath        = "/recons/output/";
 	final static int    defaultNumReconsExpected = 10;
 	final static int    defaultNumAttempts       = 20000;
-	final static String defaultDataPath          = "C:/Users/carni/Ludii/Ludii/Mining/res/recons/input/";
-	final static String defaultReconsPath        = "C:/Users/carni/Ludii/Ludii/Common/res/lud/reconstruction/pending/board/hunt/Rongmei Naga Hunt Game.lud";
+//	final static String defaultDataPath          = "C:/Users/carni/Ludii/Ludii/Mining/res/recons/input/";
+//	final static String defaultReconsPath        = "C:/Users/carni/Ludii/Ludii/Common/res/lud/reconstruction/pending/board/hunt/Rongmei Naga Hunt Game.lud";
+	final static String defaultDataPath          = "/recons/input/";
+	final static String defaultReconsPath        = "/lud/reconstruction/pending/board/hunt/Rongmei Naga Hunt Game.lud";
 	final static String defaultOptionName        = "Variant/Incomplete";
 	
 	final static double  defaultConceptualWeight = 0.5;

@@ -37,7 +37,7 @@ public class GenerateRandomTestTrials
 	@SuppressWarnings("static-method")
 	public void test()
 	{
-		final File startFolder = new File("../Common/res/lud/");
+		final File startFolder = new File("/lud/");
 		final List<File> gameDirs = new ArrayList<File>();
 		gameDirs.add(startFolder);
 
@@ -53,31 +53,31 @@ public class GenerateRandomTestTrials
 				{
 					final String fileEntryPath = fileEntry.getPath().replaceAll(Pattern.quote("\\"), "/");
 					
-					if (fileEntryPath.equals("../Common/res/lud/plex"))
+					if (fileEntryPath.equals("/lud/plex"))
 						continue;
 					
-					if (fileEntryPath.equals("../Common/res/lud/wip"))
+					if (fileEntryPath.equals("/lud/wip"))
 						continue;
 					
-					if (fileEntryPath.equals("../Common/res/lud/wishlist"))
+					if (fileEntryPath.equals("/lud/wishlist"))
 						continue;
 
-					if (fileEntryPath.equals("../Common/res/lud/WishlistDLP"))
+					if (fileEntryPath.equals("/lud/WishlistDLP"))
 						continue;
 
-					if (fileEntryPath.equals("../Common/res/lud/test"))
+					if (fileEntryPath.equals("/lud/test"))
 						continue;
 
-					if (fileEntryPath.equals("../Common/res/lud/reconstruction"))
+					if (fileEntryPath.equals("/lud/reconstruction"))
 						continue;
 
-					if (fileEntryPath.equals("../Common/res/lud/puzzle/deduction"))
+					if (fileEntryPath.equals("/lud/puzzle/deduction"))
 						continue;	// skip puzzles for now
 					
-					if (fileEntryPath.equals("../Common/res/lud/bad"))
+					if (fileEntryPath.equals("/lud/bad"))
 						continue;
 					
-					if (fileEntryPath.equals("../Common/res/lud/bad_playout"))
+					if (fileEntryPath.equals("/lud/bad_playout"))
 						continue;
 					
 					gameDirs.add(fileEntry);

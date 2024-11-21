@@ -111,13 +111,13 @@ public final class GameLoader
 					if (strSplit[strSplit.length - 1].equals(givenName))
 					{
 						// This is an exact match
-						bestMatchFilepath = "..\\Common\\res\\" + gameName;
+						bestMatchFilepath = "/" + gameName;
 						break;
 					}
 					else if (nonMatchLength < shortestNonMatchLength)
 					{
 						shortestNonMatchLength = nonMatchLength;
-						bestMatchFilepath = "..\\Common\\res\\" + gameName;
+						bestMatchFilepath = "/" + gameName;
 					}
 				}
 			}
@@ -333,8 +333,10 @@ public final class GameLoader
 		if (!inName.endsWith(".lud"))
 			inName += ".lud";
 		
-		if (inName.startsWith("../Common/res"))
-			inName = inName.substring("../Common/res".length());
+//		if (inName.startsWith("../Common/res"))
+////			inName = inName.substring("../Common/res".length());
+		if (inName.startsWith("/"))
+			inName = inName.substring("/".length());
 
 		if (!inName.startsWith("/lud/"))
 			inName = "/lud/" + inName;
@@ -365,7 +367,7 @@ public final class GameLoader
 						if (nonMatchLength < shortestNonMatchLength)
 						{
 							shortestNonMatchLength = nonMatchLength;
-							bestMatchFilepath = "..\\Common\\res\\" + gameName;
+							bestMatchFilepath = "/" + gameName;
 						}
 					}
 				}
@@ -381,7 +383,7 @@ public final class GameLoader
 							if (nonMatchLength < shortestNonMatchLength)
 							{
 								shortestNonMatchLength = nonMatchLength;
-								bestMatchFilepath = "..\\Common\\res\\" + gameName;
+								bestMatchFilepath = "/" + gameName;
 							}
 						}
 					}
@@ -402,7 +404,7 @@ public final class GameLoader
 								if (nonMatchLength < shortestNonMatchLength)
 								{
 									shortestNonMatchLength = nonMatchLength;
-									bestMatchFilepath = "..\\Common\\res\\" + gameName;
+									bestMatchFilepath = "/" + gameName;
 								}
 							}
 						}

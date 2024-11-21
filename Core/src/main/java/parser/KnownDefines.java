@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -83,6 +84,7 @@ public class KnownDefines
 
 		// Try loading from JAR file
 		final String[] defs = FileHandling.getResourceListing(KnownDefines.class, "def/", ".def");
+//		System.out.println(Arrays.toString(defs));
 		
         if (defs == null)
         {
@@ -90,7 +92,7 @@ public class KnownDefines
         	try 
         	{ 		
         		// Start with known .def file
-				final URL url = KnownDefines.class.getResource("def/rules/play/moves/StepToEmpty.def");
+				final URL url = KnownDefines.class.getResource("/def/rules/play/moves/StepToEmpty.def");
         		String path = new File(url.toURI()).getPath();
 				path = path.substring(0, path.length() - "rules/play/moves/StepToEmpty.def".length());
 

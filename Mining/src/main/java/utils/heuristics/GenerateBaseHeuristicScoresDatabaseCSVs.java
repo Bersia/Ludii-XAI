@@ -297,7 +297,7 @@ public class GenerateBaseHeuristicScoresDatabaseCSVs
 			}
 		}
 		
-		try (final PrintWriter writer = new PrintWriter(new File("../Mining/res/heuristics/Heuristics.csv"), "UTF-8"))
+		try (final PrintWriter writer = new PrintWriter(new File("/heuristics/Heuristics.csv"), "UTF-8"))
 		{
 			for (final HeuristicData data : heuristicsList)
 			{
@@ -309,7 +309,7 @@ public class GenerateBaseHeuristicScoresDatabaseCSVs
 			e.printStackTrace();
 		}
 		
-		try (final PrintWriter writer = new PrintWriter(new File("../Mining/res/heuristics/RulesetHeuristics.csv"), "UTF-8"))
+		try (final PrintWriter writer = new PrintWriter(new File("/heuristics/RulesetHeuristics.csv"), "UTF-8"))
 		{
 			for (final ScoreData data : scoreDataList)
 			{
