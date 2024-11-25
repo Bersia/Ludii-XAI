@@ -1,6 +1,5 @@
 package embeddings.features;
 
-import embeddings.GroupCode.Cluster;
 import embeddings.distance.Jaccard;
 import embeddings.distance.utils.HungarianAlgorithm;
 import org.json.JSONArray;
