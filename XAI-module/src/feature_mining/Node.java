@@ -51,8 +51,8 @@ public class Node {
         Node root = buildTree(mctsNode);
 
         int maxDepth = root.findMaxDepth();
-        double minScore = root.findMinLeafScore();
-        double maxScore = root.findMaxLeafScore();
+        double minScore = root.findMinScore();
+        double maxScore = root.findMaxScore();
         int maxSampled = root.findMaxSampled();
 
         // Create and save treemap
@@ -64,10 +64,10 @@ public class Node {
         graphics.setBackground(Color.white);
         graphics.clearRect(0, 0, SIZE, SIZE);
 
-        image = drawTreeMap(root, image, "depth");
+        image = drawTreeMap(root, image, "depth", true);
         try {
-            int number = new File("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\train\\depth").list().length;
-            ImageIO.write(image, "png", new File(String.format("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\train\\depth\\treemap_%d.png", number)));
+            int number = new File("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\outlines\\train\\depth").list().length;
+            ImageIO.write(image, "png", new File(String.format("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\outlines\\train\\depth\\treemap_%d.png", number)));
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -78,10 +78,10 @@ public class Node {
         graphics.setBackground(Color.white);
         graphics.clearRect(0, 0, SIZE, SIZE);
 
-        image = drawTreeMap(root, image, "score");
+        image = drawTreeMap(root, image, "score", true);
         try {
-            int number = new File("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\train\\score").list().length;
-            ImageIO.write(image, "png", new File(String.format("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\train\\score\\treemap_%d.png", number)));
+            int number = new File("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\outlines\\train\\score").list().length;
+            ImageIO.write(image, "png", new File(String.format("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\outlines\\train\\score\\treemap_%d.png", number)));
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -92,10 +92,10 @@ public class Node {
         graphics.setBackground(Color.white);
         graphics.clearRect(0, 0, SIZE, SIZE);
 
-        image = drawTreeMap(root, image, "sample");
+        image = drawTreeMap(root, image, "sample", true);
         try {
-            int number = new File("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\train\\sample").list().length;
-            ImageIO.write(image, "png", new File(String.format("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\train\\sample\\treemap_%d.png", number)));
+            int number = new File("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\outlines\\train\\sample").list().length;
+            ImageIO.write(image, "png", new File(String.format("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\outlines\\train\\sample\\treemap_%d.png", number)));
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -106,10 +106,66 @@ public class Node {
         graphics.setBackground(Color.white);
         graphics.clearRect(0, 0, SIZE, SIZE);
 
-        image = drawTreeMap(root, image, "all");
+        image = drawTreeMap(root, image, "all", true);
         try {
-            int number = new File("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\train\\all").list().length;
-            ImageIO.write(image, "png", new File(String.format("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\train\\all\\treemap_%d.png", number)));
+            int number = new File("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\outlines\\train\\all").list().length;
+            ImageIO.write(image, "png", new File(String.format("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\outlines\\train\\all\\treemap_%d.png", number)));
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+
+        image = new BufferedImage(SIZE, SIZE, BufferedImage.TYPE_INT_RGB);
+
+        graphics = image.createGraphics();
+        graphics.setBackground(Color.white);
+        graphics.clearRect(0, 0, SIZE, SIZE);
+
+        image = drawTreeMap(root, image, "depth", false);
+        try {
+            int number = new File("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\no_outline\\train\\depth").list().length;
+            ImageIO.write(image, "png", new File(String.format("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\no_outline\\train\\depth\\treemap_%d.png", number)));
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+
+        image = new BufferedImage(SIZE, SIZE, BufferedImage.TYPE_INT_RGB);
+
+        graphics = image.createGraphics();
+        graphics.setBackground(Color.white);
+        graphics.clearRect(0, 0, SIZE, SIZE);
+
+        image = drawTreeMap(root, image, "score", false);
+        try {
+            int number = new File("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\no_outline\\train\\score").list().length;
+            ImageIO.write(image, "png", new File(String.format("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\no_outline\\train\\score\\treemap_%d.png", number)));
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+
+        image = new BufferedImage(SIZE, SIZE, BufferedImage.TYPE_INT_RGB);
+
+        graphics = image.createGraphics();
+        graphics.setBackground(Color.white);
+        graphics.clearRect(0, 0, SIZE, SIZE);
+
+        image = drawTreeMap(root, image, "sample", false);
+        try {
+            int number = new File("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\no_outline\\train\\sample").list().length;
+            ImageIO.write(image, "png", new File(String.format("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\no_outline\\train\\sample\\treemap_%d.png", number)));
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+
+        image = new BufferedImage(SIZE, SIZE, BufferedImage.TYPE_INT_RGB);
+
+        graphics = image.createGraphics();
+        graphics.setBackground(Color.white);
+        graphics.clearRect(0, 0, SIZE, SIZE);
+
+        image = drawTreeMap(root, image, "all", false);
+        try {
+            int number = new File("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\no_outline\\train\\all").list().length;
+            ImageIO.write(image, "png", new File(String.format("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\no_outline\\train\\all\\treemap_%d.png", number)));
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -117,20 +173,25 @@ public class Node {
 
     public static Node buildTree(BaseNode node) {
         Node root = new Node();
-        root.setScore(node.expectedScore(1) + 2);
+        //root.setScore(node.expectedScore(1) + 2);
+        root.setScore(node.contextRef().score(1));
 
         for (BaseNode child : node.getChildren()) {
-            Node childNode = buildTree(child);
-            childNode.setParent(root);
-            root.children.add(childNode);
 
-            if (child.getChildren().isEmpty()) {
-                childNode.addWeight(child.expectedScore(1) + 2);
-            } else {
-                childNode.addWeight(childNode.getWeight());
+            if (child != null) {
+                Node childNode = buildTree(child);
+                childNode.setParent(root);
+                root.children.add(childNode);
+
+                if (child.getChildren().isEmpty()) {
+                    childNode.addWeight(child.expectedScore(1) + 2);
+                } else {
+                    childNode.addWeight(childNode.getWeight());
+                }
+                //childNode.setScore(child.expectedScore(1) + 2);
+                childNode.setScore(child.contextRef().score(1));
+                childNode.setSampled(child.numVisits());
             }
-            childNode.setScore(child.expectedScore(1) + 2);
-            childNode.setSampled(child.numVisits());
         }
 
         return root;
@@ -376,7 +437,7 @@ public class Node {
         }
     }
 
-    public static BufferedImage drawTreeMap(Node node, BufferedImage image, String type) {
+    public static BufferedImage drawTreeMap(Node node, BufferedImage image, String type, Boolean drawOutlines) {
         Graphics2D g = image.createGraphics();
 //        g.setColor(new Color(gradient * node.getDepth(), gradient * node.getDepth(), gradient * node.getDepth()));
         Rectangle r = node.getGraphic();
@@ -390,15 +451,17 @@ public class Node {
         } else if (type.equals("sample")) {
             g.setColor(new Color(r.getSampleGradient(), r.getSampleGradient(), r.getSampleGradient()));
         } else {
-            g.setColor(new Color(r.getDepthGradient(), r.getScoreGradient(), r.getSampleGradient()));
+            g.setColor(new Color(r.getDepthGradient(), r.getScoreGradient(), 255 - r.getSampleGradient()));
         }
 
         g.fillRect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
         g.setColor(Color.black);
-        g.drawRect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
+        if (drawOutlines) {
+            g.drawRect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
+        }
 
         for (Node child : node.getChildren()) {
-            image = drawTreeMap(child, image, type);
+            image = drawTreeMap(child, image, type, drawOutlines);
         }
 
         return image;
