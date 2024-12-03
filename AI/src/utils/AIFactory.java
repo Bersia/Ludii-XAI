@@ -39,20 +39,17 @@ import search.flat.HeuristicSampling;
 import search.flat.OnePlyNoHeuristic;
 import search.mcts.MCTS;
 import search.mcts.MCTS.QInit;
+import search.mcts.SameGameMCTS;
 import search.mcts.backpropagation.AlphaGoBackprop;
 import search.mcts.backpropagation.MonteCarloBackprop;
 import search.mcts.backpropagation.QualitativeBonus;
+import search.mcts.finalmoveselection.GameStateScore;
 import search.mcts.finalmoveselection.RobustChild;
+import search.mcts.playout.HeuristicSampingPlayout;
 import search.mcts.playout.MAST;
 import search.mcts.playout.NST;
 import search.mcts.playout.RandomPlayout;
-import search.mcts.selection.McBRAVE;
-import search.mcts.selection.McGRAVE;
-import search.mcts.selection.ProgressiveBias;
-import search.mcts.selection.ProgressiveHistory;
-import search.mcts.selection.UCB1;
-import search.mcts.selection.UCB1GRAVE;
-import search.mcts.selection.UCB1Tuned;
+import search.mcts.selection.*;
 import search.minimax.AlphaBetaSearch;
 import search.minimax.BRSPlus;
 import search.minimax.BiasedUBFM;
@@ -270,6 +267,9 @@ public class AIFactory
 		
 		if (string.equalsIgnoreCase("MCTS (Hybrid Selection)"))
 			return MCTS.createHybridMCTS();
+
+		if (string.equalsIgnoreCase("SameGame MCTS"))
+			return new SameGameMCTS(new SameGameSelect(), new HeuristicSampingPlayout(), new AlphaGoBackprop(), new GameStateScore());
 		
 		if (string.equalsIgnoreCase("Bandit Tree Search"))
 			return MCTS.createBanditTreeSearch();
@@ -628,6 +628,15 @@ public class AIFactory
 		else if (algName.equalsIgnoreCase("MCTS (Hybrid Selection)"))
 		{
 			return MCTS.createHybridMCTS();
+		}
+		else if (algName.equalsIgnoreCase("SameGame MCTS"))
+		{
+			MCTS mcts =  new SameGameMCTS(new SameGameSelect(), new HeuristicSampingPlayout(), new AlphaGoBackprop(), new GameStateScore());
+			mcts.setWantsMetadataHeuristics(true);
+			mcts.setPlayoutValueWeight(0.5);
+			mcts.setFriendlyName("MCTS (SameGame)");
+
+			return mcts;
 		}
 		else if (algName.equalsIgnoreCase("Bandit Tree Search"))
 		{

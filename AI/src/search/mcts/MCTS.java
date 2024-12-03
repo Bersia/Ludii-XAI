@@ -13,6 +13,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import app.StartDesktopApp;
 import org.json.JSONObject;
 
 import game.Game;
@@ -156,13 +157,13 @@ public class MCTS extends ExpertPolicy
 	protected double autoPlaySeconds = 0.0;	// TODO allow customisation
 	
 	/** Our thread pool for tree parallelisation */
-	private ExecutorService threadPool = null;
+	protected ExecutorService threadPool = null;
 	
 	/** Number of threads this MCTS should use for parallel iterations */
-	private int numThreads = 1;
+	protected int numThreads = 1;
 	
 	/** Lets us track whether all threads in our thread pool have completely finished */
-	private AtomicInteger numThreadsBusy = new AtomicInteger(0);
+	protected AtomicInteger numThreadsBusy = new AtomicInteger(0);
 	
 	//-------------------------------------------------------------------------
 	
@@ -752,7 +753,7 @@ public class MCTS extends ExpertPolicy
 					lastReturnedMoveValueEst +
 					").";
 			BaseNode child = this.rootNode;
-			analysisReport += displayTree(child, "",true);
+//			analysisReport += displayTree(child, "",true);
 		}
 		else
 		{
@@ -880,7 +881,7 @@ public class MCTS extends ExpertPolicy
     	final Context context
     )
 	{
-		if ((currentGameFlags & GameType.Stochastic) == 0L || wantsCheatRNG())
+		if ((currentGameFlags & GameType.Stochastic) == 0L || wantsCheatRNG() || context.game().name().equals("SameGame"))
 		{
 			if (useScoreBounds)
 				return new ScoreBoundsNode(mcts, parent, parentMove, parentMoveWithoutConseq, context);
