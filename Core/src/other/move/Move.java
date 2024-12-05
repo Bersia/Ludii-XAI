@@ -90,6 +90,10 @@ import other.topology.Topology;
 import other.topology.TopologyElement;
 import other.trial.Trial;
 
+import javax.jdo.annotations.NotPersistent;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+
 /**
  * Move made up of a list of actions for modifying the game state.
  *
@@ -97,6 +101,7 @@ import other.trial.Trial;
  *
  */
 @Hide
+@PersistenceCapable
 public class Move extends BaseAction
 {
 	private static final long serialVersionUID = 1L;
@@ -107,29 +112,41 @@ public class Move extends BaseAction
 	 * The data of the move set during the computation whatever if this is a
 	 * decision or not.
 	 */
+	@Persistent
 	private int from;
+	@Persistent
 	private int to;
+	@Persistent
 	private TIntArrayList between = new TIntArrayList();
+	@Persistent
 	private int state = -1;
+	@Persistent
 	private boolean oriented = true;
+	@Persistent
 	private int edge = -1;
 
 	/** The player making this move. */
+	@Persistent
 	private int mover = 0;
 
 	/** The levels to move a piece on Stacking game */
+	@Persistent
 	private int levelMin = 0;
+	@Persistent
 	private int levelMax = 0;
 
 	/** Sequence of actions making up this move. */
-	private final List<Action> actions;
+	@NotPersistent
+	private List<Action> actions;
 
 	/** Subsequents of the move. */
-	private final List<Moves> then = new ArrayList<>();
+	@NotPersistent
+	private List<Moves> then = new ArrayList<>();
 
 	//-------------------------------------------------------------------------
 
 	/** The "Moves" where comes from the move. */
+	@NotPersistent
 	private transient Moves movesLudeme;
 
 	//-------------------------------------------------------------------------

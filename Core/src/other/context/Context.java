@@ -39,13 +39,18 @@ import other.move.Move;
 import other.state.State;
 import other.state.container.ContainerState;
 import other.topology.Topology;
-import other.trial.Trial; 
+import other.trial.Trial;
+
+import javax.jdo.annotations.NotPersistent;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
 
 /**
  * Context for generating moves during playouts.
  *
  * @author cambolbro and Eric Piette
  */
+@PersistenceCapable
 public class Context
 {
 	//-------------------------------------------------------------------------
@@ -57,29 +62,37 @@ public class Context
 	 * Such Context objects should only be created by search algorithms such as
 	 * MCTS, and for those we do not need reproducibility.
 	 */
+	@NotPersistent
 	private static SplitMix64 sharedRNG = new SplitMix64();
 
 	//-------------------------------------------------------------------------
 
 	/** Reference to controlling game object. */
-	private final Game game;
+	@NotPersistent
+	private Game game;
 	
 	/** Reference to "parent" Context of match we're in. Will be null if this is the top-level Context. */
+	@Persistent
 	private Context parentContext;
 	
 	/** Reference to active subcontext. Will be null if this is not a context for a Match */
+	@Persistent
 	private Context subcontext;
 	
 	/** Current game state. */
+	@Persistent
 	protected transient State state;
 	
 	/** Index for our current subgame (will always be 0 for non-Matches) */
+	@Persistent
 	private int currentSubgameIdx = 0;
 
 	/** Our control flow models (one per phase) */
+	@NotPersistent//(defaultFetchGroup="true", serialized="true")
 	private Model[] models;
 
 	/** Our Trial. */
+	@NotPersistent
 	private Trial trial;
 	
 	/** 
@@ -87,16 +100,19 @@ public class Context
 	 * 
 	 * Will only be non-empty for Matches.		TODO should probably just have it be null for instances then
 	 */
+	@NotPersistent
 	private List<Trial> completedTrials;
 
 	//-------------------------------------------------------------------------
 
 	/** RNG object used for any rules / actions / etc. in this context */
+	@NotPersistent
 	private SplitMix64 rng;
 
 	//-------------------------------------------------------------------------
 
 	/** Data used to evaluate ludemes */
+	@NotPersistent
 	private EvalContext evalContext = new EvalContext();
 
 	//-------------------------------------------------------------------------
@@ -105,6 +121,7 @@ public class Context
 	//private boolean ringFlagCalled = false;
 
 	/** Used in case of recursive called for some ludeme. */
+	@Persistent
 	private boolean recursiveCalled = false;
 
 	/**
@@ -112,44 +129,54 @@ public class Context
 	 * the same turn. (we need a better name for that variable but I am too tired to
 	 * find one ^^)			TODO officially I guess this should actually be in EvalContext?
 	 */
+	@Persistent
 	private int numLossesDecided = 0;
 	
 	/** Same as above, but for wins */		// TODO officially I guess this should actually be in EvalContext?
+	@Persistent
 	private int numWinsDecided = 0;
 	
 	// WARNING: if we have a State object, that object should perform modifications of the below fields for us!
 	// this allows it to also update Zobrist hash!
 	
 	/** Scores per player. Game scores if this is a trial for just a game, match scores if it's a trial for a Match */
+	@Persistent
 	private int[] scores;
 	
 	/**
 	 * Payoffs per player. Game payoff if this is a trial for just a game, match
 	 * scores if it's a trial for a Match
 	 */
+	@Persistent
 	private double[] payoffs;
 
 	/** For every player, a bit indicating whether they are active */
+	@Persistent
 	private int active = 0;
 	
 	// WARNING: if we have a State object, that object should perform modifications of the above fields for us!
 	// this allows it to also update Zobrist hash!
 	
 	/** List of players who've already won */
+	@Persistent
 	private TIntArrayList winners;
 	
 	/** List of players who've already lost */
+	@Persistent
 	private TIntArrayList losers;
 	
 	/** Tells us whether we've ever called game.start() with this context */
+	@Persistent
 	private boolean haveStarted = false;
 	
 	/** The states of each site where is a die */
-	final TIntIntHashMap diceSiteStates;
+	@Persistent
+	TIntIntHashMap diceSiteStates;
 
 	//-------------------------------------------------------------------------
 	
 	/** Lock for Game methods that should not be executed in parallel on the same Context object. */
+	@Persistent
 	private transient ReentrantLock lock = new ReentrantLock();
 	
 	//-------------------------------------------------------------------------

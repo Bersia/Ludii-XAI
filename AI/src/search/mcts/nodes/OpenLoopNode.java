@@ -11,51 +11,68 @@ import other.move.Move;
 import policies.softmax.SoftmaxPolicy;
 import search.mcts.MCTS;
 
+import javax.jdo.annotations.Discriminator;
+import javax.jdo.annotations.NotPersistent;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+
 /**
  * Node class for Open-Loop implementations of MCTS.
  * This is primarily intended for nondeterministic games.
  * 
  * @author Dennis Soemers
  */
+@PersistenceCapable
+@Discriminator(value = "OpenLoopNode")
 public final class OpenLoopNode extends BaseNode
 {
 	
 	//-------------------------------------------------------------------------
 	
 	/** List of child nodes */
-	protected final List<OpenLoopNode> children = new ArrayList<OpenLoopNode>(10);
+	@Persistent
+	protected List<OpenLoopNode> children = new ArrayList<OpenLoopNode>(10);
 	
 	/** Context object for current iteration being run through this node */
+	@NotPersistent
 	protected ThreadLocal<Context> currentItContext = ThreadLocal.withInitial(() -> {return null;});
 	
 	/** Our root nodes will keep a deterministic context reference */
+	@NotPersistent
 	protected Context deterministicContext = null;
 	
 	/** For the root, we no longer need thread-local current-legal move lists and can instead use a single fixed list */
+	@NotPersistent
 	protected FastArrayList<Move> rootLegalMovesList = null;
 	
 	/** Current list of legal moves */
+	@NotPersistent
 	protected ThreadLocal<FastArrayList<Move>> currentLegalMoves = ThreadLocal.withInitial(() -> {return null;});
 	
 	/** 
 	 * Distribution over legal moves in current iteration in this node,
 	 * as computed by learned Selection policy
 	 */
+	@NotPersistent
 	protected ThreadLocal<FVector> learnedSelectionPolicy = ThreadLocal.withInitial(() -> {return null;});
 	
 	/** Learned selection policy for root node, where we no longer need it to be thread-local */
+	@Persistent
 	protected FVector rootLearnedSelectionPolicy = null;
 	
 	/** 
 	 * Array in which we store, for every potential index of a currently-legal move, 
 	 * the corresponding child node (or null if not yet expanded).
 	 */
+	@NotPersistent
 	protected ThreadLocal<OpenLoopNode[]> moveIdxToNode = ThreadLocal.withInitial(() -> {return null;});
 	
 	/** A mapping from move indices to nodes for the root (no longer want this to be thread-local) */
+	@Persistent
 	protected OpenLoopNode[] rootMoveIdxToNode = null;
 	
 	/** Cached logit computed according to learned selection policy */
+	@NotPersistent
 	protected ThreadLocal<Float> logit = ThreadLocal.withInitial(() -> {return Float.valueOf(Float.NaN);});
 	
 	//-------------------------------------------------------------------------
@@ -81,7 +98,7 @@ public final class OpenLoopNode extends BaseNode
 	}
 	
 	//-------------------------------------------------------------------------
-	
+
 	@Override
     public void addChild(final BaseNode child, final int moveIdx)
     {

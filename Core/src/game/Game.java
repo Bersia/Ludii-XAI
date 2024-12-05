@@ -112,11 +112,16 @@ import other.topology.TopologyElement;
 import other.translation.LanguageUtils;
 import other.trial.Trial;
 
+import javax.jdo.annotations.NotPersistent;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+
 /**
  * Defines the main ludeme that describes the players, mode, equipment and rules of a game.
  *
  * @author Eric.Piette and cambolbro 
  */
+@PersistenceCapable
 public class Game extends BaseLudeme implements API, Serializable
 {
 	private static final long serialVersionUID = 1L;
@@ -127,98 +132,127 @@ public class Game extends BaseLudeme implements API, Serializable
 	protected final String name;
 	
 	/** Selected options. */
+	@Persistent
 	private List<String> options = new ArrayList<>();
 
 	/** Game control. */
-	protected final Mode mode;
+	@Persistent
+	protected Mode mode;
 
 	/** The players of the game. */
-	protected final Players players;
+	@Persistent
+	protected Players players;
 
 	/** Game's equipment. */
+	@Persistent
 	protected Equipment equipment;
 
 	/** Game's rules. */
+	@NotPersistent
 	private Rules rules;
 	
 	/** Store which meta rule is activated or not. */
+	@NotPersistent
 	private final MetaRules metaRules = new MetaRules();
 
 	/** Table of Strings that can be used for voting mechanisms. Populated by preprocess() calls */
+	@NotPersistent
 	private final List<String> voteStringsTable = new ArrayList<String>();
 
 	/** Current game description. */
+	@NotPersistent
 	private Description description = new Description("Unprocessed");
 	
 	/** Maximum number of turns for this game */
+	@Persistent
 	protected int maxTurnLimit = Constants.DEFAULT_TURN_LIMIT;
 	
 	/** Maximum number of moves for this game */
+	@Persistent
 	protected int maxMovesLimit = Constants.DEFAULT_MOVES_LIMIT;
 
 	//-----------------------------State/Context-------------------------------
 
 	/** The number of starting actions done during the initialisation of the game. */
+	@Persistent
 	private int numStartingAction = 0;
 	
 	/** Flags corresponding to the gameType of this game. */
+	@Persistent
 	private long gameFlags;
 
 	/** Flags corresponding to the boolean concepts of this game. */
+	@Persistent
 	protected BitSet booleanConcepts;
 
 	/** Map corresponding to the non boolean concepts of this game. */
+	@Persistent
 	protected Map<Integer, String> conceptsNonBoolean;
 
 	/** Reference state type, for creating new versions of appropriate type. */
+	@Persistent
 	protected State stateReference;
 	
 	/** Set to true once we've finished preprocessing */
+	@Persistent
 	protected boolean finishedPreprocessing = false;
 	
 	/** Copy of the starting context for games with no stochastic element in the starting rules. */
+	@Persistent
 	private Context startContext;
 	
 	/** True if some stochastic elements are in the starting rules. */
+	@Persistent
 	private boolean stochasticStartingRules = false;
 
 	//-----------------------------Shortcuts-----------------------------------
 
 	/** Access container by label. */
-	private final Map<String, Container> mapContainer = new HashMap<>();
+	@NotPersistent
+	private Map<String, Container> mapContainer = new HashMap<>();
 
 	/** Access component by label. */
-	private final Map<String, Component> mapComponent = new HashMap<>();
+	@Persistent
+	private Map<String, Component> mapComponent = new HashMap<>();
 
 	/** The list of the different sets of dice. */
-	private final List<Dice> handDice = new ArrayList<>();
+	@Persistent
+	private List<Dice> handDice = new ArrayList<>();
 
 	/** The list of the different decks. */
-	private final List<Deck> handDeck = new ArrayList<>();
+	@Persistent
+	private List<Deck> handDeck = new ArrayList<>();
 	
 	/** All variables constraint by the puzzle.*/
-	private final TIntArrayList constraintVariables = new TIntArrayList();
+	@Persistent
+	private TIntArrayList constraintVariables = new TIntArrayList();
 
 	//-----------------------Metadata-------------------------------------------
 
 	/** The game's metadata */
+	@NotPersistent
 	protected Metadata metadata = null;
 
 	/** The expected concepts values for reconstruction. */
+	@Persistent
 	protected ArrayList<metadata.recon.concept.Concept> expectedConcepts = new ArrayList<metadata.recon.concept.Concept>();
 
 	// -----------------------Warning/Crash reports-----------------------------
 
 	/** The report with all the warning due of some missing required ludemes. */
+	@NotPersistent
 	private final List<String> requirementReport = new ArrayList<String>();
 
 	/** True if any required ludeme is missing. */
+	@NotPersistent
 	protected boolean hasMissingRequirement;
 
 	/** The report with all the crashes due of some ludemes used badly. */
+	@NotPersistent
 	private final List<String> crashReport = new ArrayList<String>();
 
 	/** True if any ludeme can crash the game. */
+	@NotPersistent
 	protected boolean willCrash;
 
 	//---------------------------------AI--------------------------------------
@@ -227,6 +261,7 @@ public class Game extends BaseLudeme implements API, Serializable
 	 * Simply counts how often we've called start() on this game object.
 	 * Used to avoid unnecessary re-initialisations of AIs.
 	 */
+	@NotPersistent
 	private int gameStartCount = 0;
 
 	//-------------------------------------------------------------------------

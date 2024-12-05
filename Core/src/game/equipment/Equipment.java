@@ -35,6 +35,10 @@ import other.topology.TopologyElement;
 import other.translation.LanguageUtils;
 import other.trial.Trial;
 
+import javax.jdo.annotations.NotPersistent;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+
 /**
  * Defines the equipment list of the game.
  *
@@ -44,6 +48,7 @@ import other.trial.Trial;
  *          type of component or container described in this chapter may be used
  *          as an \texttt{<item>} type.
  */
+@PersistenceCapable
 public final class Equipment extends BaseLudeme implements Serializable
 {
 	private static final long serialVersionUID = 1L;
@@ -51,48 +56,63 @@ public final class Equipment extends BaseLudeme implements Serializable
 	//-------------------------------------------------------------------------
 
 	/** List of containers. */
+	@Persistent
 	private Container[] containers = null;
 
 	/** List of components. */
+	@Persistent
 	private Component[] components = null;
 
 	/** List of regions. */
+	@Persistent
 	private Regions[] regions = null;
 
 	/** List of maps. */
+	@Persistent
 	private Map[] maps = null;
 
 	/** Total number of sites over all containers. */
+	@Persistent
 	private int totalDefaultSites = 0;
 
 	/** Which container a given accumulated site index refers to. */
+	@Persistent
 	private int[] containerId;
 
 	/** Which actual site within its container a given accumulated site index refers to. */
+	@Persistent
 	private int[] offset;
 
 	/** Which accumulated site index a given container starts at. */
+	@Persistent
 	private int[] sitesFrom;
 	
 	/** Vertex with hints for Deduction Puzzle. */
+	@Persistent
 	private Integer[][] vertexWithHints = new Integer[0][0];
 
 	/** Cell with hints for Deduction Puzzle. */
+	@Persistent
 	private Integer[][] cellWithHints = new Integer[0][0];
 
 	/** Edge with hints for Deduction Puzzle. */
+	@Persistent
 	private Integer[][] edgeWithHints = new Integer[0][0];
 
 	/** The hints of the vertices. */
+	@Persistent
 	private Integer[] vertexHints = new Integer[0];
 
 	/** The hints of the cells. */
+	@Persistent
 	private Integer[] cellHints = new Integer[0];
 
 	/** The hints of the edges. */
+	@Persistent
 	private Integer[] edgeHints = new Integer[0];
 	
 	/** Here we store items received from constructor, to be created when game.create() is called. */
+	@Persistent
 	private Item[] itemsToCreate;
 
 	//-------------------------------------------------------------------------

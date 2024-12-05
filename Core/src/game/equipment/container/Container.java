@@ -23,12 +23,15 @@ import other.topology.Edge;
 import other.topology.Topology;
 import other.topology.Vertex;
 
+import javax.jdo.annotations.PersistenceCapable;
+
 /**
  * Defines a container.
  *
  * @author cambolbro and Eric.Piette
  */
 @SuppressWarnings("static-method")
+@PersistenceCapable
 public abstract class Container extends Item implements Serializable, Cloneable
 {
 	private static final long serialVersionUID = 1L;

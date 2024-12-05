@@ -21,47 +21,67 @@ import search.mcts.backpropagation.BackpropagationStrategy;
 import training.expert_iteration.ExItExperience;
 import training.expert_iteration.ExItExperience.ExItExperienceState;
 
+import javax.jdo.annotations.*;
+
 /**
  * Abstract base class for nodes in MCTS search trees.
  * 
  * @author Dennis Soemers
  */
+@PersistenceCapable
+@Inheritance(strategy = InheritanceStrategy.NEW_TABLE)
+@Discriminator(column = "NODE_TYPE", value = "BaseNode")
 public abstract class BaseNode
 {
+
+	@PrimaryKey
+	@Persistent(valueStrategy = IdGeneratorStrategy.INCREMENT)
+	private long id;
 	
 	//-------------------------------------------------------------------------
 	
 	/** Parent node */
+	@Persistent
 	protected BaseNode parent;
 	
 	/** Move leading from parent to this node */
-    protected final Move parentMove;
+	@Persistent
+    protected Move parentMove;
     
     /** Move leading from parent to this node, without consequents evaluated */
-    protected final Move parentMoveWithoutConseq;
+	@Persistent
+    protected Move parentMoveWithoutConseq;
 	
 	/** Reference back to our MCTS algorithm */
+	@NotPersistent
 	protected final MCTS mcts;
 	
 	/** Total number of times this node was visited. */
+	@Persistent
     protected int numVisits = 0;
     
     /** Number of virtual visits to this node (for Tree Parallelisation) */
+	@NotPersistent
     protected AtomicInteger numVirtualVisits = new AtomicInteger();
     
     /** Total scores backpropagated into this node (one per player, 0 index unused). */
-    protected final double[] totalScores;
+	@Persistent
+    protected double[] totalScores;
     
     /** Sums of squares of scores backpropagated into this node (one per player, 0 index unused). */
-    protected final double[] sumSquaredScores;
+	@Persistent
+    protected double[] sumSquaredScores;
     
     /** Value estimates based on heuristic score function, normalised to appropriate range in [-1, 1]. Can be null. */
+	@Persistent
     protected double[] heuristicValueEstimates;
     
     /** Table of AMAF stats for GRAVE */
+	@NotPersistent
     protected final Map<MoveKey, NodeStatistics> graveStats;
     
     /** Lock for MCTS code that modifies/reads node data in ways that should be synchronised */
+	@NotPersistent
     protected transient ReentrantLock nodeLock = new ReentrantLock();
 	
 	//-------------------------------------------------------------------------

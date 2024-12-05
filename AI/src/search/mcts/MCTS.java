@@ -65,14 +65,20 @@ import training.expert_iteration.ExItExperience;
 import training.expert_iteration.ExpertPolicy;
 import utils.AIUtils;
 
+import javax.jdo.annotations.*;
+
 /**
  * A modular implementation of Monte-Carlo Tree Search (MCTS) for playing games
  * in Ludii.
  * 
  * @author Dennis Soemers
  */
+//@PersistenceCapable
 public class MCTS extends ExpertPolicy
 {
+//	@PrimaryKey
+//	@Persistent(valueStrategy = IdGeneratorStrategy.INCREMENT)
+//	private long id;
 	
 	//-------------------------------------------------------------------------
 	
@@ -249,6 +255,7 @@ public class MCTS extends ExpertPolicy
     protected final int maxNGramLength;
     
     /** For every player, a global MCTS-wide tracker of statistics on heuristics */
+//	@NotPersistent
     protected IncrementalStats[] heuristicStats = null;
     
     //-------------------------------------------------------------------------
@@ -750,8 +757,8 @@ public class MCTS extends ExpertPolicy
 					", value = " +
 					lastReturnedMoveValueEst +
 					").";
-			BaseNode child = this.rootNode;
-			analysisReport += displayTree(child, "",true);
+//			BaseNode child = this.rootNode;
+//			analysisReport += displayTree(child, "",true);
 		}
 		else
 		{
@@ -840,8 +847,12 @@ public class MCTS extends ExpertPolicy
 		return returnMove;
 	}
 
+	public String getTreeReport(){
+		return displayTree(rootNode, "", true);
+	}
+
 	// Assuming BaseNode has methods getValue(), getName(), and getChildren()
-	public String displayTree(BaseNode node, String prefix, boolean isTail) {
+	private String displayTree(BaseNode node, String prefix, boolean isTail) {
 		StringBuilder report = new StringBuilder();
 
 		// Append current node information
