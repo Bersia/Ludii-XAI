@@ -1,3 +1,5 @@
+import embeddings.Features;
+import game.functions.region.sites.simple.SitesOuter;
 import model.ContextData;
 import model.GameTrialData;
 import other.context.Context;
@@ -5,7 +7,7 @@ import search.mcts.nodes.BaseNode;
 import search.mcts.nodes.OpenLoopNode;
 
 import javax.jdo.*;
-import java.util.List;
+import java.util.*;
 
 public class Main {
 
@@ -52,10 +54,36 @@ public class Main {
             tx.begin();
             Query<ContextData> query2 = pm.newQuery(ContextData.class);
             List<ContextData> contexts = query2.executeList();
+            Map<Long, List<ContextData>> contextsByID = new HashMap<>();
+
+            //Map by Game
             for (ContextData context : contexts) {
                 System.out.println(context);
+                if(contextsByID.get(context.getGameID()) == null)
+                    contextsByID.put(context.getGameID(), new ArrayList<ContextData>());
+                contextsByID.get(context.getGameID()).add(context);
             }
             tx.commit();
+
+            //Sort each game context by step
+            for (Map.Entry<Long, List<ContextData>> entry : contextsByID.entrySet()) {
+                entry.getValue().sort(Comparator.comparing(ContextData::getStep));
+            }
+
+            for(int i = 0; i < games.size(); ++i) {
+                System.out.println("Game "+games.get(i).getID());
+                Features initial = new Features(null, contextsByID.get(games.get(i).getID()).getFirst().getContext());
+                Features f = initial;
+//                java.lang.NullPointerException: Cannot invoke "game.Game.board()" because "this.game" is null
+//                at other.context.Context.board(Context.java:1216)
+//                at embeddings.features.Colors.<init>(Colors.java:16)
+//                at embeddings.Features.<init>(Features.java:27)
+//                at Main.main(Main.java:75)
+                for(int j = 1; j < contextsByID.get(games.get(i).getID()).size(); ++j) {
+                    f = new Features(f, contextsByID.get(games.get(i).getID()).get(j).getContext());
+                    System.out.println(f.distance(initial));
+                }
+            }
         } catch (Exception e) {
             if (tx.isActive()) tx.rollback();
             e.printStackTrace();

@@ -9,6 +9,11 @@ import game.types.board.SiteType;
 import main.Constants;
 import main.math.Point3D;
 
+import javax.jdo.annotations.Discriminator;
+import javax.jdo.annotations.Inheritance;
+import javax.jdo.annotations.InheritanceStrategy;
+import javax.jdo.annotations.PersistenceCapable;
+
 //-----------------------------------------------------------------------------
 
 /**
@@ -16,6 +21,9 @@ import main.math.Point3D;
  *
  * @author combolbro
  */
+@PersistenceCapable
+@Inheritance(strategy = InheritanceStrategy.NEW_TABLE)
+@Discriminator(column = "GRAPH_ELEMENT_TYPE", value = "GraphElement")
 public abstract class GraphElement
 {
 	/** Id is not final; can change when merging or modifying graphs. */

@@ -212,7 +212,7 @@ public class Game extends BaseLudeme implements API, Serializable
 	private Map<String, Container> mapContainer = new HashMap<>();
 
 	/** Access component by label. */
-	@Persistent
+	@NotPersistent
 	private Map<String, Component> mapComponent = new HashMap<>();
 
 	/** The list of the different sets of dice. */

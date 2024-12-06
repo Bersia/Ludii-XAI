@@ -60,7 +60,7 @@ public final class Equipment extends BaseLudeme implements Serializable
 	private Container[] containers = null;
 
 	/** List of components. */
-	@Persistent
+	@NotPersistent
 	private Component[] components = null;
 
 	/** List of regions. */

@@ -64,4 +64,12 @@ public class ContextData {
         sb.append("\n");
         return sb.toString();
     }
+
+    public long getGameID() {
+        return gameId;
+    }
+
+    public long getStep() {
+        return step;
+    }
 }

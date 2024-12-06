@@ -1,5 +1,7 @@
 package main.math;
 
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
@@ -7,10 +9,14 @@ import java.text.DecimalFormat;
  * 2D vector.
  * @author cambolbro
  */
+@PersistenceCapable
 public class Vector
 {
+	@Persistent
 	private double x = 0;
+	@Persistent
 	private double y = 0;
+	@Persistent
 	private double z = 0;
 	
 	//-------------------------------------------------------------------------

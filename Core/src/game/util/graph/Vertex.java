@@ -12,6 +12,10 @@ import game.util.directions.AbsoluteDirection;
 import main.math.MathRoutines;
 import main.math.Point3D;
 
+import javax.jdo.annotations.Discriminator;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+
 //-----------------------------------------------------------------------------
 
 /**
@@ -19,11 +23,16 @@ import main.math.Point3D;
  * 
  * @author cambolbro
  */
+@PersistenceCapable
+@Discriminator(value = "Vertex")
 public class Vertex extends GraphElement
 {
-	private final List<Edge> edges = new ArrayList<Edge>();
-	private final List<Face> faces = new ArrayList<Face>();
-	
+	@Persistent
+	private List<Edge> vertex_edges = new ArrayList<Edge>();
+	@Persistent
+	private List<Face> vertex_faces = new ArrayList<Face>();
+
+	@Persistent
 	private Vertex pivot = null;
 	
 	//-------------------------------------------------------------------------
@@ -98,7 +107,7 @@ public class Vertex extends GraphElement
 	 */
 	public List<Edge> edges()
 	{
-		return Collections.unmodifiableList(edges);
+		return Collections.unmodifiableList(vertex_edges);
 	}
 
 	/**
@@ -106,7 +115,7 @@ public class Vertex extends GraphElement
 	 */
 	public List<Face> faces()
 	{
-		return faces;
+		return vertex_faces;
 	}
 
 	@Override
@@ -132,7 +141,7 @@ public class Vertex extends GraphElement
 	 */
 	public void clearEdges()
 	{
-		edges.clear();
+		vertex_edges.clear();
 	}
 
 	/**
@@ -142,7 +151,7 @@ public class Vertex extends GraphElement
 	 */
 	public void addEdge(final Edge edge)
 	{
-		edges.add(edge);
+		vertex_edges.add(edge);
 	}
 	
 	/**
@@ -152,7 +161,7 @@ public class Vertex extends GraphElement
 	 */
 	public void removeEdge(final int n)
 	{
-		edges.remove(n);
+		vertex_edges.remove(n);
 	}
 	
 	/**
@@ -160,7 +169,7 @@ public class Vertex extends GraphElement
 	 */
 	public void clearFaces()
 	{
-		faces.clear();
+		vertex_faces.clear();
 	}
 	
 	/**
@@ -170,7 +179,7 @@ public class Vertex extends GraphElement
 	 */
 	public void addFace(final Face face)
 	{
-		faces.add(face);
+		vertex_faces.add(face);
 	}
 	
 	/**
@@ -180,7 +189,7 @@ public class Vertex extends GraphElement
 	 */
 	public void removeFace(final int n)
 	{
-		faces.remove(n);
+		vertex_faces.remove(n);
 	}
 
 	//-------------------------------------------------------------------------
@@ -199,8 +208,8 @@ public class Vertex extends GraphElement
 	 */
 	public int edgePosition(final Edge edge)
 	{
-		for (int n = 0; n < edges.size(); n++)
-			if (edges.get(n).matches(edge))
+		for (int n = 0; n < vertex_edges.size(); n++)
+			if (vertex_edges.get(n).matches(edge))
 				return n;
 		return -1;
 	}
@@ -211,8 +220,8 @@ public class Vertex extends GraphElement
 	 */
 	public int facePosition(final Face face)
 	{
-		for (int n = 0; n < faces.size(); n++)
-			if (faces.get(n).id() == face.id())
+		for (int n = 0; n < vertex_faces.size(); n++)
+			if (vertex_faces.get(n).id() == face.id())
 				return n;
 		return -1;
 	}
@@ -223,7 +232,7 @@ public class Vertex extends GraphElement
 	 */
 	public Edge incidentEdge(final Vertex other)
 	{
-		for (final Edge edge : edges)
+		for (final Edge edge : vertex_edges)
 			if (edge.matches(this,  other))
 				return edge;
 		return null;
@@ -265,7 +274,7 @@ public class Vertex extends GraphElement
 	 */
 	public Vertex edgeAwayFrom(final Face face)
 	{
-		for (final Edge edge : edges)
+		for (final Edge edge : vertex_edges)
 		{
 			if (!face.contains(edge))
 				return edge.otherVertex(id);
@@ -280,7 +289,7 @@ public class Vertex extends GraphElement
 	 */
 	public void sortEdges()
 	{
-		Collections.sort(edges, new Comparator<Edge>() 
+		Collections.sort(vertex_edges, new Comparator<Edge>()
 		{
 			@Override
 			public int compare(final Edge a, final Edge b)
@@ -315,7 +324,7 @@ public class Vertex extends GraphElement
 	 */
 	void sortFaces()
 	{
-		Collections.sort(faces, new Comparator<Face>() 
+		Collections.sort(vertex_faces, new Comparator<Face>()
 		{
 			@Override
 			public int compare(final Face a, final Face b)
@@ -346,7 +355,7 @@ public class Vertex extends GraphElement
 	{
 		final List<GraphElement> nbors = new ArrayList<GraphElement>();
 		
-		for (final Edge edge : edges)
+		for (final Edge edge : vertex_edges)
 			nbors.add(edge.otherVertex(id));
 			
 		return nbors;
@@ -361,7 +370,7 @@ public class Vertex extends GraphElement
 		// Steps to other vertices
 		
 		// Add orthogonal steps due to edges
-		for (final Edge edge : edges)
+		for (final Edge edge : vertex_edges)
 		{
 			final Vertex to = edge.otherVertex(id);
 
@@ -376,7 +385,7 @@ public class Vertex extends GraphElement
 		//-------------------------------------------------
 		// Diagonal steps across cell faces
 
-		for (final Face face : faces)
+		for (final Face face : vertex_faces)
 		{
 			if (face.vertices().size() < 4)
 				continue;  // no diagonal across a triangle
@@ -409,7 +418,7 @@ public class Vertex extends GraphElement
 		//-------------------------------------------------
 		// Steps to edges
 		
-		for (final Edge edge : edges)
+		for (final Edge edge : vertex_edges)
 		{
 			final Step newStep = new Step(this, edge);
 						
@@ -422,7 +431,7 @@ public class Vertex extends GraphElement
 		//-------------------------------------------------
 		// Steps to faces
 		
-		for (final Face face : faces)
+		for (final Face face : vertex_faces)
 		{
 			final Step newStep = new Step(this, face);
 						
@@ -461,11 +470,11 @@ public class Vertex extends GraphElement
 		
 		// List edges
 		sb.append(" [");
-		for (int e = 0; e < edges.size(); e++)
+		for (int e = 0; e < vertex_edges.size(); e++)
 		{
 			if (e > 0)
 				sb.append(" ");
-			sb.append(edges.get(e).id());
+			sb.append(vertex_edges.get(e).id());
 		}
 		sb.append("]");
 		

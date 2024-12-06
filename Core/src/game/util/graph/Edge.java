@@ -9,6 +9,8 @@ import game.util.directions.AbsoluteDirection;
 import main.math.Point3D;
 import main.math.Vector;
 
+import javax.jdo.annotations.*;
+
 //-----------------------------------------------------------------------------
 
 /**
@@ -16,20 +18,28 @@ import main.math.Vector;
  * 
  * @author cambolbro
  */
+@PersistenceCapable
+@Discriminator(value = "Edge")
 public class Edge extends GraphElement
 {
 	/** These can't be final, as faces might get merged. */
+	@Persistent(name = "vertexA")
 	private Vertex vertexA = null;
+	@Persistent(name = "vertexB")
 	private Vertex vertexB = null;
 	
 	/** These can't be final, as faces get calculated afterwards. */
+	@Persistent(name = "left")
 	private Face left  = null;
+	@Persistent(name = "right")
 	private Face right = null;
 	
 	/** Whether to use end point pivots to define curved edge. */
 	//private final boolean curved;
-	
+
+	@Persistent(name = "tangentA")
 	private Vector tangentA = null;
+	@Persistent(name = "tangentB")
 	private Vector tangentB = null;
 
 	//-------------------------------------------------------------------------

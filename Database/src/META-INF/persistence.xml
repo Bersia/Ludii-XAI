@@ -5,13 +5,19 @@
         <class>model.ContextData</class>
         <class>other.context.Context</class>
         <class>other.move.Move</class>
-<!--        <class>other.IntArrayFromRegion</class>-->
-<!--        <class>search.mcts.nodes.BaseNode</class>-->
         <class>search.mcts.nodes.OpenLoopNode</class>
         <class>game.Game</class>
         <class>game.equipment.Equipment</class>
         <class>game.equipment.container.Container</class>
-<!--        <class>main.collections.FastArrayList</class>-->
+        <class>game.equipment.container.board.Board</class>
+        <class>game.equipment.Item</class>
+        <class>game.util.graph.Graph</class>
+        <class>game.util.graph.Edge</class>
+        <class>game.util.graph.Vertex</class>
+        <class>game.util.graph.Face</class>
+        <class>other.topology.Topology</class>
+        <class>main.math.Vector</class>
+<!--        <class>game.util.graph.GraphElement</class>-->
         <properties>
             <!-- Database connection -->
             <property name="javax.jdo.option.ConnectionURL" value="jdbc:h2:./database/mydb" />

@@ -21,6 +21,10 @@ import main.math.Point3D;
 import main.math.Vector;
 import other.context.Context;
 
+import javax.jdo.annotations.NotPersistent;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+
 //-----------------------------------------------------------------------------
 
 /**
@@ -28,6 +32,7 @@ import other.context.Context;
  * 
  * @author cambolbro
  */
+@PersistenceCapable
 public class Graph extends BaseGraphFunction
 {
 	private static final long serialVersionUID = 1L;
@@ -35,19 +40,26 @@ public class Graph extends BaseGraphFunction
 	/** Types of graph elements. */
 	public final static SiteType[] siteTypes = { SiteType.Vertex, SiteType.Edge, SiteType.Cell }; 
 
-	private final List<Vertex> vertices = new ArrayList<Vertex>();
-	private final List<Edge>   edges    = new ArrayList<Edge>();
-	private final List<Face>   faces    = new ArrayList<Face>();
+	@Persistent
+	private List<Vertex> graph_vertices = new ArrayList<Vertex>();
+	@Persistent
+	private List<Edge> graph_edges = new ArrayList<Edge>();
+	@Persistent
+	private List<Face> graph_faces = new ArrayList<Face>();
 
 	/** 
 	 * List of perimeters (vertices) for each connected component in the graph. 
 	 * This list is used for rough working during graph measurements 
 	 * (for thread safety) and is not intended for reuse afterwards. 
 	 */
+	@NotPersistent
 	private final List<Perimeter> perimeters = new ArrayList<Perimeter>();
 
+
+	@NotPersistent
 	private final Trajectories trajectories = new Trajectories();
-	
+
+	@NotPersistent
 	private final boolean[] duplicateCoordinates = new boolean[SiteType.values().length];
 	
 	//-------------------------------------------------------------------------
@@ -91,7 +103,7 @@ public class Graph extends BaseGraphFunction
 		for (final Vertex vertex : vertices)
 			if (vertex.pivot() != null)
 			{
-				final Vertex newVertex = this.vertices.get(vertex.id());
+				final Vertex newVertex = this.graph_vertices.get(vertex.id());
 				final Vertex pivot = findVertex(vertex.pivot().pt2D());
 				if (pivot == null)
 				{
@@ -137,7 +149,7 @@ public class Graph extends BaseGraphFunction
 	 */
 	public List<Vertex> vertices()
 	{
-		return Collections.unmodifiableList(vertices);
+		return Collections.unmodifiableList(graph_vertices);
 	}
 
 	/**
@@ -145,7 +157,7 @@ public class Graph extends BaseGraphFunction
 	 */
 	public List<Edge> edges()
 	{
-		return Collections.unmodifiableList(edges);
+		return Collections.unmodifiableList(graph_edges);
 	}
 
 	/**
@@ -153,7 +165,7 @@ public class Graph extends BaseGraphFunction
 	 */
 	public List<Face> faces()
 	{
-		return Collections.unmodifiableList(faces);
+		return Collections.unmodifiableList(graph_faces);
 	}
 	
 	/**
@@ -245,9 +257,9 @@ public class Graph extends BaseGraphFunction
 	{
 		switch (type)
 		{
-		case Vertex: return vertices;
-		case Edge:   return edges;
-		case Cell: 	 return faces;
+		case Vertex: return graph_vertices;
+		case Edge:   return graph_edges;
+		case Cell: 	 return graph_faces;
 		}
 		return null;
 	}
@@ -264,9 +276,9 @@ public class Graph extends BaseGraphFunction
 	{
 		switch (type)
 		{
-		case Vertex: return vertices.get(id);
-		case Edge:   return edges.get(id);
-		case Cell: 	 return faces.get(id);
+		case Vertex: return graph_vertices.get(id);
+		case Edge:   return graph_edges.get(id);
+		case Cell: 	 return graph_faces.get(id);
 		}
 		return null;
 	}
@@ -317,9 +329,9 @@ public class Graph extends BaseGraphFunction
 	 */
 	public void clear()
 	{
-		faces.clear();
-		edges.clear();
-		vertices.clear();
+		graph_faces.clear();
+		graph_edges.clear();
+		graph_vertices.clear();
 	}
 	
 	/**
@@ -332,15 +344,15 @@ public class Graph extends BaseGraphFunction
 		switch (siteType)
 		{
 		case Vertex:
-			vertices.clear();
+			graph_vertices.clear();
 			//$FALL-THROUGH$
 		case Edge:
-			edges.clear();
+			graph_edges.clear();
 			for (final Vertex vertex : vertices())
 				vertex.clearEdges();
 			//$FALL-THROUGH$
 		case Cell:
-			faces.clear();
+			graph_faces.clear();
 			for (final Edge edge : edges())
 			{
 				edge.setLeft(null);
@@ -364,13 +376,13 @@ public class Graph extends BaseGraphFunction
 	{
 		clear();
 		
-		for (final Vertex otherVertex : other.vertices)
+		for (final Vertex otherVertex : other.graph_vertices)
 			addVertex(otherVertex.pt.x(), otherVertex.pt.y(), otherVertex.pt.z());
 		
-		for (final Edge otherEdge : other.edges)
+		for (final Edge otherEdge : other.graph_edges)
 			findOrAddEdge(otherEdge.vertexA().id(), otherEdge.vertexB().id());  // links to vertices
 
-		for (final Face otherFace : other.faces)
+		for (final Face otherFace : other.graph_faces)
 		{
 			final int[] vids = new int[otherFace.vertices().size()];
 			for (int v = 0; v < otherFace.vertices().size(); v++)
@@ -396,7 +408,7 @@ public class Graph extends BaseGraphFunction
 	 */
 	public void translate(final double dx, final double dy, final double dz)
 	{
-		for (final Vertex vertex : vertices)
+		for (final Vertex vertex : graph_vertices)
 		{
 			final double xx = vertex.pt().x() + dx;
 			final double yy = vertex.pt().y() + dy;
@@ -416,7 +428,7 @@ public class Graph extends BaseGraphFunction
 	 */
 	public void scale(final double sx, final double sy, final double sz)
 	{
-		for (final Vertex vertex : vertices)
+		for (final Vertex vertex : graph_vertices)
 		{
 			final double xx = vertex.pt().x() * sx;
 			final double yy = vertex.pt().y() * sy;
@@ -457,7 +469,7 @@ public class Graph extends BaseGraphFunction
 //		pivotY /= graph.vertices().size();
 		
 		// Perform rotation
-		for (final Vertex vertex : vertices)
+		for (final Vertex vertex : graph_vertices)
 		{
 			// x′ = x.cosθ − y.sinθ
 			// y′ = y.cosθ + x.sinθ
@@ -471,7 +483,7 @@ public class Graph extends BaseGraphFunction
 		}
 		
 		// Also rotate edge end point tangents (if any)
-		for (final Edge edge : edges)
+		for (final Edge edge : graph_edges)
 		{
 			if (edge.tangentA() != null)
 				edge.tangentA().rotate(theta);
@@ -492,7 +504,7 @@ public class Graph extends BaseGraphFunction
 	{
 		final Rectangle2D bounds = bounds();
 		
-		for (final Vertex vertex : vertices)
+		for (final Vertex vertex : graph_vertices)
 		{
 			final double offset = (vertex.pt().y() - bounds.getMinY()) * amount;
 			
@@ -504,7 +516,7 @@ public class Graph extends BaseGraphFunction
 		}
 		
 		// Also skew edge end point tangents (if any)
-		for (final Edge edge : edges)
+		for (final Edge edge : graph_edges)
 		{
 			if (edge.tangentA() != null)
 			{
@@ -546,25 +558,25 @@ public class Graph extends BaseGraphFunction
 		
 		// Get reference basis to check
 		BasisType refBasis = null;
-		if (faces.size() > 0)
-			refBasis = faces.get(0).basis();
-		else if (edges.size() > 0)
-			refBasis = edges.get(0).basis();
-		else if (vertices.size() > 0)
-			refBasis = vertices.get(0).basis();
+		if (graph_faces.size() > 0)
+			refBasis = graph_faces.get(0).basis();
+		else if (graph_edges.size() > 0)
+			refBasis = graph_edges.get(0).basis();
+		else if (graph_vertices.size() > 0)
+			refBasis = graph_vertices.get(0).basis();
 		
 		if (refBasis == null || refBasis == BasisType.NoBasis)
 			return false;  // no basis found
 			
-		for (final GraphElement ge : vertices)
+		for (final GraphElement ge : graph_vertices)
 			if (ge.basis() != refBasis)
 				return false;
 		
-		for (final GraphElement ge : edges)
+		for (final GraphElement ge : graph_edges)
 			if (ge.basis() != refBasis)
 				return false;
 		
-		for (final GraphElement ge : faces)
+		for (final GraphElement ge : graph_faces)
 			if (ge.basis() != refBasis)
 				return false;
 		
@@ -611,7 +623,7 @@ public class Graph extends BaseGraphFunction
 	 */
 	public Vertex findVertex(final double x, final double y)
 	{
-		for (final Vertex vertex : vertices)
+		for (final Vertex vertex : graph_vertices)
 			if (vertex.coincident(x, y, 0, tolerance))
 				return vertex;
 		return null;
@@ -626,7 +638,7 @@ public class Graph extends BaseGraphFunction
 	 */
 	public Vertex findVertex(final double x, final double y, final double z)
 	{
-		for (final Vertex vertex : vertices)
+		for (final Vertex vertex : graph_vertices)
 			if (vertex.coincident(x, y, z, tolerance))
 				return vertex;
 		return null;
@@ -642,7 +654,7 @@ public class Graph extends BaseGraphFunction
 	 */
 	public Edge findEdge(final int idA, final int idB)
 	{
-		for (final Edge edge : edges)
+		for (final Edge edge : graph_edges)
 			if (edge.matches(idA, idB))
 				return edge;
 		return null;
@@ -657,7 +669,7 @@ public class Graph extends BaseGraphFunction
 	 */
 	public Edge findEdge(final int idA, final int idB, final boolean curved)
 	{
-		for (final Edge edge : edges)
+		for (final Edge edge : graph_edges)
 			if (edge.matches(idA, idB, curved))
 				return edge;
 		return null;
@@ -746,7 +758,7 @@ public class Graph extends BaseGraphFunction
 	 */
 	public Face findFace(final int ... vertIds)
 	{
-		for (final Face face : faces)
+		for (final Face face : graph_faces)
 			if (face.matches(vertIds))
 				return face;
 		return null;
@@ -812,7 +824,7 @@ public class Graph extends BaseGraphFunction
 	 */
 	public void addVertex(final Vertex vertex)
 	{
-		vertices.add(vertex);
+		graph_vertices.add(vertex);
 	}
 	
 	/**
@@ -822,7 +834,7 @@ public class Graph extends BaseGraphFunction
 	 */
 	public void addEdge(final Edge edge)
 	{
-		edges.add(edge);
+		graph_edges.add(edge);
 	}
 	
 	/**
@@ -832,7 +844,7 @@ public class Graph extends BaseGraphFunction
 	 */
 	public void addFace(final Face face)
 	{
-		faces.add(face);
+		graph_faces.add(face);
 	}
 	
 	/**
@@ -842,7 +854,7 @@ public class Graph extends BaseGraphFunction
 	 */
 	public void addFaceToFront(final Face face)
 	{
-		faces.add(0, face);
+		graph_faces.add(0, face);
 	}
 
 	//-------------------------------------------------------------------------
@@ -883,8 +895,8 @@ public class Graph extends BaseGraphFunction
 	 */
 	public Vertex addVertex(final double x, final double y, final double z)
 	{
-		final Vertex newVertex = new Vertex(vertices.size(), x, y, z); 
-		vertices.add(newVertex);
+		final Vertex newVertex = new Vertex(graph_vertices.size(), x, y, z);
+		graph_vertices.add(newVertex);
 		return newVertex;
 	}
 
@@ -970,14 +982,14 @@ public class Graph extends BaseGraphFunction
 	 */
 	public Edge findOrAddEdge(final int vertIdA, final int vertIdB)  //, final boolean curved)
 	{
-		if (vertIdA >= vertices.size() || vertIdB >= vertices.size())
+		if (vertIdA >= graph_vertices.size() || vertIdB >= graph_vertices.size())
 		{
 			System.out.println("** Graph.addEdge(): Trying to add edge " + vertIdA + "-" + 
-									vertIdB + " but only " + vertices.size() + " vertices.");
+									vertIdB + " but only " + graph_vertices.size() + " vertices.");
 			return null;
 		}
 		
-		for (final Edge edge : edges)
+		for (final Edge edge : graph_edges)
 			if (edge.matches(vertIdA, vertIdB))  //, curved))
 			{
 				//System.out.println("Duplicate edge found.");
@@ -1002,10 +1014,10 @@ public class Graph extends BaseGraphFunction
 		final Vector tangentA, 	final Vector tangentB
 	)
 	{
-		if (vertIdA >= vertices.size() || vertIdB >= vertices.size())
+		if (vertIdA >= graph_vertices.size() || vertIdB >= graph_vertices.size())
 		{
 			System.out.println("** Graph.addEdge(): Trying to add edge " + vertIdA + "-" + 
-									vertIdB + " but only " + vertices.size() + " vertices.");
+									vertIdB + " but only " + graph_vertices.size() + " vertices.");
 			return null;
 		}
 		
@@ -1013,7 +1025,7 @@ public class Graph extends BaseGraphFunction
 		// ** TODO: Match should include tangents? Otherwise can't distinguish 
 		// **       curved edges from non-curved edges or each other.
 		// **
-		for (final Edge edge : edges)
+		for (final Edge edge : graph_edges)
 			if (edge.matches(vertIdA, vertIdB))  //, tangentA, tangentB))
 			{
 				//System.out.println("Duplicate edge found.");
@@ -1052,19 +1064,19 @@ public class Graph extends BaseGraphFunction
 	 */
 	public Edge addEdge(final int vertIdA, final int vertIdB)  //, final boolean curved)
 	{
-		if (vertIdA >= vertices.size() || vertIdB >= vertices.size())
+		if (vertIdA >= graph_vertices.size() || vertIdB >= graph_vertices.size())
 		{
 			System.out.println("** Graph.addEdge(): Trying to add edge " + vertIdA + "-" + 
-									vertIdB + " but only " + vertices.size() + " vertices.");
+									vertIdB + " but only " + graph_vertices.size() + " vertices.");
 			return null;
 		}
 		
-		final Vertex vertexA = vertices.get(vertIdA);
-		final Vertex vertexB = vertices.get(vertIdB);
+		final Vertex vertexA = graph_vertices.get(vertIdA);
+		final Vertex vertexB = graph_vertices.get(vertIdB);
 		
-		final Edge newEdge = new Edge(edges.size(), vertexA, vertexB);  //, curved);
+		final Edge newEdge = new Edge(graph_edges.size(), vertexA, vertexB);  //, curved);
 				
-		edges.add(newEdge);
+		graph_edges.add(newEdge);
 		
 		vertexA.addEdge(newEdge);
 		vertexA.sortEdges();
@@ -1106,19 +1118,19 @@ public class Graph extends BaseGraphFunction
 	 */
 	public Edge addEdge(final int vertIdA, final int vertIdB, final Vector tangentA, final Vector tangentB)
 	{
-		if (vertIdA >= vertices.size() || vertIdB >= vertices.size())
+		if (vertIdA >= graph_vertices.size() || vertIdB >= graph_vertices.size())
 		{
 			System.out.println("** Graph.addEdge(): Trying to add edge " + vertIdA + "-" + 
-									vertIdB + " but only " + vertices.size() + " vertices.");
+									vertIdB + " but only " + graph_vertices.size() + " vertices.");
 			return null;
 		}
 		
-		final Vertex vertexA = vertices.get(vertIdA);
-		final Vertex vertexB = vertices.get(vertIdB);
+		final Vertex vertexA = graph_vertices.get(vertIdA);
+		final Vertex vertexB = graph_vertices.get(vertIdB);
 		
-		final Edge newEdge = new Edge(edges.size(), vertexA, vertexB);  //, (tangentA != null && tangentB != null));
+		final Edge newEdge = new Edge(graph_edges.size(), vertexA, vertexB);  //, (tangentA != null && tangentB != null));
 				
-		edges.add(newEdge);
+		graph_edges.add(newEdge);
 		
 		vertexA.addEdge(newEdge);
 		vertexA.sortEdges();
@@ -1146,8 +1158,8 @@ public class Graph extends BaseGraphFunction
 	 */
 	public void makeEdges()  //final double u)
 	{
-		for (final Vertex vertexA : vertices)		
-			for (final Vertex vertexB : vertices)
+		for (final Vertex vertexA : graph_vertices)
+			for (final Vertex vertexB : graph_vertices)
 			{
 				if (vertexA.id() == vertexB.id())
 					continue;
@@ -1166,20 +1178,20 @@ public class Graph extends BaseGraphFunction
 	 */
 	public Face findOrAddFace(final int ... vertIds)
 	{
-		if (vertIds.length > vertices.size())
+		if (vertIds.length > graph_vertices.size())
 		{
 //			System.out.println("** vertIds.length=" + vertIds.length + ", vertices.size()=" + vertices.size());
 			return null;  // not a simple face
 		}
 		
 		for (final int vid : vertIds)
-			if (vid >= vertices.size())
+			if (vid >= graph_vertices.size())
 			{
-				System.out.println("** Graph.addFace(): Vertex " + vid + " specified but only " + vertices.size() + " vertices.");
+				System.out.println("** Graph.addFace(): Vertex " + vid + " specified but only " + graph_vertices.size() + " vertices.");
 				return null;
 			}
 
-		for (final Face face : faces)
+		for (final Face face : graph_faces)
 			if (face.matches(vertIds))
 			{
 				System.out.println("** Matching face found.");
@@ -1187,10 +1199,10 @@ public class Graph extends BaseGraphFunction
 			}
 
 		// Create the new face
-		final Face newFace = new Face(faces.size());
+		final Face newFace = new Face(graph_faces.size());
 		
-		final BasisType refBasis = vertices.isEmpty() ? null : vertices.get(0).basis();
-		final ShapeType refShape = vertices.isEmpty() ? null : vertices.get(0).shape();
+		final BasisType refBasis = graph_vertices.isEmpty() ? null : graph_vertices.get(0).basis();
+		final ShapeType refShape = graph_vertices.isEmpty() ? null : graph_vertices.get(0).shape();
 		
 		boolean allSameBasis = true;
 		final boolean allSameShape = true;
@@ -1200,8 +1212,8 @@ public class Graph extends BaseGraphFunction
 			final int m = vertIds[v];
 			final int n = vertIds[(v + 1) % vertIds.length];
 			
-			final Vertex vert = vertices.get(m);
-			final Vertex next = vertices.get(n);
+			final Vertex vert = graph_vertices.get(m);
+			final Vertex next = graph_vertices.get(n);
 			
 			final Edge edge = findEdge(vert.id(), next.id());
 			if (edge == null)
@@ -1290,7 +1302,7 @@ public class Graph extends BaseGraphFunction
 		
 		newFace.setTilingAndShape(basisF, shapeF);
 				
-		faces.add(newFace);
+		graph_faces.add(newFace);
 		
 //		System.out.println("Created new face " + newFace.id() + "...");
 		
@@ -1305,7 +1317,7 @@ public class Graph extends BaseGraphFunction
 	 */
 	public Face faceContaining(final Point2D pt)
 	{
-		for (final Face face : faces)
+		for (final Face face : graph_faces)
 			if (face.contains(pt))
 				return face;
 		return null;
@@ -1322,10 +1334,10 @@ public class Graph extends BaseGraphFunction
 	{
 		final int MAX_FACE_SIDES = 32;
 		
-		if (!faces.isEmpty())
+		if (!graph_faces.isEmpty())
 			clearFaces();  // remove existing faces
 			
-		for (final Vertex vertexStart : vertices)
+		for (final Vertex vertexStart : graph_vertices)
 		{
 //			System.out.println("\nStarting at vertex " + vertexStart.id() + "...");
 						
@@ -1401,7 +1413,7 @@ public class Graph extends BaseGraphFunction
 					final List<Point2D> poly = new ArrayList<Point2D>();
 					for (int v = 0; v < vertIds.size(); v++)
 					{
-						final Vertex vertex = vertices.get(vertIds.getQuick(v));
+						final Vertex vertex = graph_vertices.get(vertIds.getQuick(v));
 						poly.add(new Point2D.Double(vertex.pt.x(), vertex.pt.y()));
 					}
 					
@@ -1427,16 +1439,16 @@ public class Graph extends BaseGraphFunction
 	 */
 	public void clearFaces()
 	{
-		for (final Edge edge : edges)
+		for (final Edge edge : graph_edges)
 		{
 			edge.setLeft(null);
 			edge.setRight(null);
 		}
 
-		for (final Vertex vertex : vertices)
+		for (final Vertex vertex : graph_vertices)
 			vertex.clearFaces();
 		
-		faces.clear();
+		graph_faces.clear();
 	}
 
 	//-------------------------------------------------------------------------
@@ -1485,22 +1497,22 @@ public class Graph extends BaseGraphFunction
 	{
 //		System.out.println("Removing vertex " + vid + "...");
 		
-		if (vid >= vertices.size())
+		if (vid >= graph_vertices.size())
 		{
 			System.out.println("Graph.removeVertex(): Index " + vid + " out of range.");
 			return;
 		}
 		
-		final Vertex vertex = vertices.get(vid);
+		final Vertex vertex = graph_vertices.get(vid);
 		
 		// Mark incident faces for removal
 		final BitSet facesToRemove = new BitSet();
-		for (final Face face : faces)
+		for (final Face face : graph_faces)
 			if (face.contains(vertex))
 				facesToRemove.set(face.id(), true);
 		
 		// Unlink faces marked for removal from edge references
-		for (final Edge edge : edges)
+		for (final Edge edge : graph_edges)
 		{
 			if (edge.left() != null && facesToRemove.get(edge.left().id()))
 				edge.setLeft(null);
@@ -1519,9 +1531,9 @@ public class Graph extends BaseGraphFunction
 			}
 		
 		// Remove faces marked for removal
-		for (int fid = faces.size() - 1; fid >= 0; fid--)
+		for (int fid = graph_faces.size() - 1; fid >= 0; fid--)
 			if (facesToRemove.get(fid))
-				faces.remove(fid);
+				graph_faces.remove(fid);
 					
 		// Mark incident edges for removal
 		final BitSet edgesToRemove = new BitSet();
@@ -1540,19 +1552,19 @@ public class Graph extends BaseGraphFunction
 		// Delete edges marked for removal
 		for (int eid = edges().size() - 1; eid >= 0; eid--)
 			if (edgesToRemove.get(eid))
-				edges.remove(eid);
+				graph_edges.remove(eid);
 
-		vertices.remove(vid);  // remove vertex
+		graph_vertices.remove(vid);  // remove vertex
 
 		// Recalibrate indices
-		for (int f = 0; f < faces.size(); f++)
-			faces.get(f).setId(f);
+		for (int f = 0; f < graph_faces.size(); f++)
+			graph_faces.get(f).setId(f);
 		
-		for (int e = 0; e < edges.size(); e++)
-			edges.get(e).setId(e);
+		for (int e = 0; e < graph_edges.size(); e++)
+			graph_edges.get(e).setId(e);
 		
-		for (int v = 0; v < vertices.size(); v++)
-			vertices.get(v).setId(v);		
+		for (int v = 0; v < graph_vertices.size(); v++)
+			graph_vertices.get(v).setId(v);
 	}
 
 	//-------------------------------------------------------------------------
@@ -1575,18 +1587,18 @@ public class Graph extends BaseGraphFunction
 	 */
 	public void removeEdge(final int eid)  //, final boolean removeOrphans)
 	{
-		if (eid >= edges.size())
+		if (eid >= graph_edges.size())
 		{
 			System.out.println("Graph.removeEdge(): Index " + eid + " out of range.");
 			return;
 		}
 
 		// Remove evidence of edge from graph
-		final Edge edge = edges.get(eid);
+		final Edge edge = graph_edges.get(eid);
 			
 		// Remove any faces that use this edge
-		for (int fid = faces.size() - 1; fid >= 0; fid--)
-			if (faces.get(fid).contains(edge))
+		for (int fid = graph_faces.size() - 1; fid >= 0; fid--)
+			if (graph_faces.get(fid).contains(edge))
 				removeFace(fid, false);
 		
 		// Remember the end point indices (ordered [min,max])
@@ -1629,9 +1641,9 @@ public class Graph extends BaseGraphFunction
 		
 		// Remove the edge and recalibrate indices. 
 		// Do this *after* removing edge from vertex edge lists!
-		edges.remove(eid);  
-		for (int e = eid; e < edges.size(); e++)
-			edges.get(e).decrementId();		
+		graph_edges.remove(eid);
+		for (int e = eid; e < graph_edges.size(); e++)
+			graph_edges.get(e).decrementId();
 	}
 
 	//-------------------------------------------------------------------------
@@ -1643,13 +1655,13 @@ public class Graph extends BaseGraphFunction
 	 */
 	public void removeFace(final int fid, final boolean removeOrphans)
 	{
-		if (fid >= faces.size())
+		if (fid >= graph_faces.size())
 		{
 			System.out.println("Graph.removeFace(): Index " + fid + " out of range.");
 			return;
 		}
 
-		final Face face = faces.get(fid);
+		final Face face = graph_faces.get(fid);
 		
 		// Remove face from edges' left and right references
 		final BitSet edgesToRemove = new BitSet();
@@ -1682,12 +1694,12 @@ public class Graph extends BaseGraphFunction
 					vertex.removeFace(n);
 
 		// Remove this face and recalibrate indices
-		faces.remove(fid);
-		for (int f = fid; f < faces.size(); f++)
-			faces.get(f).decrementId();
+		graph_faces.remove(fid);
+		for (int f = fid; f < graph_faces.size(); f++)
+			graph_faces.get(f).decrementId();
 	
 		// Now it's safe to remove edges
-		for (int e = edges.size() - 1; e >= 0; e--)
+		for (int e = graph_edges.size() - 1; e >= 0; e--)
 			if (edgesToRemove.get(e))
 				removeEdge(e);
 		
@@ -1708,7 +1720,7 @@ public class Graph extends BaseGraphFunction
 	 */
 	public void setBasisAndShape(final BasisType bt, final ShapeType st)
 	{
-		for (final Vertex vertex : vertices)
+		for (final Vertex vertex : graph_vertices)
 		{
 			if (vertex.basis() == null)
 				vertex.setBasis(bt);
@@ -1716,7 +1728,7 @@ public class Graph extends BaseGraphFunction
 				vertex.setShape(st);
 		}
 		
-		for (final Edge edge : edges)
+		for (final Edge edge : graph_edges)
 		{
 			if (edge.basis() == null)
 				edge.setBasis(bt);
@@ -1724,7 +1736,7 @@ public class Graph extends BaseGraphFunction
 				edge.setShape(st);
 		}
 		
-		for (final Face face : faces)
+		for (final Face face : graph_faces)
 		{
 			if (face.basis() == null)
 				face.setBasis(bt);
@@ -1743,14 +1755,14 @@ public class Graph extends BaseGraphFunction
 	 */
 	public void synchroniseIds()
 	{
-		for (int n = 0; n < vertices.size(); n++)
-			vertices.get(n).setId(n);
+		for (int n = 0; n < graph_vertices.size(); n++)
+			graph_vertices.get(n).setId(n);
 
-		for (int n = 0; n < edges.size(); n++)
-			edges.get(n).setId(n);
+		for (int n = 0; n < graph_edges.size(); n++)
+			graph_edges.get(n).setId(n);
 
-		for (int n = 0; n < faces.size(); n++)
-			faces.get(n).setId(n);
+		for (int n = 0; n < graph_faces.size(); n++)
+			graph_faces.get(n).setId(n);
 	}
 	
 	//-------------------------------------------------------------------------
@@ -1792,9 +1804,9 @@ public class Graph extends BaseGraphFunction
 			
 			switch (type)
 			{
-			case Vertex: vertices.add((Vertex)ge); break;
-			case Edge:	 edges.add((Edge)ge);	   break;
-			case Cell:	 faces.add((Face)ge);	   break;
+			case Vertex: graph_vertices.add((Vertex)ge); break;
+			case Edge:	 graph_edges.add((Edge)ge);	   break;
+			case Cell:	 graph_faces.add((Face)ge);	   break;
 			default:  // do nothing   
 			}
 		}
@@ -1811,7 +1823,7 @@ public class Graph extends BaseGraphFunction
 	
 	private void setVertices(final Number[][] positions)
 	{
-		vertices.clear();
+		graph_vertices.clear();
 		
 		if (positions != null)
 			for (int v = 0; v < positions.length; v++)
@@ -1831,7 +1843,7 @@ public class Graph extends BaseGraphFunction
 	 */
 	private void setEdges(final Integer[][] pairs)
 	{
-		edges.clear();
+		graph_edges.clear();
 		
 		if (pairs != null)
 			for (int e = 0; e < pairs.length; e++)
@@ -1858,19 +1870,19 @@ public class Graph extends BaseGraphFunction
 	 */
 	public void linkEdgesToVertices()
 	{
-		for (final Vertex vertex : vertices)
+		for (final Vertex vertex : graph_vertices)
 //			vertex.edges().clear();
 			vertex.clearEdges();
 		
-		for (final Edge edge : edges)
+		for (final Edge edge : graph_edges)
 		{
 //			vertices.get(edge.vertexA().id()).edges().add(edge);
 //			vertices.get(edge.vertexB().id()).edges().add(edge);
-			vertices.get(edge.vertexA().id()).addEdge(edge);
-			vertices.get(edge.vertexB().id()).addEdge(edge);
+			graph_vertices.get(edge.vertexA().id()).addEdge(edge);
+			graph_vertices.get(edge.vertexB().id()).addEdge(edge);
 		}
 		
-		for (final Vertex vertex : vertices)
+		for (final Vertex vertex : graph_vertices)
 			vertex.sortEdges();
 	}
 	
@@ -1880,16 +1892,16 @@ public class Graph extends BaseGraphFunction
 	 */
 	public void linkFacesToVertices()
 	{
-		for (final Vertex vertex : vertices)
+		for (final Vertex vertex : graph_vertices)
 //			vertex.faces().clear();
 			vertex.clearFaces();
 		
-		for (final Face face : faces)
+		for (final Face face : graph_faces)
 			for (final Vertex vertex : face.vertices())
 //				vertex.faces().add(face);
 				vertex.addFace(face);
 		
-		for (final Vertex vertex : vertices)
+		for (final Vertex vertex : graph_vertices)
 			vertex.sortFaces();
 	}
 	
@@ -1909,7 +1921,7 @@ public class Graph extends BaseGraphFunction
 		final Point2D ptA = vertexA.pt2D();
 		final Point2D ptB = vertexB.pt2D();
 	
-		for (final Edge edge : edges)
+		for (final Edge edge : graph_edges)
 		{
 			if (edge.matches(vertexA, vertexB))
 				return false;  // don't treat as crossing
@@ -1947,23 +1959,23 @@ public class Graph extends BaseGraphFunction
 	public void trim()
 	{
 		// Trim orphaned edges
-		for (int eid = edges.size() - 1; eid >= 0; eid--)
+		for (int eid = graph_edges.size() - 1; eid >= 0; eid--)
 		{
-			final Edge edge = edges.get(eid);
+			final Edge edge = graph_edges.get(eid);
 			if (edge.vertexA().edges().size() == 1 || edge.vertexB().edges().size() == 1)
 				removeEdge(eid);  // orphaned edge
 		}
 		
 		// Detect pivots
 		final BitSet pivotIds = new BitSet();
-		for (final Vertex vertex : vertices)
+		for (final Vertex vertex : graph_vertices)
 			if (vertex.pivot() != null)
 				pivotIds.set(vertex.pivot().id());
 
 		// Trim orphaned vertices that are not pivots
-		for (int vid = vertices.size() - 1; vid >= 0; vid--)
+		for (int vid = graph_vertices.size() - 1; vid >= 0; vid--)
 		{
-			final Vertex vertex = vertices.get(vid);
+			final Vertex vertex = graph_vertices.get(vid);
 			if (vertex.edges().isEmpty() && !pivotIds.get(vid))
 				removeVertex(vid);  // orphaned non-pivot vertex
 		}
@@ -1976,13 +1988,13 @@ public class Graph extends BaseGraphFunction
 	 */
 	public void clearProperties()
 	{
-		for (final Vertex vertex : vertices)
+		for (final Vertex vertex : graph_vertices)
 			vertex.properties().clear();
 		
-		for (final Edge edge : edges)
+		for (final Edge edge : graph_edges)
 			edge.properties().clear();
 		
-		for (final Face face : faces)
+		for (final Face face : graph_faces)
 			face.properties().clear();
 	}
 
@@ -2005,13 +2017,13 @@ public class Graph extends BaseGraphFunction
 	 */
 	public double distance()
 	{
-		if (vertices.size() < 2)
+		if (graph_vertices.size() < 2)
 			return 0;
 		
 		double avg = 0;
 		int found = 0;
-		for (final Vertex va : vertices)
-			for (final Vertex vb : vertices)
+		for (final Vertex va : graph_vertices)
+			for (final Vertex vb : graph_vertices)
 			{
 				if (va.id() == vb.id())
 					continue;		
@@ -2028,14 +2040,14 @@ public class Graph extends BaseGraphFunction
 	 */
 	public double variance()
 	{
-		if (vertices.size() < 2)
+		if (graph_vertices.size() < 2)
 			return 0;
 
 		final double avg = distance();
 		double varn = 0;
 		int found = 0;
-		for (final Vertex va : vertices)
-			for (final Vertex vb : vertices)
+		for (final Vertex va : graph_vertices)
+			for (final Vertex vb : graph_vertices)
 			{
 				if (va.id() == vb.id())
 					continue;
@@ -2054,7 +2066,7 @@ public class Graph extends BaseGraphFunction
 	 */
 	public Rectangle2D bounds()
 	{
-		return bounds(vertices);
+		return bounds(graph_vertices);
 	}
 
 	/**
@@ -2106,7 +2118,7 @@ public class Graph extends BaseGraphFunction
 		final double offX = -bounds.getX() + (maxExtent - bounds.getWidth())  / 2.0;  // * scale;
 		final double offY = -bounds.getY() + (maxExtent - bounds.getHeight()) / 2.0;  // * scale;
 		
-		for (final Vertex vertex : vertices)
+		for (final Vertex vertex : graph_vertices)
 		{
 			final double xx = (vertex.pt.x() + offX) * scale;
 			final double yy = (vertex.pt.y() + offY) * scale;
@@ -2123,10 +2135,10 @@ public class Graph extends BaseGraphFunction
 	 */
 	public void recalculateEdgeAndFacePositions()
 	{
-		for (final Edge edge : edges)
+		for (final Edge edge : graph_edges)
 			edge.setMidpoint();
 			
-		for (final Face face : faces)
+		for (final Face face : graph_faces)
 			face.setMidpoint();
 	}
 
@@ -2160,13 +2172,13 @@ public class Graph extends BaseGraphFunction
 	 */
 	public double averageEdgeLength()
 	{
-		if (edges.isEmpty())
+		if (graph_edges.isEmpty())
 			return 0;
 		
 		double avg = 0;
-		for (final Edge edge : edges)
+		for (final Edge edge : graph_edges)
 			avg += edge.length();
-		return avg / edges.size();
+		return avg / graph_edges.size();
 	}
 	
 	//-------------------------------------------------------------------------
@@ -2176,13 +2188,13 @@ public class Graph extends BaseGraphFunction
 	 */
 	public Point2D centroid()
 	{
-		if (vertices.isEmpty())
+		if (graph_vertices.isEmpty())
 			return new Point2D.Double(0, 0);
 		
 		double midX = 0;
 		double midY = 0;
 		
-		for (final Vertex vertex : vertices)
+		for (final Vertex vertex : graph_vertices)
 		{
 			midX += vertex.pt().x();
 			midY += vertex.pt().y();
@@ -2218,7 +2230,7 @@ public class Graph extends BaseGraphFunction
 	{
 		final StringBuilder sb = new StringBuilder();
 		
-		if (vertices.isEmpty())
+		if (graph_vertices.isEmpty())
 			return "Graph has no vertices.";
 		
 		sb.append("Graph basis: " + basis + "\n");
@@ -2227,28 +2239,28 @@ public class Graph extends BaseGraphFunction
 		sb.append("Graph is " + (isRegular() ? "" : "not ") + "regular.\n");
 		
 		sb.append("Vertices:\n");	
-		for (final Vertex vertex : vertices)
+		for (final Vertex vertex : graph_vertices)
 			sb.append("- V: " + vertex.toString() + "\n");
 		
-		if (edges.isEmpty())
+		if (graph_edges.isEmpty())
 		{
 			sb.append("No edges.");
 		}
 		else
 		{
 			sb.append("Edges:\n");	
-			for (final Edge edge : edges)
+			for (final Edge edge : graph_edges)
 				sb.append("- E: " + edge.toString() + "\n");
 		}
 		
-		if (faces.isEmpty())
+		if (graph_faces.isEmpty())
 		{
 			sb.append("No faces.");
 		}
 		else
 		{
 			sb.append("Faces:\n");	
-			for (final Face face : faces)
+			for (final Face face : graph_faces)
 				sb.append("- F: " + face.toString() + "\n");
 		}
 		

@@ -8,29 +8,43 @@ import main.Constants;
 import other.BaseLudeme;
 import other.ItemType;
 
+import javax.jdo.annotations.*;
+
 /**
  * Provides a Grammar placeholder for items to go in the equipment collection.
  * 
  * @author Eric and cambolbro
  */
+@PersistenceCapable
+@Inheritance(strategy= InheritanceStrategy.NEW_TABLE)
 public abstract class Item extends BaseLudeme
 {
 	/** The owner of the item. */
+	@Persistent
 	private RoleType owner;
 
 	/** The type of the item. */
+	@Persistent
 	private ItemType type;
 
 	/** Unique index in the corresponding item's list of equipment in game. */
+	@Persistent
 	private int index = -1;
 
 	/** Unique name within game. */
+	@Persistent
 	private String name;
 	
 	/** ID of owner */
+	@Persistent
 	private int ownerID = Constants.UNDEFINED;
 
 	//-------------------------------------------------------------------------
+
+//	/** Default constructor for persistence frameworks */
+//	protected Item() {
+//		super(); // If BaseLudeme has a default constructor
+//	}
 
 	/**
 	 * @param name  The name of the item.

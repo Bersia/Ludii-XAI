@@ -68,7 +68,7 @@ public class Context
 	//-------------------------------------------------------------------------
 
 	/** Reference to controlling game object. */
-	@NotPersistent
+	@Persistent
 	private Game game;
 	
 	/** Reference to "parent" Context of match we're in. Will be null if this is the top-level Context. */

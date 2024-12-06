@@ -11,6 +11,10 @@ import game.util.directions.AbsoluteDirection;
 import main.math.MathRoutines;
 import main.math.Point3D;
 
+import javax.jdo.annotations.Discriminator;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+
 //-----------------------------------------------------------------------------
 
 /**
@@ -18,10 +22,14 @@ import main.math.Point3D;
  * 
  * @author cambolbro
  */
+@PersistenceCapable
+@Discriminator(value = "Face")
 public class Face extends GraphElement
 {
-	private final List<Vertex> vertices = new ArrayList<Vertex>();
-	private final List<Edge>   edges    = new ArrayList<Edge>();
+	@Persistent
+	private List<Vertex> face_vertices = new ArrayList<Vertex>();
+	@Persistent
+	private List<Edge> face_edges = new ArrayList<Edge>();
 	
 	//-------------------------------------------------------------------------
 
@@ -48,7 +56,7 @@ public class Face extends GraphElement
 	 */
 	public List<Vertex> vertices()
 	{
-		return Collections.unmodifiableList(vertices);
+		return Collections.unmodifiableList(face_vertices);
 	}
 	
 	/**
@@ -56,7 +64,7 @@ public class Face extends GraphElement
 	 */
 	public List<Edge> edges()
 	{
-		return Collections.unmodifiableList(edges);
+		return Collections.unmodifiableList(face_edges);
 	}
 	
 	//-------------------------------------------------------------------------
@@ -96,7 +104,7 @@ public class Face extends GraphElement
 	@Override
 	public Vertex pivot()
 	{
-		for (final Vertex vertex : vertices)
+		for (final Vertex vertex : face_vertices)
 			if (vertex.pivot() != null)
 				return vertex.pivot();
 		
@@ -121,8 +129,8 @@ public class Face extends GraphElement
 	 */
 	public void addVertexAndEdge(final Vertex vertex, final Edge edge)
 	{
-		vertices.add(vertex);
-		edges.add(edge);
+		face_vertices.add(vertex);
+		face_edges.add(edge);
 		setMidpoint();
 	}
 	
@@ -136,7 +144,7 @@ public class Face extends GraphElement
 	 */
 	public boolean matches(final int ... vids)
 	{
-		final int numSides = vertices.size();
+		final int numSides = face_vertices.size();
 		
 //		System.out.print("\nFace:");
 //		for (final Vertex vertex : vertices)
@@ -148,7 +156,7 @@ public class Face extends GraphElement
 		
 		int start;
 		for (start = 0; start < numSides; start++)
-			if (vertices.get(start).id() == vids[0])
+			if (face_vertices.get(start).id() == vids[0])
 				break;
 		
 		if (start >= numSides)
@@ -163,7 +171,7 @@ public class Face extends GraphElement
 			
 //			System.out.print(" " + vertices.get(nn).id());
 
-			if (vertices.get(nn).id() != vids[n])
+			if (face_vertices.get(nn).id() != vids[n])
 				break;
 		}
 		if (n >= numSides)
@@ -177,7 +185,7 @@ public class Face extends GraphElement
 			
 //			System.out.print(" " + vertices.get(nn).id());
 
-			if (vertices.get(nn).id() != vids[n])
+			if (face_vertices.get(nn).id() != vids[n])
 				break;
 		}
 //		System.out.println();
@@ -196,17 +204,17 @@ public class Face extends GraphElement
 		double yy = 0;
 		double zz = 0;
 		
-		if (!vertices.isEmpty())
+		if (!face_vertices.isEmpty())
 		{
-			for (final Vertex vertex : vertices)
+			for (final Vertex vertex : face_vertices)
 			{
 				xx += vertex.pt().x();
 				yy += vertex.pt().y();
 				zz += vertex.pt().z();
 			}
-			xx /= vertices.size();
-			yy /= vertices.size();
-			zz /= vertices.size();
+			xx /= face_vertices.size();
+			yy /= face_vertices.size();
+			zz /= face_vertices.size();
 		}
 		
 		pt = new Point3D(xx, yy, zz);
@@ -246,7 +254,7 @@ public class Face extends GraphElement
 	{
 		final List<Point2D> poly = new ArrayList<>();
 		
-		for (final Vertex vertex : vertices)
+		for (final Vertex vertex : face_vertices)
 			poly.add(vertex.pt2D());
 		
 		return MathRoutines.pointInPolygon(p, poly);
@@ -280,7 +288,7 @@ public class Face extends GraphElement
 		//-------------------------------------------------
 		// Steps to adjacent cells
 		
-		for (final Edge edge : edges)
+		for (final Edge edge : face_edges)
 		{
 			final Face other = edge.otherFace(id);
 			if (other == null)
@@ -305,7 +313,7 @@ public class Face extends GraphElement
 		//-------------------------------------------------
 		// Steps to diagonal cells joined by a vertex, e.g. square grid.
 		
-		for (final Vertex vertex : vertices)
+		for (final Vertex vertex : face_vertices)
 		{
 			// Look for a diagonal cell connected through this vertex
 			double bestDistance = 1000000;
@@ -344,7 +352,7 @@ public class Face extends GraphElement
 		
 		//-------------------------------------------------
 		// Steps to off-diagonal cells joined by a vertex, e.g. tri grid.
-		for (final Vertex vertex : vertices)
+		for (final Vertex vertex : face_vertices)
 		{
 			// Look for remaining off-diagonal cells connected through this vertex
 			for (final Face other : vertex.faces())
@@ -366,7 +374,7 @@ public class Face extends GraphElement
 		//-------------------------------------------------
 		// Steps to non-adjacent diagonal cells joined by an edge, e.g. hex grid.
 		
-		for (final Vertex vertex : vertices)
+		for (final Vertex vertex : face_vertices)
 		{
 			// Look for non-adjacent diagonal cell connected through and edge
 			if (vertex.edges().size() != 3)
@@ -407,7 +415,7 @@ public class Face extends GraphElement
 		//-------------------------------------------------
 		// Steps to vertices
 		
-		for (final Vertex vertex : vertices)
+		for (final Vertex vertex : face_vertices)
 		{
 			final Step newStep = new Step(this, vertex);
 
@@ -420,7 +428,7 @@ public class Face extends GraphElement
 		//-------------------------------------------------
 		// Steps to edges
 		
-		for (final Edge edge : edges)
+		for (final Edge edge : face_edges)
 		{
 			final Step newStep = new Step(this, edge);
 
@@ -528,7 +536,7 @@ public class Face extends GraphElement
 		final StringBuilder sb = new StringBuilder();
 	
 		sb.append("Face[" + id + "]:");
-		for (final Vertex vertex : vertices)
+		for (final Vertex vertex : face_vertices)
 			sb.append(" " + vertex.id());
 		
 		sb.append(" " + properties);

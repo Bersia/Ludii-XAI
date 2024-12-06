@@ -64,5 +64,6 @@
     </orderEntry>
     <orderEntry type="module" module-name="Core" />
     <orderEntry type="module" module-name="AI" />
+    <orderEntry type="module" module-name="XAI" />
   </component>
 </module>

@@ -23,7 +23,9 @@ import other.topology.Edge;
 import other.topology.Topology;
 import other.topology.Vertex;
 
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
 
 /**
  * Defines a container.
@@ -41,28 +43,35 @@ public abstract class Container extends Item implements Serializable, Cloneable
 	private static final double SYMMETRY_ACCURACY = 1e-6; // Allows for errors caused by double precision/trig functions
 
 	/** The graph associated with the container. */
+	@Persistent
 	protected Topology topology = new Topology();
 
 	/** Number of sites. */
+	@Persistent
 	protected int numSites = 0;
 
 	/** List of tracks. */
+	@Persistent
 	protected List<Track> tracks = new ArrayList<Track>();
 
 	/** List of tracks referring by owner. */
+	@Persistent
 	protected Track[][] ownedTracks;
 
 	//-------------------------GUI---------------------------------
 	
 	/** The style of the container. */
+	@Persistent
 	protected ContainerStyleType style;
 
 	/** MVC controller for this container. */
+	@Persistent
 	protected ControllerType controller; 
 
 	//-------------------------------------------------------------------------
 
 	/** The default type of graph element used by the game/board. */
+	@Persistent
 	protected SiteType defaultSite = SiteType.Cell;
 
 	//-------------------------------------------------------------------------

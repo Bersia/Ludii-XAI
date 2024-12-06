@@ -41,11 +41,16 @@ import other.concept.Concept;
 import other.context.Context;
 import other.trial.Trial;
 
+import javax.jdo.annotations.NotPersistent;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+
 /**
  * Topology of the graph of the game.
  * 
  * @author Eric.Piette and cambolbro and Dennis Soemers
  */
+@PersistenceCapable
 public class Topology implements Serializable
 {
 	private static final long serialVersionUID = 1L;
@@ -53,18 +58,23 @@ public class Topology implements Serializable
 	//-------------------------------------------------------------------------
 
 	/** List of cells. */
+	@NotPersistent
 	private final List<Cell> cells = new ArrayList<Cell>();
 
 	/** List of edges. */
+	@NotPersistent
 	private final List<Edge> edges = new ArrayList<Edge>();
 
 	/** List of vertices. */
+	@NotPersistent
 	private final List<Vertex> vertices = new ArrayList<Vertex>();
 
 	/** Reference to generating graph, so board styles and designs can determine underlying basis. */
+	@Persistent
 	private Graph graph = null;
 	
 	/** The number of edges of each tiling only if the graph uses a regular tiling. */
+	@Persistent
 	private int numEdges = Constants.UNDEFINED;
 
 	//----------------------Pre-generated parameters-----------------
@@ -72,125 +82,164 @@ public class Topology implements Serializable
 	/**
 	 * Record of relations between elements within a graph.
 	 */
+	@NotPersistent
 	private Trajectories trajectories;
 
 	/** Supported directions for each element type. */
+	@NotPersistent
 	private final Map<SiteType, List<DirectionFacing>> supportedDirections = new EnumMap<SiteType, List<DirectionFacing>>(SiteType.class);
 
 	/** Supported Orthogonal directions for each element type. */
+	@NotPersistent
 	private final Map<SiteType, List<DirectionFacing>> supportedOrthogonalDirections = new EnumMap<SiteType, List<DirectionFacing>>(SiteType.class);
 	
 	/** Supported Diagonal directions for each element type. */
+	@NotPersistent
 	private final Map<SiteType, List<DirectionFacing>> supportedDiagonalDirections = new EnumMap<SiteType, List<DirectionFacing>>(SiteType.class);
 
 	/** Supported Adjacent directions for each element type. */
+	@NotPersistent
 	private final Map<SiteType, List<DirectionFacing>> supportedAdjacentDirections = new EnumMap<SiteType, List<DirectionFacing>>(SiteType.class);
 
 	/** Supported Off directions for each element type. */
+	@NotPersistent
 	private final Map<SiteType, List<DirectionFacing>> supportedOffDirections = new EnumMap<SiteType, List<DirectionFacing>>(SiteType.class);
 
 	/** List of corners sites for each graph element. */
+	@NotPersistent
 	private final Map<SiteType, List<TopologyElement>> corners = new EnumMap<SiteType, List<TopologyElement>>(SiteType.class);
 
 	/** List of convex corners sites for each graph element. */
+	@NotPersistent
 	private final Map<SiteType, List<TopologyElement>> cornersConvex = new EnumMap<SiteType, List<TopologyElement>>(SiteType.class);
 
 	/** List of concave corners sites for each graph element. */
+	@NotPersistent
 	private final Map<SiteType, List<TopologyElement>> cornersConcave = new EnumMap<SiteType, List<TopologyElement>>(SiteType.class);
 
 	/** List of major generator sites in tiling for each graph element. */
+	@NotPersistent
 	private final Map<SiteType, List<TopologyElement>> major = new EnumMap<SiteType, List<TopologyElement>>(SiteType.class);
 
 	/** List of minor generator sites in tiling for each graph element. */
+	@NotPersistent
 	private final Map<SiteType, List<TopologyElement>> minor = new EnumMap<SiteType, List<TopologyElement>>(SiteType.class);
 
 	/** List of outer sites for each graph element. */
+	@NotPersistent
 	private final Map<SiteType, List<TopologyElement>> outer = new EnumMap<SiteType, List<TopologyElement>>(SiteType.class);
 
 	/** List of perimeter sites for each graph element. */
+	@NotPersistent
 	private final Map<SiteType, List<TopologyElement>> perimeter = new EnumMap<SiteType, List<TopologyElement>>(SiteType.class);
 
 	/** List of inner sites for each graph element. */
+	@NotPersistent
 	private final Map<SiteType, List<TopologyElement>> inner = new EnumMap<SiteType, List<TopologyElement>>(SiteType.class);
 
 	/** List of interlayer sites for each graph element. */
+	@NotPersistent
 	private final Map<SiteType, List<TopologyElement>> interlayer = new EnumMap<SiteType, List<TopologyElement>>(SiteType.class);
 
 	/** List of top sites for each graph element. */
+	@NotPersistent
 	private final Map<SiteType, List<TopologyElement>> top = new EnumMap<SiteType, List<TopologyElement>>(SiteType.class);
 
 	/** List of left sites for each graph element. */
+	@NotPersistent
 	private final Map<SiteType, List<TopologyElement>> left = new EnumMap<SiteType, List<TopologyElement>>(SiteType.class);
 
 	/** List of right sites for each graph element. */
+	@NotPersistent
 	private final Map<SiteType, List<TopologyElement>> right = new EnumMap<SiteType, List<TopologyElement>>(SiteType.class);
 
 	/** List of bottom sites for each graph element. */
+	@NotPersistent
 	private final Map<SiteType, List<TopologyElement>> bottom = new EnumMap<SiteType, List<TopologyElement>>(SiteType.class);
 
 	/** List of centre sites for each graph element. */
+	@NotPersistent
 	private final Map<SiteType, List<TopologyElement>> centre = new EnumMap<SiteType, List<TopologyElement>>(SiteType.class);
 
 	/** List of column sites for each graph element. */
+	@NotPersistent
 	private final Map<SiteType, List<List<TopologyElement>>> columns = new EnumMap<SiteType, List<List<TopologyElement>>>(SiteType.class);
 
 	/** List of row sites for each graph element. */
+	@NotPersistent
 	private final Map<SiteType, List<List<TopologyElement>>> rows = new EnumMap<SiteType, List<List<TopologyElement>>>(SiteType.class);
 
 	/** List of sites in a specific phase for each graph element. */
+	@NotPersistent
 	private final Map<SiteType, List<List<TopologyElement>>> phases = new EnumMap<SiteType, List<List<TopologyElement>>>(SiteType.class);
 
 	/** List of sides according to a direction for each graph element. */
+	@NotPersistent
 	private final Map<SiteType, Map<DirectionFacing, List<TopologyElement>>> sides = new EnumMap<SiteType, Map<DirectionFacing, List<TopologyElement>>>(SiteType.class);
 
 	/** Distances from every graph element to each other graph element of the same type. */
+	@NotPersistent
 	private final Map<SiteType, int[][]> distanceToOtherSite = new EnumMap<SiteType, int[][]>(SiteType.class);
 
 	/** Distances from every graph element to its closest corner. */
+	@NotPersistent
 	private final Map<SiteType, int[]> distanceToCorners = new EnumMap<SiteType, int[]>(SiteType.class);
 	
 	/** Distances from every graph element to its closest side. */
+	@NotPersistent
 	private final Map<SiteType, int[]> distanceToSides = new EnumMap<SiteType, int[]>(SiteType.class);
 
 	/** Distances from every graph element to its closest center. */
+	@NotPersistent
 	private final Map<SiteType, int[]> distanceToCentre = new EnumMap<SiteType, int[]>(SiteType.class);
 	
 	/** List of layers sites for each graph element. */
+	@NotPersistent
 	private final Map<SiteType, List<List<TopologyElement>>> layers = new EnumMap<SiteType, List<List<TopologyElement>>>(SiteType.class);
 
 	/** List of diagonal sites for each graph element. */
+	@NotPersistent
 	private final Map<SiteType, List<List<TopologyElement>>> diagonals = new EnumMap<SiteType, List<List<TopologyElement>>>(SiteType.class);
 	
 	/** List of axials sites for each graph element. Computed currently only for edges. */
+	@NotPersistent
 	private final Map<SiteType, List<TopologyElement>> axials = new EnumMap<SiteType, List<TopologyElement>>(SiteType.class);
 	
 	/** List of horizontal sites for each graph element. Computed currently only for edges. */
+	@NotPersistent
 	private final Map<SiteType, List<TopologyElement>> horizontal = new EnumMap<SiteType, List<TopologyElement>>(SiteType.class);
 
 	/** List of vertical sites for each graph element. Computed currently only for edges. */
+	@NotPersistent
 	private final Map<SiteType, List<TopologyElement>> vertical = new EnumMap<SiteType, List<TopologyElement>>(SiteType.class);
 	
 	/** List of angled sites for each graph element. Computed currently only for edges. */
+	@NotPersistent
 	private final Map<SiteType, List<TopologyElement>> angled = new EnumMap<SiteType, List<TopologyElement>>(SiteType.class);
 
 	/** List of slash sites for each graph element. Computed currently only for edges. */
+	@NotPersistent
 	private final Map<SiteType, List<TopologyElement>> slash = new EnumMap<SiteType, List<TopologyElement>>(SiteType.class);
 	
 	/** List of slosh sites for each graph element. Computed currently only for edges. */
+	@NotPersistent
 	private final Map<SiteType, List<TopologyElement>> slosh = new EnumMap<SiteType, List<TopologyElement>>(SiteType.class);
 	
 	/**
 	 * For every region in equipment, a table of distances for graph element to that
 	 * region. Contains null arrays for regions that are not static.
 	 */
+	@NotPersistent
 	private final Map<SiteType, int[][]> distanceToRegions = new EnumMap<SiteType, int[][]>(SiteType.class);
 
 	/** Cross reference of phase by element index. */
+	@NotPersistent
 	private final Map<SiteType, int[]> phaseByElementIndex = new EnumMap<SiteType, int[]>(SiteType.class);
 	
 	// ----- Pre-generated stuff for Features-----------------------------
 	
 	/** Different numbers of true-ortho-connectivity that different elements in our graph have */
+	@NotPersistent
 	private final Map<SiteType, TIntArrayList> connectivities = new EnumMap<SiteType, TIntArrayList>(SiteType.class);
 	
 //	/** 
@@ -207,6 +256,7 @@ public class Topology implements Serializable
 	 * list is used for rough working during graph measurements (for thread safety)
 	 * and is not intended for reuse afterwards.
 	 */
+	@NotPersistent
 	private List<Perimeter> perimeters = new ArrayList<Perimeter>();
 
 	/**
