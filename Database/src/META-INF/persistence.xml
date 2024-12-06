@@ -6,6 +6,7 @@
         <class>other.context.Context</class>
         <class>other.move.Move</class>
         <class>search.mcts.nodes.OpenLoopNode</class>
+        <class>search.mcts.nodes.BaseNode</class>
         <class>game.Game</class>
         <class>game.equipment.Equipment</class>
         <class>game.equipment.container.Container</class>

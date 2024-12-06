@@ -63,6 +63,9 @@ public abstract class BaseNode
     /** Number of virtual visits to this node (for Tree Parallelisation) */
 	@NotPersistent
     protected AtomicInteger numVirtualVisits = new AtomicInteger();
+
+	@Persistent
+	private int numVirtualVisitsINT = numVirtualVisits.get();
     
     /** Total scores backpropagated into this node (one per player, 0 index unused). */
 	@Persistent
@@ -242,6 +245,11 @@ public abstract class BaseNode
      */
     public double expectedScore(final int agent)
     {
+		if(numVirtualVisits == null) {
+			numVirtualVisits = new AtomicInteger(numVirtualVisitsINT);
+		}
+
+		numVirtualVisitsINT = numVirtualVisits.get();
     	return (numVisits == 0) ? 0.0 : (totalScores[agent] - numVirtualVisits.get()) / (numVisits + numVirtualVisits.get());
     }
     
@@ -288,6 +296,9 @@ public abstract class BaseNode
      */
     public int numVirtualVisits()
     {
+		if(numVirtualVisits == null) {
+			numVirtualVisits = new AtomicInteger(numVirtualVisitsINT);
+		}
     	return numVirtualVisits.get();
     }
     
@@ -296,7 +307,11 @@ public abstract class BaseNode
      */
     public void addVirtualVisit()
     {
+		if(numVirtualVisits == null) {
+			numVirtualVisits = new AtomicInteger(numVirtualVisitsINT);
+		}
     	numVirtualVisits.incrementAndGet();
+		numVirtualVisitsINT = numVirtualVisits.get();
     }
 	
 	/**
@@ -358,7 +373,11 @@ public abstract class BaseNode
      */
     public double sumSquaredScores(final int player)
     {
-    	return sumSquaredScores[player] + numVirtualVisits.get();
+		if(numVirtualVisits == null) {
+			numVirtualVisits = new AtomicInteger(numVirtualVisitsINT);
+		}
+    	numVirtualVisitsINT = numVirtualVisits.get();
+		return sumSquaredScores[player] + numVirtualVisits.get();
     }
     
     /**
@@ -373,7 +392,11 @@ public abstract class BaseNode
     		totalScores[p] += utilities[p];
     		sumSquaredScores[p] += utilities[p] * utilities[p];
     	}
+		if(numVirtualVisits == null) {
+			numVirtualVisits = new AtomicInteger(numVirtualVisitsINT);
+		}
     	numVirtualVisits.decrementAndGet();
+		numVirtualVisitsINT = numVirtualVisits.get();
     }
     
     /**

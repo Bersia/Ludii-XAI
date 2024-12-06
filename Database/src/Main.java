@@ -74,14 +74,11 @@ public class Main {
                 System.out.println("Game "+games.get(i).getID());
                 Features initial = new Features(null, contextsByID.get(games.get(i).getID()).getFirst().getContext());
                 Features f = initial;
-//                java.lang.NullPointerException: Cannot invoke "game.Game.board()" because "this.game" is null
-//                at other.context.Context.board(Context.java:1216)
-//                at embeddings.features.Colors.<init>(Colors.java:16)
-//                at embeddings.Features.<init>(Features.java:27)
-//                at Main.main(Main.java:75)
                 for(int j = 1; j < contextsByID.get(games.get(i).getID()).size(); ++j) {
                     f = new Features(f, contextsByID.get(games.get(i).getID()).get(j).getContext());
                     System.out.println(f.distance(initial));
+
+                    Node.saveTreemap(contextsByID.get(games.get(i).getID()).get(j).getRoot());
                 }
             }
         } catch (Exception e) {
