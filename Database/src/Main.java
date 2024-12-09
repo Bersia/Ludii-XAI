@@ -22,7 +22,7 @@ public class Main {
 
         try {
             // Persist data
-            for (int i = 0; i < 1; ++i)
+            for (int i = 0; i < 2; ++i)
             {
                 tx.begin();
                 GameTrialData gameTrialData = new GameTrialData(4, 3, 0, 1);

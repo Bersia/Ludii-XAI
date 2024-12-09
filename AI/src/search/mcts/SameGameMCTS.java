@@ -6,11 +6,17 @@ import other.context.Context;
 import other.move.Move;
 import other.state.State;
 import other.trial.Trial;
+import search.mcts.backpropagation.AlphaGoBackprop;
 import search.mcts.backpropagation.BackpropagationStrategy;
 import search.mcts.finalmoveselection.FinalMoveSelectionStrategy;
+import search.mcts.finalmoveselection.GameStateScore;
+import search.mcts.finalmoveselection.RobustChild;
 import search.mcts.nodes.BaseNode;
+import search.mcts.playout.HeuristicSampingPlayout;
 import search.mcts.playout.PlayoutStrategy;
+import search.mcts.selection.SameGameSelect;
 import search.mcts.selection.SelectionStrategy;
+import search.mcts.selection.UCB1;
 import utils.AIUtils;
 
 import java.util.Iterator;
@@ -34,6 +40,10 @@ public class SameGameMCTS extends MCTS {
      */
     public SameGameMCTS(SelectionStrategy selectionStrategy, PlayoutStrategy playoutStrategy, BackpropagationStrategy backpropagationStrategy, FinalMoveSelectionStrategy finalMoveSelectionStrategy) {
         super(selectionStrategy, playoutStrategy, backpropagationStrategy, finalMoveSelectionStrategy);
+    }
+
+    public SameGameMCTS() {
+        this(new SameGameSelect(), new HeuristicSampingPlayout(), new AlphaGoBackprop(), new GameStateScore());
     }
 
     public double normalizeScore(Context contextRef) {

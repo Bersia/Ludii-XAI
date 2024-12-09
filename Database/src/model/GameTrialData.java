@@ -7,8 +7,13 @@ import other.context.Context;
 import other.model.Model;
 import other.trial.Trial;
 import search.mcts.MCTS;
+import search.mcts.SameGameMCTS;
+import search.mcts.backpropagation.AlphaGoBackprop;
+import search.mcts.finalmoveselection.RobustChild;
 import search.mcts.nodes.BaseNode;
 import search.mcts.nodes.OpenLoopNode;
+import search.mcts.playout.HeuristicSampingPlayout;
+import search.mcts.selection.UCB1;
 
 import javax.jdo.annotations.*;
 import java.util.ArrayList;
@@ -67,8 +72,9 @@ public class GameTrialData {
         ais.add(null);
         for (int p = 1; p <= game.players().count(); ++p)
         {
-            ais.add(MCTS.createHybridMCTS());
-            AIType = "HybridMCTS";
+//            ais.add(MCTS.createHybridMCTS());
+            ais.add(new SameGameMCTS());
+            AIType = "SameGameMCTS";
         }
 
         game.start(context);
