@@ -62,6 +62,7 @@ import app.views.tools.ToolView;
 import approaches.random.Generator;
 import contextualiser.ContextualSimilarity;
 import features.feature_sets.BaseFeatureSet;
+import feature_mining.Node;
 import game.Game;
 import game.rules.phase.Phase;
 import game.rules.play.moves.BaseMoves;
@@ -855,6 +856,10 @@ public class MainMenuFunctions extends JMenuBar
 		else if (source.getText().equals("Estimate Game Tree Complexity (No State Repetition)"))
 		{
 			EvalUtil.estimateGameTreeComplexity(app, true);
+		}
+		else if (source.getText().equals("Save Search Tree As Treemap"))
+		{
+			Node.saveTreemap(app);
 		}
 		else if (source.getText().equals("Compare Agents"))
 		{
