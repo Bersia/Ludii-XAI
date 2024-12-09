@@ -65,20 +65,14 @@ import training.expert_iteration.ExItExperience;
 import training.expert_iteration.ExpertPolicy;
 import utils.AIUtils;
 
-import javax.jdo.annotations.*;
-
 /**
  * A modular implementation of Monte-Carlo Tree Search (MCTS) for playing games
  * in Ludii.
  * 
  * @author Dennis Soemers
  */
-//@PersistenceCapable
 public class MCTS extends ExpertPolicy
 {
-//	@PrimaryKey
-//	@Persistent(valueStrategy = IdGeneratorStrategy.INCREMENT)
-//	private long id;
 	
 	//-------------------------------------------------------------------------
 	
@@ -162,13 +156,13 @@ public class MCTS extends ExpertPolicy
 	protected double autoPlaySeconds = 0.0;	// TODO allow customisation
 	
 	/** Our thread pool for tree parallelisation */
-	private ExecutorService threadPool = null;
+	protected ExecutorService threadPool = null;
 	
 	/** Number of threads this MCTS should use for parallel iterations */
-	private int numThreads = 1;
+	protected int numThreads = 1;
 	
 	/** Lets us track whether all threads in our thread pool have completely finished */
-	private AtomicInteger numThreadsBusy = new AtomicInteger(0);
+	protected AtomicInteger numThreadsBusy = new AtomicInteger(0);
 	
 	//-------------------------------------------------------------------------
 	
@@ -255,7 +249,6 @@ public class MCTS extends ExpertPolicy
     protected final int maxNGramLength;
     
     /** For every player, a global MCTS-wide tracker of statistics on heuristics */
-//	@NotPersistent
     protected IncrementalStats[] heuristicStats = null;
     
     //-------------------------------------------------------------------------
@@ -853,7 +846,7 @@ public class MCTS extends ExpertPolicy
 	}
 
 	// Assuming BaseNode has methods getValue(), getName(), and getChildren()
-	private String displayTree(BaseNode node, String prefix, boolean isTail) {
+	public String displayTree(BaseNode node, String prefix, boolean isTail) {
 		StringBuilder report = new StringBuilder();
 
 		// Append current node information
@@ -891,7 +884,7 @@ public class MCTS extends ExpertPolicy
     	final Context context
     )
 	{
-		if ((currentGameFlags & GameType.Stochastic) == 0L || wantsCheatRNG())
+		if ((currentGameFlags & GameType.Stochastic) == 0L || wantsCheatRNG() || context.game().name().equals("SameGame"))
 		{
 			if (useScoreBounds)
 				return new ScoreBoundsNode(mcts, parent, parentMove, parentMoveWithoutConseq, context);

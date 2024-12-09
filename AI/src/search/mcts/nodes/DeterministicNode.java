@@ -101,8 +101,9 @@ public abstract class DeterministicNode extends BaseNode
 
     @Override
     public List<BaseNode> getChildren() {
-        List<DeterministicNode> children = Arrays.asList(this.children);
-        return List.copyOf(children); // defensive copy of children;
+        List<BaseNode> children = Arrays.asList(this.children);
+//        return List.copyOf(children); // defensive copy of children;
+        return children;
         //TODO: check if null children are allowed and if copyOf is needed
     }
     
