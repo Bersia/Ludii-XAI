@@ -37,14 +37,18 @@ public class Node {
         // Retrieve MCTS agent
         AI ai = app.aiSelected()[1].ai();
 
-        if (! (ai instanceof MCTS)) {
+        if (!(ai instanceof MCTS)) {
             return;
         }
 
         MCTS mcts = (MCTS) ai;
 
         // Find rootnode of the search tree
-        BaseNode mctsNode = mcts.rootNode();
+        saveTreemap(mcts.rootNode());
+    }
+
+    //todo: replace by local paths
+    public static void saveTreemap(BaseNode mctsNode) {
         mctsNode = findRoot(mctsNode);
 
         // Convert search tree to Node type

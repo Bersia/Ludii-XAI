@@ -5,6 +5,7 @@ import model.GameTrialData;
 import other.context.Context;
 import search.mcts.nodes.BaseNode;
 import search.mcts.nodes.OpenLoopNode;
+import feature_mining.Node;
 
 import javax.jdo.*;
 import java.util.*;
