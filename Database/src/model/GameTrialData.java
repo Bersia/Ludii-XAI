@@ -12,6 +12,7 @@ import search.mcts.backpropagation.AlphaGoBackprop;
 import search.mcts.finalmoveselection.RobustChild;
 import search.mcts.nodes.BaseNode;
 import search.mcts.nodes.OpenLoopNode;
+import search.mcts.nodes.StandardNode;
 import search.mcts.playout.HeuristicSampingPlayout;
 import search.mcts.selection.UCB1;
 
@@ -121,8 +122,8 @@ public class GameTrialData {
 //        return ((MCTS)(ais.get(1))).getTreeReport();
 //    }
 
-    public OpenLoopNode rootNode() {
-        return (OpenLoopNode) ((MCTS)(ais.get(1))).rootNode();
+    public StandardNode rootNode() {
+        return (StandardNode) ((SameGameMCTS)(ais.get(1))).rootNode();
     }
 
     public byte getBoardSize() {

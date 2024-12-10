@@ -5,7 +5,9 @@
         <class>model.ContextData</class>
         <class>other.context.Context</class>
         <class>other.move.Move</class>
-        <class>search.mcts.nodes.OpenLoopNode</class>
+<!--        <class>search.mcts.nodes.OpenLoopNode</class>-->
+        <class>search.mcts.nodes.StandardNode</class>
+        <class>search.mcts.nodes.DeterministicNode</class>
         <class>search.mcts.nodes.BaseNode</class>
         <class>game.Game</class>
         <class>game.equipment.Equipment</class>
@@ -30,6 +32,7 @@
 <!--            <property name="datanucleus.schema.autoCreateAll" value="true"/>-->
             <property name="datanucleus.schema.autoCreateTables" value="true" />
             <property name="datanucleus.schema.autoCreateColumns" value="true" />
+            <property name="datanucleus.logLevel" value="ERROR"/>
 <!--            <property name="datanucleus.schema.autoCreateConstraints" value="true" />-->
 
             <!-- Logging for debugging -->

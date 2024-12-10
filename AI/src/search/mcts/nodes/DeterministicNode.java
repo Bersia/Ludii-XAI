@@ -6,6 +6,7 @@ import other.context.Context;
 import other.move.Move;
 import search.mcts.MCTS;
 
+import javax.jdo.annotations.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,27 +16,37 @@ import java.util.List;
  * 
  * @author Dennis Soemers
  */
+@PersistenceCapable
+//@Inheritance(strategy = InheritanceStrategy.NEW_TABLE)
+////@Discriminator(column = "DETERMINISTIC_NODE_TYPE", value = "DeterministicNode")
+//@Discriminator(value = "DeterministicNode")
 public abstract class DeterministicNode extends BaseNode
 {
 	
 	//-------------------------------------------------------------------------
 	
 	/** Context for this node (contains game state) */
-	protected final Context context;
+    @Persistent
+	protected Context context;
     
     /** Array of child nodes. */
-    protected final DeterministicNode[] children;
+    @Persistent
+    protected DeterministicNode[] children;
     
     /** Array of legal moves in this node's state */
-    protected final Move[] legalMoves;
+    @Persistent
+    protected Move[] legalMoves;
     
     /** Cached policy over the list of children */
+    @NotPersistent
     protected FVector cachedPolicy = null;
     
     /** Indices of relevant children (for deterministic game, every child is always relevant) */
-    protected final int[] childIndices;
+    @Persistent
+    protected int[] childIndices;
     
     /** Number of (potential) children that we've never visited */
+    @Persistent
     protected int numUnvisitedChildren = -1;
     
     //-------------------------------------------------------------------------
@@ -86,7 +97,11 @@ public abstract class DeterministicNode extends BaseNode
     	
     	numUnvisitedChildren = children.length;
     }
-    
+
+    public DeterministicNode() {
+        super();
+    }
+
     //-------------------------------------------------------------------------
 
     @Override
@@ -101,6 +116,8 @@ public abstract class DeterministicNode extends BaseNode
 
     @Override
     public List<BaseNode> getChildren() {
+        if(children == null)
+            return new ArrayList<>();
         List<BaseNode> children = Arrays.asList(this.children);
 //        return List.copyOf(children); // defensive copy of children;
         return children;

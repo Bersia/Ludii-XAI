@@ -70,8 +70,8 @@ public class Node {
 
         image = drawTreeMap(root, image, "depth", true);
         try {
-            int number = new File("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\outlines\\train\\depth").list().length;
-            ImageIO.write(image, "png", new File(String.format("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\outlines\\train\\depth\\treemap_%d.png", number)));
+            int number = new File("XAI\\outputs\\treemaps\\outlines\\train\\depth").list().length;
+            ImageIO.write(image, "png", new File(String.format("XAI\\outputs\\treemaps\\outlines\\train\\depth\\treemap_%d.png", number)));
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -84,8 +84,8 @@ public class Node {
 
         image = drawTreeMap(root, image, "score", true);
         try {
-            int number = new File("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\outlines\\train\\score").list().length;
-            ImageIO.write(image, "png", new File(String.format("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\outlines\\train\\score\\treemap_%d.png", number)));
+            int number = new File("XAI\\outputs\\treemaps\\outlines\\train\\score").list().length;
+            ImageIO.write(image, "png", new File(String.format("XAI\\outputs\\treemaps\\outlines\\train\\score\\treemap_%d.png", number)));
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -98,8 +98,8 @@ public class Node {
 
         image = drawTreeMap(root, image, "sample", true);
         try {
-            int number = new File("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\outlines\\train\\sample").list().length;
-            ImageIO.write(image, "png", new File(String.format("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\outlines\\train\\sample\\treemap_%d.png", number)));
+            int number = new File("XAI\\outputs\\treemaps\\outlines\\train\\sample").list().length;
+            ImageIO.write(image, "png", new File(String.format("XAI\\outputs\\treemaps\\outlines\\train\\sample\\treemap_%d.png", number)));
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -112,8 +112,8 @@ public class Node {
 
         image = drawTreeMap(root, image, "all", true);
         try {
-            int number = new File("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\outlines\\train\\all").list().length;
-            ImageIO.write(image, "png", new File(String.format("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\outlines\\train\\all\\treemap_%d.png", number)));
+            int number = new File("XAI\\outputs\\treemaps\\outlines\\train\\all").list().length;
+            ImageIO.write(image, "png", new File(String.format("XAI\\outputs\\treemaps\\outlines\\train\\all\\treemap_%d.png", number)));
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -126,8 +126,8 @@ public class Node {
 
         image = drawTreeMap(root, image, "depth", false);
         try {
-            int number = new File("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\no_outline\\train\\depth").list().length;
-            ImageIO.write(image, "png", new File(String.format("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\no_outline\\train\\depth\\treemap_%d.png", number)));
+            int number = new File("XAI\\outputs\\treemaps\\no_outline\\train\\depth").list().length;
+            ImageIO.write(image, "png", new File(String.format("XAI\\outputs\\treemaps\\no_outline\\train\\depth\\treemap_%d.png", number)));
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -140,8 +140,8 @@ public class Node {
 
         image = drawTreeMap(root, image, "score", false);
         try {
-            int number = new File("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\no_outline\\train\\score").list().length;
-            ImageIO.write(image, "png", new File(String.format("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\no_outline\\train\\score\\treemap_%d.png", number)));
+            int number = new File("XAI\\outputs\\treemaps\\no_outline\\train\\score").list().length;
+            ImageIO.write(image, "png", new File(String.format("XAI\\outputs\\treemaps\\no_outline\\train\\score\\treemap_%d.png", number)));
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -154,8 +154,8 @@ public class Node {
 
         image = drawTreeMap(root, image, "sample", false);
         try {
-            int number = new File("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\no_outline\\train\\sample").list().length;
-            ImageIO.write(image, "png", new File(String.format("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\no_outline\\train\\sample\\treemap_%d.png", number)));
+            int number = new File("XAI\\outputs\\treemaps\\no_outline\\train\\sample").list().length;
+            ImageIO.write(image, "png", new File(String.format("XAI\\outputs\\treemaps\\no_outline\\train\\sample\\treemap_%d.png", number)));
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -168,8 +168,8 @@ public class Node {
 
         image = drawTreeMap(root, image, "all", false);
         try {
-            int number = new File("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\no_outline\\train\\all").list().length;
-            ImageIO.write(image, "png", new File(String.format("C:\\Users\\britt\\IdeaProjects\\Ludii-XAI\\XAI-module\\outputs\\treemaps\\no_outline\\train\\all\\treemap_%d.png", number)));
+            int number = new File("XAI\\outputs\\treemaps\\no_outline\\train\\all").list().length;
+            ImageIO.write(image, "png", new File(String.format("XAI\\outputs\\treemaps\\no_outline\\train\\all\\treemap_%d.png", number)));
         } catch (IOException exception) {
             exception.printStackTrace();
         }

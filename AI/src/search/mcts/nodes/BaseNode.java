@@ -29,8 +29,8 @@ import javax.jdo.annotations.*;
  * @author Dennis Soemers
  */
 @PersistenceCapable
-@Inheritance(strategy = InheritanceStrategy.NEW_TABLE)
-@Discriminator(column = "NODE_TYPE", value = "BaseNode")
+//@Inheritance(strategy = InheritanceStrategy.NEW_TABLE)
+//@Discriminator(column = "NODE_TYPE", value = "BaseNode")
 public abstract class BaseNode
 {
 
@@ -54,7 +54,7 @@ public abstract class BaseNode
 	
 	/** Reference back to our MCTS algorithm */
 	@NotPersistent
-	protected final MCTS mcts;
+	protected MCTS mcts;
 	
 	/** Total number of times this node was visited. */
 	@Persistent
@@ -81,7 +81,7 @@ public abstract class BaseNode
     
     /** Table of AMAF stats for GRAVE */
 	@NotPersistent
-    protected final Map<MoveKey, NodeStatistics> graveStats;
+    protected Map<MoveKey, NodeStatistics> graveStats;
     
     /** Lock for MCTS code that modifies/reads node data in ways that should be synchronised */
 	@NotPersistent
@@ -122,7 +122,11 @@ public abstract class BaseNode
 		else
 			graveStats = null;
 	}
-	
+
+	public BaseNode() {
+
+	}
+
 	//-------------------------------------------------------------------------
 	
 	/**

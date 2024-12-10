@@ -3,6 +3,7 @@ package model;
 import other.context.Context;
 import search.mcts.nodes.BaseNode;
 import search.mcts.nodes.OpenLoopNode;
+import search.mcts.nodes.StandardNode;
 
 import javax.jdo.annotations.*;
 
@@ -25,9 +26,9 @@ public class ContextData {
     @Persistent
     private Context context;
     @Persistent
-    private OpenLoopNode root;
+    private StandardNode root;
 
-    public ContextData(Context context, OpenLoopNode root, long gameId, byte boardSize) {
+    public ContextData(Context context, StandardNode root, long gameId, byte boardSize) {
         this.step = stepCounter++;
         this.gameId = gameId;
         this.context = context;
@@ -43,7 +44,7 @@ public class ContextData {
         return context;
     }
 
-    public OpenLoopNode getRoot() {
+    public StandardNode getRoot() {
         return root;
     }
 
