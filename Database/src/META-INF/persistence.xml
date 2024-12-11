@@ -10,16 +10,16 @@
         <class>search.mcts.nodes.DeterministicNode</class>
         <class>search.mcts.nodes.BaseNode</class>
         <class>game.Game</class>
-        <class>game.equipment.Equipment</class>
-        <class>game.equipment.container.Container</class>
-        <class>game.equipment.container.board.Board</class>
-        <class>game.equipment.Item</class>
-        <class>game.util.graph.Graph</class>
-        <class>game.util.graph.Edge</class>
-        <class>game.util.graph.Vertex</class>
-        <class>game.util.graph.Face</class>
-        <class>other.topology.Topology</class>
-        <class>main.math.Vector</class>
+<!--        <class>game.equipment.Equipment</class>-->
+<!--        <class>game.equipment.container.Container</class>-->
+<!--        <class>game.equipment.container.board.Board</class>-->
+<!--        <class>game.equipment.Item</class>-->
+<!--        <class>game.util.graph.Graph</class>-->
+<!--        <class>game.util.graph.Edge</class>-->
+<!--        <class>game.util.graph.Vertex</class>-->
+<!--        <class>game.util.graph.Face</class>-->
+<!--        <class>other.topology.Topology</class>-->
+<!--        <class>main.math.Vector</class>-->
 <!--        <class>game.util.graph.GraphElement</class>-->
         <properties>
             <!-- Database connection -->

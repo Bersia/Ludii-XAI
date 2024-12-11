@@ -140,11 +140,11 @@ public class Game extends BaseLudeme implements API, Serializable
 	private List<String> options = new ArrayList<>();
 
 	/** Game control. */
-	@Persistent
+	@NotPersistent
 	protected Mode mode;
 
 	/** The players of the game. */
-	@Persistent
+	@NotPersistent
 	protected Players players;
 
 	/** Game's equipment. */
@@ -168,45 +168,45 @@ public class Game extends BaseLudeme implements API, Serializable
 	private Description description = new Description("Unprocessed");
 	
 	/** Maximum number of turns for this game */
-	@Persistent
+	@NotPersistent
 	protected int maxTurnLimit = Constants.DEFAULT_TURN_LIMIT;
 	
 	/** Maximum number of moves for this game */
-	@Persistent
+	@NotPersistent
 	protected int maxMovesLimit = Constants.DEFAULT_MOVES_LIMIT;
 
 	//-----------------------------State/Context-------------------------------
 
 	/** The number of starting actions done during the initialisation of the game. */
-	@Persistent
+	@NotPersistent
 	private int numStartingAction = 0;
 	
 	/** Flags corresponding to the gameType of this game. */
-	@Persistent
+	@NotPersistent
 	private long gameFlags;
 
 	/** Flags corresponding to the boolean concepts of this game. */
-	@Persistent
+	@NotPersistent
 	protected BitSet booleanConcepts;
 
 	/** Map corresponding to the non boolean concepts of this game. */
-	@Persistent
+	@NotPersistent
 	protected Map<Integer, String> conceptsNonBoolean;
 
 	/** Reference state type, for creating new versions of appropriate type. */
-	@Persistent
+	@NotPersistent
 	protected State stateReference;
 	
 	/** Set to true once we've finished preprocessing */
-	@Persistent
+	@NotPersistent
 	protected boolean finishedPreprocessing = false;
 	
 	/** Copy of the starting context for games with no stochastic element in the starting rules. */
-	@Persistent
+	@NotPersistent
 	private Context startContext;
 	
 	/** True if some stochastic elements are in the starting rules. */
-	@Persistent
+	@NotPersistent
 	private boolean stochasticStartingRules = false;
 
 	//-----------------------------Shortcuts-----------------------------------
@@ -220,15 +220,15 @@ public class Game extends BaseLudeme implements API, Serializable
 	private Map<String, Component> mapComponent = new HashMap<>();
 
 	/** The list of the different sets of dice. */
-	@Persistent
+	@NotPersistent
 	private List<Dice> handDice = new ArrayList<>();
 
 	/** The list of the different decks. */
-	@Persistent
+	@NotPersistent
 	private List<Deck> handDeck = new ArrayList<>();
 	
 	/** All variables constraint by the puzzle.*/
-	@Persistent
+	@NotPersistent
 	private TIntArrayList constraintVariables = new TIntArrayList();
 
 	//-----------------------Metadata-------------------------------------------
@@ -238,7 +238,7 @@ public class Game extends BaseLudeme implements API, Serializable
 	protected Metadata metadata = null;
 
 	/** The expected concepts values for reconstruction. */
-	@Persistent
+	@NotPersistent
 	protected ArrayList<metadata.recon.concept.Concept> expectedConcepts = new ArrayList<metadata.recon.concept.Concept>();
 
 	// -----------------------Warning/Crash reports-----------------------------

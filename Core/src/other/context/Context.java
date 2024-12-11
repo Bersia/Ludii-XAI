@@ -68,16 +68,17 @@ public class Context
 	//-------------------------------------------------------------------------
 
 	/** Reference to controlling game object. */
-	@Persistent
+	@NotPersistent
 	private Game game;
 	
 	/** Reference to "parent" Context of match we're in. Will be null if this is the top-level Context. */
-	@Persistent
+	@NotPersistent
 	private Context parentContext;
 	
 	/** Reference to active subcontext. Will be null if this is not a context for a Match */
-	@Persistent
+	@NotPersistent
 	private Context subcontext;
+
 	
 	/** Current game state. */
 	@Persistent
@@ -176,7 +177,7 @@ public class Context
 	//-------------------------------------------------------------------------
 	
 	/** Lock for Game methods that should not be executed in parallel on the same Context object. */
-	@Persistent
+	@NotPersistent
 	private transient ReentrantLock lock = new ReentrantLock();
 	
 	//-------------------------------------------------------------------------

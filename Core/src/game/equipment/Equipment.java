@@ -64,55 +64,55 @@ public final class Equipment extends BaseLudeme implements Serializable
 	private Component[] components = null;
 
 	/** List of regions. */
-	@Persistent
+	@NotPersistent
 	private Regions[] regions = null;
 
 	/** List of maps. */
-	@Persistent
+	@NotPersistent
 	private Map[] maps = null;
 
 	/** Total number of sites over all containers. */
-	@Persistent
+	@NotPersistent
 	private int totalDefaultSites = 0;
 
 	/** Which container a given accumulated site index refers to. */
-	@Persistent
+	@NotPersistent
 	private int[] containerId;
 
 	/** Which actual site within its container a given accumulated site index refers to. */
-	@Persistent
+	@NotPersistent
 	private int[] offset;
 
 	/** Which accumulated site index a given container starts at. */
-	@Persistent
+	@NotPersistent
 	private int[] sitesFrom;
 	
 	/** Vertex with hints for Deduction Puzzle. */
-	@Persistent
+	@NotPersistent
 	private Integer[][] vertexWithHints = new Integer[0][0];
 
 	/** Cell with hints for Deduction Puzzle. */
-	@Persistent
+	@NotPersistent
 	private Integer[][] cellWithHints = new Integer[0][0];
 
 	/** Edge with hints for Deduction Puzzle. */
-	@Persistent
+	@NotPersistent
 	private Integer[][] edgeWithHints = new Integer[0][0];
 
 	/** The hints of the vertices. */
-	@Persistent
+	@NotPersistent
 	private Integer[] vertexHints = new Integer[0];
 
 	/** The hints of the cells. */
-	@Persistent
+	@NotPersistent
 	private Integer[] cellHints = new Integer[0];
 
 	/** The hints of the edges. */
-	@Persistent
+	@NotPersistent
 	private Integer[] edgeHints = new Integer[0];
 	
 	/** Here we store items received from constructor, to be created when game.create() is called. */
-	@Persistent
+	@NotPersistent
 	private Item[] itemsToCreate;
 
 	//-------------------------------------------------------------------------
