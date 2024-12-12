@@ -9,14 +9,14 @@ import java.text.DecimalFormat;
  * 2D vector.
  * @author cambolbro
  */
-@PersistenceCapable
+//@PersistenceCapable
 public class Vector
 {
-	@Persistent
+	//@Persistent
 	private double x = 0;
-	@Persistent
+	//@Persistent
 	private double y = 0;
-	@Persistent
+	//@Persistent
 	private double z = 0;
 	
 	//-------------------------------------------------------------------------
