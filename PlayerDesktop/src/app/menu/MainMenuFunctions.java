@@ -859,7 +859,7 @@ public class MainMenuFunctions extends JMenuBar
 		}
 		else if (source.getText().equals("Save Search Tree As Treemap"))
 		{
-			Node.saveTreemap(app);
+			//Node.saveTreemap(app);
 		}
 		else if (source.getText().equals("Compare Agents"))
 		{
