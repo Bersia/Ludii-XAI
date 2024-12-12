@@ -1,7 +1,7 @@
 package main.math;
 
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
+//import javax.jdo.annotations.PersistenceCapable;
+//import javax.jdo.annotations.Persistent;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
