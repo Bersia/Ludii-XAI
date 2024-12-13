@@ -447,6 +447,7 @@ public class ParseItem
 									System.out.println(tab + "   X: Couldn't parse arg " + index + ".");
 								break;
 							}
+							System.out.println(a);
 						}
 					}
 					
