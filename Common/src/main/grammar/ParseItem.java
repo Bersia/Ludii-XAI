@@ -322,8 +322,7 @@ public class ParseItem
 			}
 			
 			int c;
-			System.out.println("Clauses size: " + instance.clauses().size());
-			for (c = 0; c < instance.clauses().size(); c++) 
+			for (c = 0; c < instance.clauses().size(); c++)
 			{
 				final Clause clause = instance.clauses().get(c);
 				
@@ -362,6 +361,7 @@ public class ParseItem
 				final int argsSize = arguments.size();
 				
 				// Generate all combinations of on-bits up to the maximum expected size
+				System.out.println((0x1 << clauseSize) + " combinations to check...");
 				for (int seed = 0; seed < (0x1 << clauseSize); seed++)
 				{
 					if (Integer.bitCount(seed) != argsSize)
