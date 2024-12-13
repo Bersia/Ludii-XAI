@@ -447,10 +447,10 @@ public class ParseItem
 									System.out.println(tab + "   X: Couldn't parse arg " + index + ".");
 								break;
 							}
-							System.out.println(a);
 						}
 					}
-					
+
+					System.out.println(a+" "+numSlots);
 					if (a >= numSlots)
 					{
 						// This arg combo matches this clause
