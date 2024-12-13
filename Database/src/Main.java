@@ -139,6 +139,7 @@ public class Main {
     }
 
     private static void generateGames(PersistenceManager pm, Transaction tx, int numGames, int boardSize, int numColours, int reflectionTime, boolean saveTrees) {
+        System.out.print("Generated: ");
         for (int i = 0; i < numGames; ++i)
         {
             tx.begin();
@@ -152,7 +153,7 @@ public class Main {
                 if(saveTrees)
                     root = gameTrialData.rootNode();
                 ContextData contextData = new ContextData(context, root, gameTrialData.getID(), gameTrialData.getBoardSize());
-                System.out.println(contextData);
+//                System.out.println(contextData);
 
 
                 tx.begin();
@@ -162,6 +163,7 @@ public class Main {
 
 
             }while(gameTrialData.step());
+            System.out.print((i+1) + " ");
 //            tx.commit();
         }
     }
