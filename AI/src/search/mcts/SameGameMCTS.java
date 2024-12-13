@@ -281,8 +281,8 @@ public class SameGameMCTS extends MCTS {
                                 }
                                 catch (final Exception e)
                                 {
-                                    System.err.println("MCTS error in game: " + context.game().name());
-                                    e.printStackTrace();	// Need to do this here since we don't retrieve runnable's Future result
+//                                    System.err.println("MCTS error in game: " + context.game().name());
+//                                    e.printStackTrace();	// Need to do this here since we don't retrieve runnable's Future result
                                 }
                                 finally
                                 {
