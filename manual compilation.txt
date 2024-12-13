@@ -1,0 +1,59 @@
+Common: 
+javac --release 22 -d Common/bin -sourcepath Common/src:Common/res:Common/res/audio:Common/res/img -classpath "Common/lib/json-20180813.jar:Common/lib/Trove4j_ApacheCommonsRNG.jar:Common/lib/jfreesvg-3.4.jar:Database/lib/javax.jdo-3.2.1.jar:Database/lib/datanucleus-api-jdo-6.0.1.jar:Database/lib/datanucleus-core-6.0.6.jar" $(find Common/src Common/res Common/res/audio Common/res/img -name "*.java")
+
+Language:
+javac --release 22 -d Language/bin -sourcepath Language/src -classpath "Common/lib/Trove4j_ApacheCommonsRNG.jar:$MAVEN_REPOSITORY$/junit/junit/3.8.1/junit-3.8.1.jar:Common/bin" $(find Language/src -name "*.java")
+
+Core:
+javac --release 22 -d Core/bin -sourcepath Core/src -classpath "Common/lib/Trove4j_ApacheCommonsRNG.jar:Database/lib/javax.jdo-3.2.1.jar:Database/lib/datanucleus-api-jdo-6.0.1.jar:Database/lib/datanucleus-core-6.0.6.jar:Database/lib/datanucleus-enhancer-3.1.1.jar:Database/lib/datanucleus-rdbms-6.0.6.jar:Common/bin:Language/bin" $(find Core/src -name "*.java") -parameters
+
+Features:
+javac --release 22 -d Features/bin -sourcepath Features/src -classpath "Common/bin:Core/bin:Common/lib/Trove4j_ApacheCommonsRNG.jar" $(find Features/src -name "*.java")
+
+AI:
+javac --release 22 -d AI/bin -sourcepath AI/src -classpath "Features/bin:Common/bin:Core/bin:Language/bin:Database/lib/javax.jdo-3.2.1.jar:Database/lib/datanucleus-api-jdo-6.0.1.jar:Database/lib/datanucleus-enhancer-3.1.1.jar:Database/lib/datanucleus-core-6.0.6.jar:Database/lib/datanucleus-rdbms-6.0.6.jar:Common/lib/json-20180813.jar:Common/lib/Trove4j_ApacheCommonsRNG.jar" $(find AI/src -name "*.java")
+
+Manager:
+javac --release 22 -d Manager/bin -sourcepath Manager/src -classpath "Common/lib/json-20180813.jar:Common/lib/Trove4j_ApacheCommonsRNG.jar:Common/bin:AI/bin:Core/bin:Language/bin:Common/bin" $(find Manager/src -name "*.java")
+
+Evaluation:
+javac --release 22 -d Evaluation/bin -sourcepath Evaluation/src -classpath "Common/lib/json-20180813.jar:Common/lib/Trove4j_ApacheCommonsRNG.jar:Common/bin:AI/bin:Core/bin:Language/bin:Common/bin" $(find Evaluation/src -name "*.java")
+
+Mining:
+javac --release 22 -d Mining/bin -sourcepath Mining/src -classpath "Common/lib/hamcrest-all-1.3.jar:Common/lib/json-20180813.jar:Common/lib/junit-4.12.jar:Common/lib/Trove4j_ApacheCommonsRNG.jar:Common/lib/gtranslateapi-1.0.jar:Common/lib/Trove4j_ApacheCommonsRNG-sources.jar:Common/bin:Core/bin:Language/bin:AI/bin:Manager/bin:Evaluation/bin" $(find Mining/src Mining/res -name "*.java")
+
+ViewController:
+javac --release 22 -d ViewController/bin -sourcepath ViewController/src -classpath "Common/lib/Trove4j_ApacheCommonsRNG.jar:Common/lib/jfreesvg-3.4.jar:Player/lib/batik-codec-1.14.jar:Player/lib/batik-anim-1.11.jar:Player/lib/batik-awt-util-1.11.jar:Player/lib/batik-bridge-1.11.jar:Player/lib/batik-constants-1.11.jar:Player/lib/batik-css-1.11.jar:Player/lib/batik-dom-1.11.jar:Player/lib/batik-ext-1.11.jar:Player/lib/batik-gvt-1.11.jar:Player/lib/batik-i18n-1.11.jar:Player/lib/batik-parser-1.11.jar:Player/lib/batik-rasterizer-1.11.jar:Player/lib/batik-script-1.11.jar:Player/lib/batik-svg-dom-1.11.jar:Player/lib/batik-svggen-1.11.jar:Player/lib/batik-transcoder-1.11.jar:Player/lib/batik-util-1.11.jar:Player/lib/batik-xml-1.11.jar:Common/bin:Core/bin" $(find ViewController/src -name "*.java")
+
+Player:
+javac --release 22 -d Player/bin -sourcepath Player/src:Player/test:Player/res -classpath "Common/lib/json-20180813.jar:Common/lib/junit-4.12.jar:Common/lib/hamcrest-all-1.3.jar:Common/lib/Trove4j_ApacheCommonsRNG.jar:Common/lib/jfreesvg-3.4.jar:Common/lib/xmlgraphics-commons-2.3.jar:Common/lib/xml-apis-ext-1.3.04.jar:Common/lib/jaxb-api-2.3.1.jar:Player/lib/batik-anim-1.11.jar:Player/lib/batik-awt-util-1.11.jar:Player/lib/batik-bridge-1.11.jar:Player/lib/batik-constants-1.11.jar:Player/lib/batik-css-1.11.jar:Player/lib/batik-dom-1.11.jar:Player/lib/batik-ext-1.11.jar:Player/lib/batik-gvt-1.11.jar:Player/lib/batik-i18n-1.11.jar:Player/lib/batik-parser-1.11.jar:Player/lib/batik-rasterizer-1.11.jar:Player/lib/batik-script-1.11.jar:Player/lib/batik-svg-dom-1.11.jar:Player/lib/batik-svggen-1.11.jar:Player/lib/batik-transcoder-1.11.jar:Player/lib/batik-util-1.11.jar:Player/lib/batik-xml-1.11.jar:Common/bin:Language/bin:Manager/bin:Features/bin:Core/bin:AI/bin:Evaluation/bin:ViewController/bin:Mining/bin" $(find Player/src Player/test Player/res -name "*.java")
+
+Generation:
+javac --release 22 -d Generation/bin -sourcepath Generation/src -classpath "Common/bin:Core/bin:Language/bin" $(find Generation/src -name "*.java")
+
+PlayerDesktop:
+javac --release 22 -d PlayerDesktop/bin -sourcepath PlayerDesktop/src -classpath "AI/bin:Player/bin:Features/bin:Common/bin:Core/bin:Manager/bin:Evaluation/bin:Language/bin:Mining/bin:ViewController/bin:Generation/bin:Player/lib/activation-1.1.1.jar:Player/lib/batik-anim-1.11.jar:Player/lib/batik-awt-util-1.11.jar:Player/lib/batik-bridge-1.11.jar:Player/lib/batik-constants-1.11.jar:Player/lib/batik-css-1.11.jar:Player/lib/batik-dom-1.11.jar:Player/lib/batik-ext-1.11.jar:Player/lib/batik-gvt-1.11.jar:Player/lib/batik-i18n-1.11.jar:Player/lib/batik-parser-1.11.jar:Player/lib/batik-rasterizer-1.11.jar:Player/lib/batik-script-1.11.jar:Player/lib/batik-svg-dom-1.11.jar:Player/lib/batik-svggen-1.11.jar:Player/lib/batik-transcoder-1.11.jar:Player/lib/batik-util-1.11.jar:Player/lib/batik-xml-1.11.jar:Player/lib/jaxb-api-2.3.1.jar:Player/lib/xml-apis-ext-1.3.04.jar:Player/lib/xmlgraphics-commons-2.3.jar:Common/lib/hamcrest-all-1.3.jar:Common/lib/junit-4.12.jar:Common/lib/Trove4j_ApacheCommonsRNG.jar:Common/lib/jfreesvg-3.4.jar:Player/lib/batik-codec-1.14.jar:Common/lib/json-20180813.jar:Player/lib/javax.mail.jar" $(find PlayerDesktop/src -name "*.java")
+
+XAI:
+javac --release 22 -d XAI/bin -sourcepath XAI/src -classpath "Player/bin:AI/bin:Common/bin:Core/bin:PlayerDesktop/bin:Manager/bin:ViewController/bin:Common/lib/json-20180813.jar:XAI/lib/dotenv-java-3.0.2.jar:Database/lib/datanucleus-api-jdo-6.0.1.jar:Database/lib/datanucleus-core-6.0.6.jar:Database/lib/datanucleus-enhancer-3.1.1.jar:Database/lib/datanucleus-rdbms-6.0.6.jar:Database/lib/javax.jdo-3.2.1.jar" $(find XAI/src -name "*.java")
+
+Database:
+javac --release 22 -d Database/bin -sourcepath Database/src -classpath "Common/bin:Core/bin:AI/bin:XAI/bin:PlayerDesktop/bin:Language/bin:Database/lib/datanucleus-api-jdo-6.0.1.jar:Database/lib/datanucleus-core-6.0.6.jar:Database/lib/datanucleus-rdbms-6.0.6.jar:Database/lib/javax.jdo-3.2.1.jar:Database/lib/h2-2.3.232.jar:Database/bin/META-INF/persistence.xml" $(find Database/src -name "*.java")
+
+Before running:
+cp -r Database/src/META-INF Database/bin/
+cp -r AI/resources AI/bin/
+cp -r Common/res Common/bin/
+cp -r Mining/res Mining/bin/
+cp -r Player/res Player/bin/
+
+Run:
+java -classpath "Manager/bin:Common/bin:AI/bin:Core/bin:Language/bin:Evaluation/bin:Mining/bin:Features/bin:ViewController/bin:Player/bin:PlayerDesktop/bin:Database/bin:XAI/bin:Common/bin:Common/lib/*:Database/lib/*:AI/bin/resources:Common/bin/res:Mining/bin/res:Player/bin/res:Database/bin:Database/bin/model:Database/bin/META-INF/persistence.xml" Main
+
+Run in background:
+nohup java -classpath "Manager/bin:Common/bin:AI/bin:Core/bin:Language/bin:Evaluation/bin:Mining/bin:Features/bin:ViewController/bin:Player/bin:PlayerDesktop/bin:Database/bin:XAI/bin:Common/bin:Common/lib/*:Database/lib/*:AI/bin/resources:Common/bin/res:Mining/bin/res:Player/bin/res:Database/bin:Database/bin/model:Database/bin/META-INF/persistence.xml" Main > output.log 2>&1 &
+
+With parameters:
+nohup java -classpath "Manager/bin:Common/bin:AI/bin:Core/bin:Language/bin:Evaluation/bin:Mining/bin:Features/bin:ViewController/bin:Player/bin:PlayerDesktop/bin:Database/bin:XAI/bin:Common/bin:Common/lib/*:Database/lib/*:AI/bin/resources:Common/bin/res:Mining/bin/res:Player/bin/res:Database/bin:Database/bin/model:Database/bin/META-INF/persistence.xml" Main 10 "8,9" "4,5,6,7,8,9,10" 10 y> output.log 2>&1 &
+
+Current PID: 427875
