@@ -63,8 +63,8 @@ public class GameTrialData {
         this.reflectionTime = reflectionTime;
 
         final List<String> options = Arrays.asList("Board size/"+boardSize, "Number of Colours/"+numColours);
-//        final Game game = GameLoader.loadGameFromName("SameGame.lud", options);
-        final Game game = getGame(boardSize, numColours);
+        final Game game = GameLoader.loadGameFromName("SameGame.lud", options);
+//        final Game game = getGame(boardSize, numColours);
         trial = new Trial(game);
         context = new Context(game, trial);
 
@@ -151,10 +151,6 @@ public class GameTrialData {
                 ", reflectionTime=" + reflectionTime +
                 '}';
     }
-
-//    public String getAITree() {
-//        return ((MCTS)(ais.get(1))).getTreeReport();
-//    }
 
     public StandardNode rootNode() {
         return (StandardNode) ((SameGameMCTS)(ais.get(1))).rootNode();
