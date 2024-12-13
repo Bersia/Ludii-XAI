@@ -139,7 +139,7 @@
     (players 1)
     (equipment {
         (board
-            (square  <Board:num> diagonals:Implied))
+            (square <Board:num> diagonals:Implied))
         (piece "Ball" Neutral maxState:<Colour:num>)
     })
 
