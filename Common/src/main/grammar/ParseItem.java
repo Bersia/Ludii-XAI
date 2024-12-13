@@ -189,7 +189,7 @@ public class ParseItem
 
 	public boolean parse(final Symbol expected, final Report report, final String tab)
 	{
-		if (tab != null)
+		//if (tab != null)
 			System.out.println("\n" + tab + "Parsing token " + token.name() + ", expected type is " + 
 								(expected == null ? "null" : expected.name()) + ".");
 	

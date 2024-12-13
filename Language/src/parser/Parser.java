@@ -309,7 +309,7 @@ public class Parser
 		//System.out.println("\n" + parseTree.dump(""));
 		
 		// Check against grammar
-		description.parseTree().parse(null, report, " ");
+		description.parseTree().parse(null, report, null);
 		//description.parseTree().parse(null, report, "");
 		//System.out.println("\n" + description.parseTree().dump(""));
 
