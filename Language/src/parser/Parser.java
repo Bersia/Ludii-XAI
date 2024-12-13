@@ -316,7 +316,8 @@ public class Parser
 		//System.out.println("\n" + description.parseTree().dump(""));
 
 		// Look for deepest failure and report all errors at that level
-		final int failureDepth = description.parseTree().deepestFailure();		
+		final int failureDepth = description.parseTree().deepestFailure();
+		System.out.println(failureDepth);
 		if (failureDepth >= 0)
 			description.parseTree().reportFailures(report, failureDepth);
 		
