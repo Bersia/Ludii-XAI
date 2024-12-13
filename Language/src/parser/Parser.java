@@ -101,7 +101,6 @@ public class Parser
 		final boolean        isVerbose
 	)
 	{
-		System.out.println(Completer.needsCompleting(description.rawGameDescription()));
 		if (Completer.needsCompleting(description.rawGameDescription()))
 		{
 			String rawGame = description.rawGameDescription();
@@ -130,7 +129,6 @@ public class Parser
 				//report.clear();
 				
 				Expander.expand(description, userSelections, report, isVerbose);
-				System.out.println(report.isError());
 				if (report.isError())
 				{
 //					System.out.println("Errors while expanding (A):");
@@ -148,7 +146,6 @@ public class Parser
 			}
 			catch (final Exception e)
 			{
-				System.out.println("here");
 				if (report.isError())
 				{
 //					System.out.println("Errors while expanding (B):");
@@ -160,7 +157,6 @@ public class Parser
 				//errors.add("Catching exception from Expander...");  //new String(e.getMessage()));
 				//errors.add("Could not expand game description. Maybe a misplaced bracket pair '(..)' or '{..}'?");
 			}
-			System.out.println("there");
 			return parseExpanded(description, userSelections, report, allowExamples, isVerbose);
 		} 
 		catch (final CompilerException e)
@@ -313,7 +309,9 @@ public class Parser
 		//System.out.println("\n" + parseTree.dump(""));
 		
 		// Check against grammar
+		System.out.println(report.isError());
 		description.parseTree().parse(null, report, null);
+		System.out.println(report.isError());
 		//description.parseTree().parse(null, report, "");
 		//System.out.println("\n" + description.parseTree().dump(""));
 
