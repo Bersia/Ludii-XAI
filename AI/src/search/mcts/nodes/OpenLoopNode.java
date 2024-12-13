@@ -113,7 +113,7 @@ public final class OpenLoopNode extends BaseNode
 
 	@Override
 	public List<BaseNode> getChildren() {
-		return new ArrayList<>(children);// List.copyOf(children); // defensive copy of children;
+		return List.copyOf(children); // defensive copy of children;
 		//TODO: check if null children are allowed
 	}
 
