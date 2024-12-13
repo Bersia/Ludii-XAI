@@ -284,6 +284,7 @@ public class Parser
 
 		// Create parse tree
 		description.createParseTree();
+		System.out.println("\n" + description.parseTree().dump(""));
 		if (description.parseTree() == null)
 		{
 			report.addError("Couldn't generate parse tree from token tree.");
@@ -311,7 +312,7 @@ public class Parser
 		// Check against grammar
 		description.parseTree().parse(null, report, null);
 		//description.parseTree().parse(null, report, "");
-		System.out.println("\n" + description.parseTree().dump(""));
+		//System.out.println("\n" + description.parseTree().dump(""));
 
 		// Look for deepest failure and report all errors at that level
 		final int failureDepth = description.parseTree().deepestFailure();
