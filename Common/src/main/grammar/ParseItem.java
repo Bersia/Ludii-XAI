@@ -441,7 +441,6 @@ public class ParseItem
 								break;  // name mismatch
 							}
 
-							System.out.println(clauseArg.symbol().name());
 							if (!arg.parse(clauseArg.symbol(), report, (tab == null ? null : tab + "   ")))
 							{
 								if (tab != null)
