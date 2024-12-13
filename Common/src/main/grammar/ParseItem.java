@@ -322,6 +322,7 @@ public class ParseItem
 			}
 			
 			int c;
+			System.out.println("Clauses size: " + instance.clauses().size());
 			for (c = 0; c < instance.clauses().size(); c++) 
 			{
 				final Clause clause = instance.clauses().get(c);
