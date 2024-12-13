@@ -440,10 +440,10 @@ public class ParseItem
 								//System.out.println("Name clash.";
 								break;  // name mismatch
 							}
-							
+
+							System.out.println(clauseArg.symbol().name());
 							if (!arg.parse(clauseArg.symbol(), report, (tab == null ? null : tab + "   ")))
 							{
-								System.out.println("Here");
 								if (tab != null)
 									System.out.println(tab + "   X: Couldn't parse arg " + index + ".");
 								break;
