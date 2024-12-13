@@ -20,53 +20,94 @@ public class Main {
         enhancer.addPersistenceUnit("PersistenceUnit");
         enhancer.enhance();
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter the number of games to generate for each combination of parameters: ");
-        int numGames = scanner.nextInt();
-        scanner.nextLine();
-        System.out.println("Enter the desired board sizes (between 4 and 15) separated by spaces: ");
-        String boardSizes = scanner.nextLine();
+        if (args.length < 5) {
+            System.out.println("Usage: java Main <numGames> <boardSizes> <colors> <reflectionTime> <saveTrees>");
+            System.exit(1);
+        }
+
+        int numGames = Integer.parseInt(args[0]);
+        String boardSizes = args[1];
+        String[] boardSizesArray = boardSizes.split(",");
         ArrayList<Integer> boardSizesList = new ArrayList<>();
-        String[] boardSizesArray = boardSizes.split(" ");
-        for (int i = 0; i < boardSizesArray.length; i++) {
-            if (Integer.parseInt(boardSizesArray[i]) < 4 || Integer.parseInt(boardSizesArray[i]) > 15) {
-                System.out.println("Invalid board size: " + boardSizesArray[i] + " skipping...");
+        for (String size : boardSizesArray) {
+            int boardSize = Integer.parseInt(size);
+            if (boardSize < 4 || boardSize > 15) {
+                System.out.println("Invalid board size: " + boardSize + " skipping...");
                 continue;
             }
-            boardSizesList.add(Integer.parseInt(boardSizesArray[i]));
+            boardSizesList.add(boardSize);
         }
-        System.out.println("Enter the desired number of colors (between 2 and 10) separated by spaces: ");
-        String colors = scanner.nextLine();
+
+        String colors = args[2];
+        String[] colorsArray = colors.split(",");
         ArrayList<Integer> colorsList = new ArrayList<>();
-        String[] colorsArray = colors.split(" ");
-        for (int i = 0; i < colorsArray.length; i++) {
-            if (Integer.parseInt(colorsArray[i]) < 2 || Integer.parseInt(colorsArray[i]) > 10) {
-                System.out.println("Invalid board size: " + colorsArray[i] + " skipping...");
+        for (String color : colorsArray) {
+            int colorValue = Integer.parseInt(color);
+            if (colorValue < 2 || colorValue > 10) {
+                System.out.println("Invalid color: " + colorValue + " skipping...");
                 continue;
             }
-            colorsList.add(Integer.parseInt(colorsArray[i]));
-        }
-        System.out.println("Enter the reflection time: ");
-        int reflectionTime = scanner.nextInt();
-        scanner.nextLine();
-
-        System.out.println("Save the AI trees? (y/n): ");
-        String saveTrees = scanner.nextLine();
-        boolean saveTreesBool = false;
-        if (saveTrees.startsWith("y") || saveTrees.startsWith("Y")) {
-            saveTreesBool = true;
+            colorsList.add(colorValue);
         }
 
-        System.out.println("Final parameters:\n"+
-                "Number of games per parameter combination: "+numGames+"\n"+
-                "Board sizes: "+boardSizesList+"\n"+
-                "Colors: "+colorsList+"\n"+
-                "Reflection time: "+reflectionTime+"\n"+
-                "Total number of games: "+boardSizesList.size()*colorsList.size()*numGames+"\n"+
-                "Save trees: "+saveTreesBool+"\n\nTo confirm and start the game generation process press enter, to cancel press Ctrl+C");
-        if(!scanner.nextLine().equals("")){
-            System.exit(0);
-        }
+        int reflectionTime = Integer.parseInt(args[3]);
+        boolean saveTreesBool = args[4].equalsIgnoreCase("y");
+
+        System.out.println("Final parameters:\n" +
+                "Number of games per parameter combination: " + numGames + "\n" +
+                "Board sizes: " + boardSizesList + "\n" +
+                "Colors: " + colorsList + "\n" +
+                "Reflection time: " + reflectionTime + "\n" +
+                "Total number of games: " + boardSizesList.size() * colorsList.size() * numGames + "\n" +
+                "Save trees: " + saveTreesBool);
+
+//        Scanner scanner = new Scanner(System.in);
+//        System.out.println("Enter the number of games to generate for each combination of parameters: ");
+//        int numGames = scanner.nextInt();
+//        scanner.nextLine();
+//        System.out.println("Enter the desired board sizes (between 4 and 15) separated by spaces: ");
+//        String boardSizes = scanner.nextLine();
+//        ArrayList<Integer> boardSizesList = new ArrayList<>();
+//        String[] boardSizesArray = boardSizes.split(" ");
+//        for (int i = 0; i < boardSizesArray.length; i++) {
+//            if (Integer.parseInt(boardSizesArray[i]) < 4 || Integer.parseInt(boardSizesArray[i]) > 15) {
+//                System.out.println("Invalid board size: " + boardSizesArray[i] + " skipping...");
+//                continue;
+//            }
+//            boardSizesList.add(Integer.parseInt(boardSizesArray[i]));
+//        }
+//        System.out.println("Enter the desired number of colors (between 2 and 10) separated by spaces: ");
+//        String colors = scanner.nextLine();
+//        ArrayList<Integer> colorsList = new ArrayList<>();
+//        String[] colorsArray = colors.split(" ");
+//        for (int i = 0; i < colorsArray.length; i++) {
+//            if (Integer.parseInt(colorsArray[i]) < 2 || Integer.parseInt(colorsArray[i]) > 10) {
+//                System.out.println("Invalid board size: " + colorsArray[i] + " skipping...");
+//                continue;
+//            }
+//            colorsList.add(Integer.parseInt(colorsArray[i]));
+//        }
+//        System.out.println("Enter the reflection time: ");
+//        int reflectionTime = scanner.nextInt();
+//        scanner.nextLine();
+//
+//        System.out.println("Save the AI trees? (y/n): ");
+//        String saveTrees = scanner.nextLine();
+//        boolean saveTreesBool = false;
+//        if (saveTrees.startsWith("y") || saveTrees.startsWith("Y")) {
+//            saveTreesBool = true;
+//        }
+//
+//        System.out.println("Final parameters:\n"+
+//                "Number of games per parameter combination: "+numGames+"\n"+
+//                "Board sizes: "+boardSizesList+"\n"+
+//                "Colors: "+colorsList+"\n"+
+//                "Reflection time: "+reflectionTime+"\n"+
+//                "Total number of games: "+boardSizesList.size()*colorsList.size()*numGames+"\n"+
+//                "Save trees: "+saveTreesBool+"\n\nTo confirm and start the game generation process press enter, to cancel press Ctrl+C");
+//        if(!scanner.nextLine().equals("")){
+//            System.exit(0);
+//        }
 
         PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("PersistenceUnit");
         Transaction tx = null;
