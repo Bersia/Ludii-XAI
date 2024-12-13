@@ -66,5 +66,7 @@
     <orderEntry type="module" module-name="AI" />
     <orderEntry type="module" module-name="XAI" />
     <orderEntry type="module" module-name="PlayerDesktop" />
+    <orderEntry type="module" module-name="Common" />
+    <orderEntry type="module" module-name="Language" />
   </component>
 </module>

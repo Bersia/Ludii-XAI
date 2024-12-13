@@ -1,11 +1,8 @@
 package model;
 
-import app.PlayerApp;
-import app.utils.GameUtil;
-import app.utils.ReportMessengerGUI;
+
 import compiler.Compiler;
 import game.Game;
-import main.options.UserSelections;
 import main.grammar.Description;
 import other.AI;
 import other.GameLoader;
@@ -14,13 +11,7 @@ import other.model.Model;
 import other.trial.Trial;
 import search.mcts.MCTS;
 import search.mcts.SameGameMCTS;
-import search.mcts.backpropagation.AlphaGoBackprop;
-import search.mcts.finalmoveselection.RobustChild;
-import search.mcts.nodes.BaseNode;
-import search.mcts.nodes.OpenLoopNode;
 import search.mcts.nodes.StandardNode;
-import search.mcts.playout.HeuristicSampingPlayout;
-import search.mcts.selection.UCB1;
 import main.grammar.Report;
 
 import javax.jdo.annotations.*;
