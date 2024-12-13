@@ -143,7 +143,7 @@ public class Main {
         {
             tx.begin();
             GameTrialData gameTrialData = new GameTrialData(boardSize, numColours, 0, reflectionTime);
-            pm.makePersistent(gameTrialData);
+//            pm.makePersistent(gameTrialData);
             tx.commit();
 //            tx.begin();
             do{
