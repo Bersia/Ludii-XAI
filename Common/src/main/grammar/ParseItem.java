@@ -361,7 +361,6 @@ public class ParseItem
 				final int argsSize = arguments.size();
 				
 				// Generate all combinations of on-bits up to the maximum expected size
-				System.out.println((0x1 << clauseSize) + " combinations to check...");
 				for (int seed = 0; seed < (0x1 << clauseSize); seed++)
 				{
 					if (Integer.bitCount(seed) != argsSize)
@@ -444,6 +443,7 @@ public class ParseItem
 							
 							if (!arg.parse(clauseArg.symbol(), report, (tab == null ? null : tab + "   ")))
 							{
+								System.out.println("Here");
 								if (tab != null)
 									System.out.println(tab + "   X: Couldn't parse arg " + index + ".");
 								break;
