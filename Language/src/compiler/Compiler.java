@@ -142,7 +142,9 @@ public class Compiler
 
 //		if (!parser.parse(description, userSelections, isVerbose))
 //			throw new CompilerErrorWithMessageException("Failed to parse game description.");
-		Parser.expandAndParse(description, userSelections, report, true, isVerbose);	
+		Parser.expandAndParse(description, userSelections, report, true, isVerbose);
+		System.out.println(description.raw());
+		System.out.println(report.isError());
 		if (report.isError())
 		{
 			System.out.println("Failed to parse game description:");
