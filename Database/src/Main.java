@@ -255,13 +255,12 @@ public class Main {
 
                         }
 
-
-                        System.out.println("CSV file written successfully.");
-
                         // Save treemap if root exists
                         StandardNode root = currentContext.getRoot();
                         if (root != null) Node.saveTreemap(root, game.getID(), currentContext.getStep());
                     }
+
+                    System.out.println("Game written successfully.");
                 }
 
                 tx.commit();
