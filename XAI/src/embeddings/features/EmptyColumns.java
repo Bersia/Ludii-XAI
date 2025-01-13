@@ -9,9 +9,9 @@ public class EmptyColumns extends Feature {
 
     private byte emptycolumns = 0;
 
-    public EmptyColumns(Context context) {
+    public EmptyColumns(Context context, int board_size) {
 
-        byte BOARD_SIZE = (byte)Math.sqrt(context.board().graph().faces().size());
+        byte BOARD_SIZE = (byte)board_size;//Math.sqrt(context.board().graph().faces().size());
 
         for(int i=BOARD_SIZE-1;i>=0;i--){
             if((byte)context.state().containerStates()[0].stateCell(i)==0){

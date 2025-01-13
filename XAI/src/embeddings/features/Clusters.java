@@ -22,9 +22,9 @@ public class Clusters extends Feature {
     private int numCells = 0;
     private int score = 0;
 
-    public Clusters(Context context, Colors colors) {
+    public Clusters(Context context, Colors colors, int board_size) {
 //        this.context = currentContext;
-        BOARD_SIZE = (byte)Math.sqrt(context.board().graph().faces().size());
+        BOARD_SIZE = (byte)board_size;//Math.sqrt(context.board().graph().faces().size());
         NUM_COLORS = colors.getNumColors();
 
         clusters = new ArrayList[NUM_COLORS];

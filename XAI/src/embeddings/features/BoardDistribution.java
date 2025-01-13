@@ -19,8 +19,8 @@ public class BoardDistribution extends Feature {
     private byte BOARD_SIZE;
     private int COLOURS;
 
-    public BoardDistribution(Context context, Colors colors) {
-        BOARD_SIZE = (byte)Math.sqrt(context.board().graph().faces().size());
+    public BoardDistribution(Context context, Colors colors, int boardSize) {
+        BOARD_SIZE = (byte) boardSize;//(byte)Math.sqrt(context.board().graph().faces().size());
         COLOURS = colors.getNumColors();
         List<Byte> colorValues = colors.getColorValues();
 

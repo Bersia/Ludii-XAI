@@ -12,8 +12,8 @@ public class Colors extends Feature {
     private int numColors;
     private Set<Byte> colors;
 
-    public Colors(Context context) {
-        int BOARD_SIZE = (byte)Math.sqrt(context.board().graph().faces().size());
+    public Colors(Context context, int board_size) {
+        int BOARD_SIZE = (byte)board_size;//Math.sqrt(context.board().graph().faces().size());
 
         //Initial board
         byte[] board = new byte[BOARD_SIZE*BOARD_SIZE];

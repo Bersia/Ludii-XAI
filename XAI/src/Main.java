@@ -52,7 +52,7 @@ public class Main {
             System.out.println("Initial board:");
             printBoard(context);
 
-            Features initial = new Features(null, context);
+            Features initial = new Features(null, context, 4);
             Features f = initial;
 
             while (!trial.over())
@@ -64,7 +64,7 @@ public class Main {
                 System.out.println("After:");
                 printBoard(context);
 
-                f = new Features(f, context);
+                f = new Features(f, context, 4);
 
                 System.out.println(f.distance(initial));
 

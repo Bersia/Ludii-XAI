@@ -38,7 +38,7 @@ XAI:
 javac --release 22 -d XAI/bin -sourcepath XAI/src -classpath "Player/bin:AI/bin:Common/bin:Core/bin:PlayerDesktop/bin:Manager/bin:ViewController/bin:Common/lib/json-20180813.jar:XAI/lib/dotenv-java-3.0.2.jar:Database/lib/datanucleus-api-jdo-6.0.1.jar:Database/lib/datanucleus-core-6.0.6.jar:Database/lib/datanucleus-enhancer-3.1.1.jar:Database/lib/datanucleus-rdbms-6.0.6.jar:Database/lib/javax.jdo-3.2.1.jar" $(find XAI/src -name "*.java")
 
 Database:
-javac --release 22 -d Database/bin -sourcepath Database/src -classpath "Common/bin:Core/bin:AI/bin:XAI/bin:PlayerDesktop/bin:Language/bin:Database/lib/datanucleus-api-jdo-6.0.1.jar:Database/lib/datanucleus-core-6.0.6.jar:Database/lib/datanucleus-rdbms-6.0.6.jar:Database/lib/javax.jdo-3.2.1.jar:Database/lib/h2-2.3.232.jar:Database/bin/META-INF/persistence.xml" $(find Database/src -name "*.java")
+javac --release 22 -d Database/bin -sourcepath Database/src -classpath "Common/bin:Core/bin:AI/bin:XAI/bin:PlayerDesktop/bin:Language/bin:Common/lib/json-20180813.jar:Database/lib/datanucleus-api-jdo-6.0.1.jar:Database/lib/datanucleus-core-6.0.6.jar:Database/lib/datanucleus-rdbms-6.0.6.jar:Database/lib/javax.jdo-3.2.1.jar:Database/lib/h2-2.3.232.jar:Database/bin/META-INF/persistence.xml" $(find Database/src -name "*.java")
 
 Before running:
 cp -r Database/src/META-INF Database/bin/
