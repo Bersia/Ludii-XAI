@@ -44,11 +44,11 @@ public class Node {
         MCTS mcts = (MCTS) ai;
 
         // Find rootnode of the search tree
-        saveTreemap(mcts.rootNode());
+        saveTreemap(mcts.rootNode(),0,0);
     }
 
     //todo: replace by local paths
-    public static void saveTreemap(BaseNode mctsNode) {
+    public static void saveTreemap(BaseNode mctsNode, long gameID, long step) {
         mctsNode = findRoot(mctsNode);
 
         // Convert search tree to Node type
@@ -71,7 +71,7 @@ public class Node {
         image = drawTreeMap(root, image, "depth", true);
         try {
             int number = new File("XAI\\outputs\\treemaps\\outlines\\train\\depth").list().length;
-            ImageIO.write(image, "png", new File(String.format("XAI\\outputs\\treemaps\\outlines\\train\\depth\\treemap_%d.png", number)));
+            ImageIO.write(image, "png", new File(String.format("XAI\\outputs\\treemaps\\outlines\\train\\depth\\treemap_Game_%d_Step_%d.png", gameID, step)));
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -85,7 +85,7 @@ public class Node {
         image = drawTreeMap(root, image, "score", true);
         try {
             int number = new File("XAI\\outputs\\treemaps\\outlines\\train\\score").list().length;
-            ImageIO.write(image, "png", new File(String.format("XAI\\outputs\\treemaps\\outlines\\train\\score\\treemap_%d.png", number)));
+            ImageIO.write(image, "png", new File(String.format("XAI\\outputs\\treemaps\\outlines\\train\\score\\treemap_Game_%d_Step_%d.png", gameID, step)));
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -99,7 +99,7 @@ public class Node {
         image = drawTreeMap(root, image, "sample", true);
         try {
             int number = new File("XAI\\outputs\\treemaps\\outlines\\train\\sample").list().length;
-            ImageIO.write(image, "png", new File(String.format("XAI\\outputs\\treemaps\\outlines\\train\\sample\\treemap_%d.png", number)));
+            ImageIO.write(image, "png", new File(String.format("XAI\\outputs\\treemaps\\outlines\\train\\sample\\treemap_Game_%d_Step_%d.png", gameID, step)));
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -113,66 +113,66 @@ public class Node {
         image = drawTreeMap(root, image, "all", true);
         try {
             int number = new File("XAI\\outputs\\treemaps\\outlines\\train\\all").list().length;
-            ImageIO.write(image, "png", new File(String.format("XAI\\outputs\\treemaps\\outlines\\train\\all\\treemap_%d.png", number)));
+            ImageIO.write(image, "png", new File(String.format("XAI\\outputs\\treemaps\\outlines\\train\\all\\treemap_Game_%d_Step_%d.png", gameID, step)));
         } catch (IOException exception) {
             exception.printStackTrace();
         }
 
-        image = new BufferedImage(SIZE, SIZE, BufferedImage.TYPE_INT_RGB);
-
-        graphics = image.createGraphics();
-        graphics.setBackground(Color.white);
-        graphics.clearRect(0, 0, SIZE, SIZE);
-
-        image = drawTreeMap(root, image, "depth", false);
-        try {
-            int number = new File("XAI\\outputs\\treemaps\\no_outline\\train\\depth").list().length;
-            ImageIO.write(image, "png", new File(String.format("XAI\\outputs\\treemaps\\no_outline\\train\\depth\\treemap_%d.png", number)));
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }
-
-        image = new BufferedImage(SIZE, SIZE, BufferedImage.TYPE_INT_RGB);
-
-        graphics = image.createGraphics();
-        graphics.setBackground(Color.white);
-        graphics.clearRect(0, 0, SIZE, SIZE);
-
-        image = drawTreeMap(root, image, "score", false);
-        try {
-            int number = new File("XAI\\outputs\\treemaps\\no_outline\\train\\score").list().length;
-            ImageIO.write(image, "png", new File(String.format("XAI\\outputs\\treemaps\\no_outline\\train\\score\\treemap_%d.png", number)));
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }
-
-        image = new BufferedImage(SIZE, SIZE, BufferedImage.TYPE_INT_RGB);
-
-        graphics = image.createGraphics();
-        graphics.setBackground(Color.white);
-        graphics.clearRect(0, 0, SIZE, SIZE);
-
-        image = drawTreeMap(root, image, "sample", false);
-        try {
-            int number = new File("XAI\\outputs\\treemaps\\no_outline\\train\\sample").list().length;
-            ImageIO.write(image, "png", new File(String.format("XAI\\outputs\\treemaps\\no_outline\\train\\sample\\treemap_%d.png", number)));
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }
-
-        image = new BufferedImage(SIZE, SIZE, BufferedImage.TYPE_INT_RGB);
-
-        graphics = image.createGraphics();
-        graphics.setBackground(Color.white);
-        graphics.clearRect(0, 0, SIZE, SIZE);
-
-        image = drawTreeMap(root, image, "all", false);
-        try {
-            int number = new File("XAI\\outputs\\treemaps\\no_outline\\train\\all").list().length;
-            ImageIO.write(image, "png", new File(String.format("XAI\\outputs\\treemaps\\no_outline\\train\\all\\treemap_%d.png", number)));
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }
+//        image = new BufferedImage(SIZE, SIZE, BufferedImage.TYPE_INT_RGB);
+//
+//        graphics = image.createGraphics();
+//        graphics.setBackground(Color.white);
+//        graphics.clearRect(0, 0, SIZE, SIZE);
+//
+//        image = drawTreeMap(root, image, "depth", false);
+//        try {
+//            int number = new File("XAI\\outputs\\treemaps\\no_outline\\train\\depth").list().length;
+//            ImageIO.write(image, "png", new File(String.format("XAI\\outputs\\treemaps\\no_outline\\train\\depth\\treemap_Game_%d_Step_%d.png", gameID, step)));
+//        } catch (IOException exception) {
+//            exception.printStackTrace();
+//        }
+//
+//        image = new BufferedImage(SIZE, SIZE, BufferedImage.TYPE_INT_RGB);
+//
+//        graphics = image.createGraphics();
+//        graphics.setBackground(Color.white);
+//        graphics.clearRect(0, 0, SIZE, SIZE);
+//
+//        image = drawTreeMap(root, image, "score", false);
+//        try {
+//            int number = new File("XAI\\outputs\\treemaps\\no_outline\\train\\score").list().length;
+//            ImageIO.write(image, "png", new File(String.format("XAI\\outputs\\treemaps\\no_outline\\train\\score\\treemap_Game_%d_Step_%d.png", gameID, step)));
+//        } catch (IOException exception) {
+//            exception.printStackTrace();
+//        }
+//
+//        image = new BufferedImage(SIZE, SIZE, BufferedImage.TYPE_INT_RGB);
+//
+//        graphics = image.createGraphics();
+//        graphics.setBackground(Color.white);
+//        graphics.clearRect(0, 0, SIZE, SIZE);
+//
+//        image = drawTreeMap(root, image, "sample", false);
+//        try {
+//            int number = new File("XAI\\outputs\\treemaps\\no_outline\\train\\sample").list().length;
+//            ImageIO.write(image, "png", new File(String.format("XAI\\outputs\\treemaps\\no_outline\\train\\sample\\treemap_Game_%d_Step_%d.png", gameID, step)));
+//        } catch (IOException exception) {
+//            exception.printStackTrace();
+//        }
+//
+//        image = new BufferedImage(SIZE, SIZE, BufferedImage.TYPE_INT_RGB);
+//
+//        graphics = image.createGraphics();
+//        graphics.setBackground(Color.white);
+//        graphics.clearRect(0, 0, SIZE, SIZE);
+//
+//        image = drawTreeMap(root, image, "all", false);
+//        try {
+//            int number = new File("XAI\\outputs\\treemaps\\no_outline\\train\\all").list().length;
+//            ImageIO.write(image, "png", new File(String.format("XAI\\outputs\\treemaps\\no_outline\\train\\all\\treemap_Game_%d_Step_%d.png", gameID, step)));
+//        } catch (IOException exception) {
+//            exception.printStackTrace();
+//        }
     }
 
     public static Node buildTree(BaseNode node) {

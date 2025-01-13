@@ -68,5 +68,14 @@
     <orderEntry type="module" module-name="PlayerDesktop" />
     <orderEntry type="module" module-name="Common" />
     <orderEntry type="module" module-name="Language" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../Common/lib/json-20180813.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
