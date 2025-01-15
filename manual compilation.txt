@@ -60,4 +60,6 @@ PID Trees: 427875
 
 nohup java -classpath "Manager/bin:Common/bin:AI/bin:Core/bin:Language/bin:Evaluation/bin:Mining/bin:Features/bin:ViewController/bin:Player/bin:PlayerDesktop/bin:Database/bin:XAI/bin:Common/bin:Common/lib/*:Database/lib/*:AI/bin/resources:Common/bin/res:Mining/bin/res:Player/bin/res:Database/bin:Database/bin/model:Database/bin/META-INF/persistence.xml" Main 20 "7,8,9" "4,5,6,7,8,9,10" 20 n> output.log 2>&1 &
 
-Current PID: 817744
+PID no trees: 817744
+
+Current PID: 24207
