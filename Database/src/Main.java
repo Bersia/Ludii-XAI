@@ -200,14 +200,22 @@ public class Main {
                     }
 
                     System.out.println("Processing Game " + game.getID());
-                    if (game == null) {
+                    if(game == null) {
                         System.out.println("Game is null, skipping...");
                         continue;
                     }
 
                     // Retrieve contexts for the current game, sorted by step
+                    // Create the JDO query
                     Query<ContextData> query = pm.newQuery(ContextData.class, "gameId == :gameIDParam");
-                    List<ContextData> contexts = (List<ContextData>) query.execute(game.getID());
+
+                    // Execute the query with the gameID as a parameter
+                    List<ContextData> contexts  = (List<ContextData>) query.execute(game.getID());
+
+//                    Query<ContextData> contextQuery = pm.newQuery(ContextData.class, "id == :gameID");
+//                    contextQuery.setOrdering("step ASC");
+//                    contextQuery.setParameters(game.getID()); // Bind the gameID parameter
+//                    List<ContextData> contexts = contextQuery.executeList();
 
                     if (contexts.isEmpty()) {
                         System.out.println("No context, skipping...");
@@ -217,13 +225,16 @@ public class Main {
                     Features initial = new Features(null, contexts.get(0).getContext(), game.getBoardSize());
                     Features f = initial;
 
-                    for (ContextData currentContext : contexts) {
-                        System.out.println("    Processing Context " + (currentContext.getStep() + 1) + "/" + contexts.size());
+                    for (int j = 0; j < contexts.size(); ++j) {
+
+                        ContextData currentContext = contexts.get(j);
+                        System.out.println("    Processing Context " + (currentContext.getStep()+1)+"/"+contexts.size());
 
                         // Compute features
                         f = new Features(f, currentContext.getContext(), game.getBoardSize());
                         JSONObject jsonObject = f.toJSON();
 
+                        // Write to CSV
                         // Extract the main elements
                         JSONArray boardDistribution = jsonObject.getJSONArray("boardDistribution");
                         int emptyColumns = jsonObject.getInt("emptyColumns");
@@ -231,11 +242,11 @@ public class Main {
                         JSONArray clusters = jsonObject.getJSONArray("clusters");
                         int removedCells = -1;
                         int scoreOffset = -1;
-                        try {
+                        try{
                             removedCells = jsonObject.getInt("removedCells");
                             scoreOffset = jsonObject.getInt("scoreOffset");
-                        } catch (JSONException e) {
-                            // Optional fields
+                        }catch (JSONException e){
+
                         }
 
                         // Flatten and write each cluster
@@ -247,15 +258,25 @@ public class Main {
                             int clusterColor = cluster.getInt("color");
                             int clusterSize = cluster.getInt("size");
                             String clusterShape = cluster.getJSONArray("shape").join(",");
-                            String clusterMiddlePoint = cluster.getJSONArray("middlePoint").join(",");
                             int clusterWidth = cluster.getInt("width");
+                            Object middlePoint = cluster.get("middlePoint");
+                            double[] middlePointArray = (double[]) middlePoint;
+                            StringBuilder middlePointStr = new StringBuilder();
+                            for (double value : middlePointArray) {
+                                if (middlePointStr.length() > 0) {
+                                    middlePointStr.append(",");
+                                }
+                                middlePointStr.append(value);
+                            }
+                            String clusterMiddlePoint = middlePointStr.toString();
                             int clusterHeight = cluster.getInt("height");
 
+//                            System.out.printf("%d,%d,\"%s\",%d,\"%s\",%d,%d,%d,%d,\"%s\",%d,\"%s\",%d\n%n",
+//                                    game.getID(), currentContext.getStep(),boardDistString, emptyColumns, colorsString, removedCells, scoreOffset, clusterColor, clusterSize, clusterShape, clusterWidth, clusterMiddlePoint, clusterHeight);;
                             // Write row
                             writer.write(String.format("%d,%d,\"%s\",%d,\"%s\",%d,%d,%d,%d,\"%s\",%d,\"%s\",%d\n",
-                                    game.getID(), currentContext.getStep(), boardDistString, emptyColumns,
-                                    colorsString, removedCells, scoreOffset, clusterColor, clusterSize,
-                                    clusterShape, clusterWidth, clusterMiddlePoint, clusterHeight));
+                                    game.getID(), currentContext.getStep(),boardDistString, emptyColumns, colorsString, removedCells, scoreOffset, clusterColor, clusterSize, clusterShape, clusterWidth, clusterMiddlePoint, clusterHeight));
+
                         }
 
                         // Save treemap if root exists
@@ -263,8 +284,7 @@ public class Main {
                         if (root != null) Node.saveTreemap(root, game.getID(), currentContext.getStep());
                     }
 
-                    System.out.println("Game " + game.getID() + " written successfully.");
-                    processedGameIds.add(game.getID());
+                    System.out.println("Game written successfully.");
                 }
 
                 tx.commit();
