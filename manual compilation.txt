@@ -62,4 +62,4 @@ nohup java -classpath "Manager/bin:Common/bin:AI/bin:Core/bin:Language/bin:Evalu
 
 PID no trees: 817744
 
-Current PID: 24207
+Current PID: 346072

@@ -1,6 +1,7 @@
 package llm.java;
 
 import io.github.cdimascio.dotenv.Dotenv;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -98,7 +99,7 @@ public class FlaskServerClient {
     }
 
     // Method to send a prompt to the Flask server
-    public String sendPrompt(String prompt, int k, int maxNewTokens) {
+    public String sendPrompt(String prompt, int k, int maxNewTokens, JSONObject features) {
         try {
             // Define the URL for the /generate endpoint
             URL url = new URL(BASE_URL + "/generate");
@@ -109,9 +110,13 @@ public class FlaskServerClient {
             con.setDoOutput(true);
 
             // Create the JSON payload
-            String jsonInputString = String.format(
-                    "{\"prompt\": \"%s\", \"k\": %d, \"max_new_tokens\": %d}", prompt, k, maxNewTokens
-            );
+            JSONObject payload = new JSONObject();
+            payload.put("prompt", prompt);
+            payload.put("k", k);
+            payload.put("max_new_tokens", maxNewTokens);
+            payload.put("features", features); // Add the features object
+
+            String jsonInputString = payload.toString();
 
             // Send the JSON input to the server
             try (OutputStream os = con.getOutputStream()) {
@@ -135,49 +140,49 @@ public class FlaskServerClient {
         }
     }
 
-    // Method to upload files to the Flask server
-    public String uploadFiles(File[] files) {
-        try {
-            // Define the URL for the /upload endpoint
-            URL url = new URL(BASE_URL + "/upload");
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("POST");
-            con.setRequestProperty("Content-Type", "application/json; utf-8");
-            con.setRequestProperty("Accept", "application/json");
-            con.setDoOutput(true);
-
-            // Create the JSON payload for the file paths
-            StringBuilder filePathsJson = new StringBuilder("[");
-            for (File file : files) {
-                filePathsJson.append("\"").append(file.getAbsolutePath()).append("\",");
-            }
-            if (filePathsJson.length() > 1) {
-                filePathsJson.setLength(filePathsJson.length() - 1); // Remove last comma
-            }
-            filePathsJson.append("]");
-
-            // Send the JSON input to the server
-            String jsonInputString = "{\"file_paths\": " + filePathsJson.toString() + "}";
-            try (OutputStream os = con.getOutputStream()) {
-                byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
-                os.write(input, 0, input.length);
-            }
-
-            // Read the response
-            StringBuilder response = new StringBuilder();
-            try (BufferedReader br = new BufferedReader(new java.io.InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8))) {
-                String responseLine;
-                while ((responseLine = br.readLine()) != null) {
-                    response.append(responseLine.trim());
-                }
-            }
-            return response.toString();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+//    // Method to upload files to the Flask server
+//    public String uploadFiles(File[] files) {
+//        try {
+//            // Define the URL for the /upload endpoint
+//            URL url = new URL(BASE_URL + "/upload");
+//            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+//            con.setRequestMethod("POST");
+//            con.setRequestProperty("Content-Type", "application/json; utf-8");
+//            con.setRequestProperty("Accept", "application/json");
+//            con.setDoOutput(true);
+//
+//            // Create the JSON payload for the file paths
+//            StringBuilder filePathsJson = new StringBuilder("[");
+//            for (File file : files) {
+//                filePathsJson.append("\"").append(file.getAbsolutePath()).append("\",");
+//            }
+//            if (filePathsJson.length() > 1) {
+//                filePathsJson.setLength(filePathsJson.length() - 1); // Remove last comma
+//            }
+//            filePathsJson.append("]");
+//
+//            // Send the JSON input to the server
+//            String jsonInputString = "{\"file_paths\": " + filePathsJson.toString() + "}";
+//            try (OutputStream os = con.getOutputStream()) {
+//                byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
+//                os.write(input, 0, input.length);
+//            }
+//
+//            // Read the response
+//            StringBuilder response = new StringBuilder();
+//            try (BufferedReader br = new BufferedReader(new java.io.InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8))) {
+//                String responseLine;
+//                while ((responseLine = br.readLine()) != null) {
+//                    response.append(responseLine.trim());
+//                }
+//            }
+//            return response.toString();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
 
     // Method to stop the Flask server
     public void stopFlaskServer() {

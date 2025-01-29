@@ -35,19 +35,19 @@ class FaissDb:
         return context
 
 
-def load_and_split_pdfs(file_paths: list, chunk_size: int = 256):
-    loaders = [PyPDFLoader(file_path) for file_path in file_paths]
-    pages = []
-    for loader in loaders:
-        pages.extend(loader.load())
-
-    text_splitter = RecursiveCharacterTextSplitter.from_huggingface_tokenizer(
-        tokenizer=AutoTokenizer.from_pretrained(
-            "sentence-transformers/all-MiniLM-L12-v2"
-        ),
-        chunk_size=chunk_size,
-        chunk_overlap=int(chunk_size / 10),
-        strip_whitespace=True,
-    )
-    docs = text_splitter.split_documents(pages)
-    return docs
+# def load_and_split_pdfs(file_paths: list, chunk_size: int = 256):
+#     loaders = [PyPDFLoader(file_path) for file_path in file_paths]
+#     pages = []
+#     for loader in loaders:
+#         pages.extend(loader.load())
+#
+#     text_splitter = RecursiveCharacterTextSplitter.from_huggingface_tokenizer(
+#         tokenizer=AutoTokenizer.from_pretrained(
+#             "sentence-transformers/all-MiniLM-L12-v2"
+#         ),
+#         chunk_size=chunk_size,
+#         chunk_overlap=int(chunk_size / 10),
+#         strip_whitespace=True,
+#     )
+#     docs = text_splitter.split_documents(pages)
+#     return docs
