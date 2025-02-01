@@ -7,8 +7,11 @@ from sentence_transformers import SentenceTransformer
 
 from model import ChatModel
 import rag_util
+# import sys
+# app.logger.info(sys.executable)
 import pandas as pd
 import numpy as np
+import ast
 
 import os
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
@@ -75,10 +78,10 @@ class AE(torch.nn.Module):
         return self.encoder(x)
 
 board_distribution_autoencoder = AE(input_size)
-board_distribution_autoencoder.load_state_dict(torch.load("../models/autoencoder.pth"))
+board_distribution_autoencoder.load_state_dict(torch.load("C:\\Users\\adrie\\Documents\\DACS\\Internship\\Ludii-XAI\\XAI\\src\\llm\\python\\RagServer\\models\\autoencoder.pth"))
 
 # Load the CSV file
-df = pd.read_csv("../data/features.csv")
+df = pd.read_csv("C:\\Users\\adrie\\Documents\\DACS\\Internship\\Ludii-XAI\\XAI\\src\\llm\\python\\RagServer/data/features.csv")
 
 # files = []
 # DB = []
@@ -109,7 +112,7 @@ def save_file(uploaded_file):
 #     # for file in valid_file_paths:
 #     #     file_paths.append(save_file(file))
 #     # Load and split PDFs, build FAISS index
-#     print(files)
+#     app.logger.info(files)
 #     if files != []:
 #         docs = rag_util.load_and_split_pdfs(files)
 #         DB = rag_util.FaissDb(docs=docs, embedding_function=encoder.embedding_function)
@@ -171,22 +174,28 @@ def compute_distance(row, features):
 
     if "boardDistribution" in features:
         board = row["boardDistribution"]  # Safely parse string representation
+        # Convert string representation of list to actual list
+        if isinstance(board, str):
+            board = ast.literal_eval(board)  # Safe conversion from string to list
+
         board = np.array(board, dtype=np.float32)  # Ensure the data is float32 for PyTorch compatibility
         board = pad_or_crop(board)  # Pad or crop to consistent size
         # Flatten the 3D array to a 1D tensor for autoencoder input
-        board_flat = torch.tensor(board).view(-1)
+        board_flat = torch.tensor(board, dtype=torch.float32).view(-1)
         # Encode the board using the autoencoder
         encoded_board = board_distribution_autoencoder.encode(board_flat)
 
         feature = row["boardDistribution"]  # Safely parse string representation
+        if isinstance(feature, str):
+            feature = ast.literal_eval(feature)  # Safe conversion from string to list
         feature = np.array(feature, dtype=np.float32)  # Ensure the data is float32 for PyTorch compatibility
         feature = pad_or_crop(feature)  # Pad or crop to consistent size
         # Flatten the 3D array to a 1D tensor for autoencoder input
-        feature_flat = torch.tensor(feature).view(-1)
+        feature_flat = torch.tensor(feature, dtype=torch.float32).view(-1)
         # Encode the board using the autoencoder
         encoded_feature = board_distribution_autoencoder.encode(feature_flat)
 
-        distances.append(multiplier_boardDistribution * abs(encoded_board - encoded_feature))  # Euclidean
+        distances.append(multiplier_boardDistribution * np.sum(np.abs(encoded_board.detach().numpy() - encoded_feature.detach().numpy())))  # Euclidean
 
     return sum(distances)  # You can also use a weighted sum
 
@@ -199,12 +208,12 @@ def similarFeatures(features, k=3):
 
     # Get the top-k closest rows
     closest_explanations = df.nsmallest(k, "distance")["Explanation"].tolist()
-
     return closest_explanations
 
 
 @app.route('/generate', methods=['POST'])
 def generate_response():
+    app.logger.info("Generating response...")
     data = request.get_json()
     prompt = data.get("prompt")
     k = data.get("k", 3)
@@ -218,9 +227,11 @@ def generate_response():
     response = model.generate(
         prompt, context=context, max_new_tokens=max_new_tokens
     )
-    print(f"User: {prompt}")
-    print(f"Bot: Provided context: {context} \nResponse: {response}")
-    return jsonify({"response": response, "context": context})
+    app.logger.info(f"User: {prompt}")
+    app.logger.info(f"Bot: Provided context: {context} \nResponse: {response}")
+    output = jsonify({"response": response, "context": context})
+    app.logger.info(f"Output: {output}")
+    return output
 
 
 # Add a health check endpoint or homepage
