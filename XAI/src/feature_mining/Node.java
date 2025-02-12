@@ -175,6 +175,35 @@ public class Node {
 //        }
     }
 
+    public static BufferedImage getTreemap(BaseNode mctsNode) {
+        mctsNode = findRoot(mctsNode);
+
+        // Convert search tree to Node type
+        Node root = buildTree(mctsNode);
+
+        int maxDepth = root.findMaxDepth();
+        double minScore = root.findMinScore();
+        double maxScore = root.findMaxScore();
+        int maxSampled = root.findMaxSampled();
+
+        // Create and save treemap
+        getTreeMap(root, maxDepth, minScore, maxScore, maxSampled);
+
+        BufferedImage image = new BufferedImage(SIZE, SIZE, BufferedImage.TYPE_INT_RGB);
+
+        Graphics2D graphics = image.createGraphics();
+        graphics.setBackground(Color.white);
+        graphics.clearRect(0, 0, SIZE, SIZE);
+
+        image = new BufferedImage(SIZE, SIZE, BufferedImage.TYPE_INT_RGB);
+
+        graphics = image.createGraphics();
+        graphics.setBackground(Color.white);
+        graphics.clearRect(0, 0, SIZE, SIZE);
+
+        return drawTreeMap(root, image, "all", true);
+    }
+
     public static Node buildTree(BaseNode node) {
         Node root = new Node();
         //root.setScore(node.expectedScore(1) + 2);

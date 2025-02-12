@@ -1,9 +1,11 @@
 package embeddings;
 
 import embeddings.features.*;
+import llm.java.FlaskServerClient;
 import org.json.JSONObject;
 import other.context.Context;
 
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,6 +38,10 @@ public class Features {
         //System.out.println(this);
 //        System.out.println("JSON:");
 //        System.out.println(toJSON());
+    }
+
+    public void addTreemapFeatures(BufferedImage treemap, FlaskServerClient flaskServerClient) {
+        features.put("Treemap", new Treemap(treemap, flaskServerClient));
     }
 
     @Override

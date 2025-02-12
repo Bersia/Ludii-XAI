@@ -1,3 +1,6 @@
+import io
+
+from PIL import Image
 from flask import Flask, request, jsonify
 import os
 import torch
@@ -14,6 +17,9 @@ import numpy as np
 import ast
 
 import os
+
+from treemap_encoder import get_features
+
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 
 import torch
@@ -239,6 +245,18 @@ def generate_response():
 @app.route('/health', methods=['GET'])
 def health_check():
     return jsonify({"status": "Server is running"}), 200
+
+
+@app.route('/treemap', methods=['POST'])
+def generate_treemap():
+    app.logger.info("Generating response...")
+    data = request.get_json()
+    img = data.get("img")
+
+    latent_space = get_features(img)
+    # Now returns a list, not a tensor
+
+    return jsonify({"latent_space": latent_space})
 
 # Run the app
 if __name__ == '__main__':

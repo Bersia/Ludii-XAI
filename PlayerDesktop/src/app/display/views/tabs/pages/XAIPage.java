@@ -11,11 +11,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 
 import embeddings.Features;
 import llm.java.FlaskServerClient;
 import org.json.JSONObject;
 import other.context.Context;
+import search.mcts.MCTS;
+
+import static feature_mining.Node.getTreemap;
 
 /**
  * Tab for displaying a chat page.
@@ -169,6 +173,8 @@ public class XAIPage extends TabPage
                     // This code will run on a background thread, so it doesn't block the GUI
                     Context context= app.contextSnapshot().getContext(app);
                     features = new Features(features, context, (int)Math.sqrt(context.board().graph().faces().size()));
+                    BufferedImage treemap = getTreemap(((MCTS)(app.manager().aiSelected()[1].ai())).rootNode());
+                    features.addTreemapFeatures(treemap, flaskServerClient);
                     return flaskServerClient.sendPrompt(message, 3, 250, features.toJSON()); // Send prompt to Flask server
                 }
 
